@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toggleFavorite } from "../Redux/Slices/favoriteSlice";
 import { addToCart } from "../Redux/Slices/cartSlice";
 import { toast } from "react-toastify";
+import Navbar from "../components/Navbar";
 
 const FavoritesPage = () => {
   const dispatch = useDispatch();
@@ -30,11 +31,14 @@ const FavoritesPage = () => {
   const totalPrice = favorites.reduce((sum, item) => sum + item.price, 0);
 
   return (
+    <>
+    
+    <Navbar />
     <main className="min-h-screen bg-background">
       {/* Header */}
-      <div className="border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-16">
-          <h1 className="font-serif text1 text-4xl md:text-5xl font-light tracking-tight">
+      <div className="">
+        <div className="max-w-7xl mx-auto px-6 mt-20">
+          <h1 className="font-serif text1 text-4xl md:text-4xl font-light tracking-tight">
             Your Favorites
           </h1>
           <p className="text-muted-foreground text ml-5 mt-4 text-lg">
@@ -132,6 +136,7 @@ const FavoritesPage = () => {
         </div>
       )}
     </main>
+    </>
   );
 };
 

@@ -53,28 +53,28 @@ const Navbar = () => {
       </div>
 
       {/* Right Section */}
-      <div className="flex items-center justify-end gap-4 md:gap-6">
+      <div className="flex  items-center justify-end gap-4 md:gap-6">
         {/* Search */}
         <Search
-          className="w-5 h-5 cursor-pointer"
+          className="w-5 h-5 hover:scale-105 cursor-pointer"
           onClick={() => setSearchOpen(true)}
         />
 
         {/* Favorites */}
         <Link
           to="/favorite"
-          className="w-9 h-9 flex items-center justify-center bg-black rounded-full"
+          className="w-9 h-9 flex items-center justify-center hover:scale-105 bg-black rounded-full"
         >
-          <Heart className="w-5 h-5 text-gray-500" />
+          <Heart className="w-5 h-5 text-gray-400" />
         </Link>
 
         {/* Cart */}
         <div className="relative">
           <Link
             to="/cart"
-            className="w-9 h-9 flex items-center justify-center bg-black rounded-full hover:bg-gray-800 transition"
+            className="w-9 h-9 flex items-center hover:scale-105  justify-center bg-black rounded-full  transition"
           >
-            <ShoppingCart className="w-5 h-5 text-gray-500 text" />
+            <ShoppingCart className="w-5 h-5 text-gray-400 text" />
           </Link>
 
           {cartCount > 0 && (
@@ -89,7 +89,7 @@ const Navbar = () => {
           <div className="relative hidden sm:block">
             <button
               onClick={() => setOpen((p) => !p)}
-              className="w-9 h-9 rounded-full text1 bg-black text-white flex items-center justify-center uppercase text-xs font-bold"
+              className="w-9 h-9 rounded-full text1 hover:scale-105 hover:cursor-pointer bg-black text-white flex items-center justify-center uppercase text-xs font-bold"
             >
               {user.name?.charAt(0)}
             </button>

@@ -46,30 +46,27 @@ const ProductsPage = () => {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-serif font-bold text-white text1">Products</h1>
-          <p className="text-slate-400 mt-2 text">Manage your product inventory</p>
+          <h1 className="text-4xl font-serif font-bold text-black text1">Products</h1>
+          <p className="text-slate-500 mt-2 text">Manage your product inventory</p>
         </div>
-        <Link to="/admin/add-product">
-          <button className="bg-purple-600 text1 font-serif hover:bg-purple-700 text-white px-6 py-3 rounded-lg flex items-center gap-2">
-            <Plus className="w-5 h-5" /> Add Product
-          </button>
-        </Link>
+
       </div>
 
       <div className="relative">
-        <Search className="absolute font-serif left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+        <Search className="absolute font-serif left-4 top-1/2 -translate-y-1/2 text-black" />
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search by name or id..."
-          className="w-full pl-12 font-serif pr-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white"
+          className="w-full pl-12 font-serif pr-4 py-3 bg-white border text border-slate-700 rounded-lg text-black"
         />
       </div>
 
-      <div className="bg-slate-800 font-serif rounded-lg border border-slate-700 overflow-hidden">
+      <div className="bg-white font-serif rounded-lg border border-slate-700 overflow-hidden">
         <table className="w-full ">
-          <thead className="bg-slate-900 text1">
+          <thead className="bg-white text1">
             <tr>
+              <th className="px-6 py-4 text-left">Image</th>
               <th className="px-6 py-4 text-left">Name</th>
               <th className="px-6 py-4 text-left">Category</th>
               <th className="px-6 py-4 text-left">Price</th>
@@ -83,6 +80,9 @@ const ProductsPage = () => {
                 key={p._id}
                 className="border-b text border-slate-700 hover:bg-slate-700/50"
               >
+                <td className="px-6 py-4">
+                  <img src={p.image} alt={p.name} className="w-10 h-10 object-cover rounded-md" />
+                </td>
                 <td className="px-6 py-4">{p.name}</td>
                 <td className="px-6 py-4">{p.category || "-"}</td>
                 <td className="px-6 py-4">₹{p.price}</td>

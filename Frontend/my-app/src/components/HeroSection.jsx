@@ -54,10 +54,10 @@ const HeroSection = () => {
           alt="Model"
           className="
       relative md:absolute
-      md:bottom-[5px]
+      md:bottom-[-10px]
       md:left-1/2
       md:-translate-x-1/2
-      h-[129%] md:h-[125%]
+      h-[129%] md:h-[130%]
       object-contain
       z-10
       pointer-events-none hover:scale-105 transition

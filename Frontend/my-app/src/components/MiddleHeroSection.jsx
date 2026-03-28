@@ -34,11 +34,6 @@ const MiddleHeroSection = () => {
       <div className="relative z-10 flex justify-center items-center py-28">
         <div className="relative">
           {/* Red diagonal ribbon */}
-          <div className="absolute top-1/2 text left-1/2 w-[150vw] -translate-x-1/2 -translate-y-1/2 rotate-[-18deg] bg-red-600 text-white font-bold uppercase text-2xl tracking-widest py-8 text-center z-0">
-            NEWFASHION ✦&nbsp;&nbsp; NEWFASHION ✦&nbsp;&nbsp; NEWFASHION
-            ✦&nbsp;&nbsp; NEWFASHION ✦&nbsp;&nbsp; NEWFASHION ✦&nbsp;&nbsp;
-            NEWFASHION ✦&nbsp;&nbsp; NEWFASHION ✦&nbsp;&nbsp; NEWFASHION
-          </div>
 
           <div className="absolute text top-1/2 left-1/2 w-[150vw] -translate-x-1/2 -translate-y-1/2 rotate-[18deg] bg-red-600 text-white font-bold uppercase text-2xl tracking-widest py-8 text-center z-0">
             NEWFASHION ✦&nbsp;&nbsp; NEWFASHION ✦&nbsp;&nbsp; NEWFASHION
@@ -68,9 +63,6 @@ const MiddleHeroSection = () => {
               autoplay={false}
             />
           </div>
-
-          {/* Counter */}
-          <p className="text-center text-sm mt-4">02 / 05</p>
         </div>
       </div>
 

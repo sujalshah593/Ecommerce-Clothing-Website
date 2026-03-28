@@ -11,12 +11,19 @@ import { toast } from "react-toastify";
 import Lottie from "lottie-react";
 import orderProcessing from "../animations/orderProcessing.json";
 import { useEffect } from "react";
+import visa from "../assets/visa.png";
+import rupay from "../assets/rupay.png";
+import gpay from "../assets/gpay.png";
+import bhim from "../assets/bhim.png";
+import phonepe from "../assets/phonepe.png";
+
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formError, setFormError] = useState("");
   const [placingOrder, setPlacingOrder] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("card");
 
   const { cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth || {});
@@ -249,65 +256,108 @@ const CheckoutPage = () => {
 
                 {orderStep === "payment" && (
                   <>
-                    <h2 className="font-serif text1 text-2xl mb-6">
-                      Payment Information
+                    <h2 className="font-serif text text-2xl mb-6">
+                      Select Payment Method
                     </h2>
 
-                    <input
-                      name="cardNumber"
-                      placeholder="Card Number"
-                      value={formData.cardNumber}
-                      onChange={handleInputChange}
-                      className="border px-4 text py-3 w-full"
-                      required
-                    />
+                    <div className="space-y-5 text">
+                      {/* CARD OPTION */}
+                      <label className="border text p-5 cursor-pointer hover:border-black transition block">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <input
+                              type="radio"
+                              name="payment"
+                              value="card"
+                              checked={paymentMethod === "card"}
+                              onChange={(e) => setPaymentMethod(e.target.value)}
+                            />
+                            <span className="font-medium">
+                              Credit / Debit Card
+                            </span>
+                          </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                      <input
-                        name="expiry"
-                        placeholder="MM/YY"
-                        value={formData.expiry}
-                        onChange={handleInputChange}
-                        className="border text px-4 py-3"
-                        required
-                      />
-                      <input
-                        name="cvc"
-                        placeholder="CVV"
-                        value={formData.cvc}
-                        onChange={(e) => {
-                          const value = e.target.value.replace(/\D/g, ""); // remove non-numbers
-                          if (value.length <= 3) {
-                            setFormData((prev) => ({ ...prev, cvc: value }));
-                          }
-                        }}
-                        maxLength={3}
-                        inputMode="numeric"
-                        pattern="[0-9]{3}"
-                        className="border text px-4 py-3"
-                        required
-                      />
+                          <div className="flex items-center gap-4">
+                            <img
+                              src={visa}
+                              alt="Visa"
+                              className="h-6 object-contain"
+                            />
+                            <img
+                              src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png"
+                              alt="Mastercard"
+                              className="h-6 object-contain"
+                            />
+                            <img
+                              src={rupay}
+                              alt="RuPay"
+                              className="h-6 object-contain"
+                            />
+                          </div>
+                        </div>
+                      </label>
+
+                      {/* UPI OPTION */}
+                      <label className="border p-5 cursor-pointer hover:border-black transition block">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <input
+                              type="radio"
+                              name="payment"
+                              value="upi"
+                              checked={paymentMethod === "upi"}
+                              onChange={(e) => setPaymentMethod(e.target.value)}
+                            />
+                            <span className="font-medium">UPI Payments</span>
+                          </div>
+
+                          <div className="flex items-center gap-4">
+                            <img
+                              src={gpay}
+                              alt="Google Pay"
+                              className="h-6 object-contain"
+                            />
+                            <img
+                              src={bhim}
+                              alt="BHIM"
+                              className="h-6 object-contain"
+                            />
+                            <img
+                              src={phonepe}
+                              alt="PhonePe"
+                              className="h-6 object-contain"
+                            />
+                          </div>
+                        </div>
+                      </label>
+
+                      {/* COD OPTION */}
+                      <label className="border p-5 cursor-pointer hover:border-black transition block">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <input
+                              type="radio"
+                              name="payment"
+                              value="cod"
+                              checked={paymentMethod === "cod"}
+                              onChange={(e) => setPaymentMethod(e.target.value)}
+                            />
+                            <span className="font-medium">
+                              Cash on Delivery
+                            </span>
+                          </div>
+
+                          <span className="text-xs text-gray-500">
+                            Pay at doorstep
+                          </span>
+                        </div>
+                      </label>
                     </div>
-                  </>
-                )}
 
-                {placingOrder && (
-                  <div className="fixed inset-0 z-[9999] bg-white flex flex-col items-center justify-center">
-                    <div className="w-64 h-64">
-                      <Lottie
-                        animationData={orderProcessing}
-                        autoplay
-                        loop={false}
-                        rendererSettings={{
-                          preserveAspectRatio: "xMidYMid slice",
-                        }}
-                      />
-                    </div>
-
-                    <p className="mt-6 text1 text-xs font-serif uppercase tracking-[0.3em] text-gray-700">
-                      Processing your order
+                    <p className="mt-6 text-sm text text-gray-500">
+                      🔒 All transactions are secured and encrypted.
                     </p>
-                  </div>
+                  </>
                 )}
 
                 <div className="flex gap-4 pt-8">
@@ -338,6 +388,41 @@ const CheckoutPage = () => {
                   Order Summary
                 </h2>
 
+                {/* PRODUCTS LIST */}
+                <div className="space-y-4 mb-6">
+                  {cartItems.map((item) => (
+                    <div
+                      key={item._id}
+                      className="flex items-center gap-4 border-b pb-4"
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-14 h-16 object-cover"
+                      />
+
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text1">{item.name}</p>
+
+                        {item.size && (
+                          <p className="text-xs text text-gray-500">
+                            Size: {item.size}
+                          </p>
+                        )}
+
+                        <p className="text-xs text text-gray-500">
+                          Qty: {item.qty}
+                        </p>
+                      </div>
+
+                      <p className="text-sm font-semibold text1">
+                        ₹{item.qty * item.price}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* PRICE DETAILS */}
                 <div className="space-y-3 text mb-6 font-serif">
                   <div className="flex justify-between text-sm">
                     <span>Subtotal</span>

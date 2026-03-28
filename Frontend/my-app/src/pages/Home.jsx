@@ -12,6 +12,7 @@ import FooterSection from "../components/FooterSection.jsx";
 import TruckLoader from "../components/TruckLoader.jsx";
 import BuyerSection from "../components/BuyerSection.jsx";
 import MiddleHeroSection from "../components/MiddleHeroSection.jsx";
+import AutoStrip from "../components/AutoStrip.jsx";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -47,9 +48,9 @@ const Home = () => {
       <Navbar />
       <HeroSection />
       <FeaturedSection />
+            <MiddleHeroSection/>
       <BuyerSection/>
-      <MiddleHeroSection/>
-
+      <AutoStrip/>
       <ProductSection
         products={products}
         loading={loading}

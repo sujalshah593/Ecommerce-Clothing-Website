@@ -10,9 +10,13 @@ const ProductSection = ({
 }) => {
   return (
     <section className="px-6 md:px-12 py-24 max-w-7xl mx-auto">
-      <h2 className="text-4xl text1 font-serif italic mb-12">
-        New Arrivals
-      </h2>
+      <div className="flex justify-between items-end mb-12">
+        <h2 className="text-6xl text1">New Arrivals</h2>
+
+        <p className="text-sm uppercase text tracking-widest text-black">
+          — Choose Wisely
+        </p>
+      </div>
 
       {error && <p className="text-red-500">{error}</p>}
 

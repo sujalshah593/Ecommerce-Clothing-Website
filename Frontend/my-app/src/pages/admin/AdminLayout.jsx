@@ -9,6 +9,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -21,18 +22,18 @@ const AdminLayout = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-slate-950 text-slate-100">
-
+    <div className="flex h-screen bg-white">
       <aside
         className={`${
           sidebarOpen ? "w-64" : "w-20"
-        } bg-slate-900 border-r border-slate-800 transition-all duration-300 flex flex-col`}
+        } bg-black transition-all duration-300 flex flex-col`}
       >
-
-        <div className="h-20 flex items-center justify-center border-b border-slate-800">
+        <div className="h-20 flex items-center justify-center border-b border-gray-800">
+          <Link to="/" className="flex items-center gap-2">
           <span className="font-serif text-xl text1 font-bold text-white">
             {sidebarOpen ? "SHRÉEJI" : "S"}
           </span>
+          </Link>
         </div>
         <nav className="flex-1 text1 px-4 py-8 space-y-2">
           {navItems.map((item) => {
@@ -44,7 +45,7 @@ const AdminLayout = () => {
                 className={({ isActive }) =>
                   `flex items-center gap-4 px-4 py-3 rounded-lg transition ${
                     isActive
-                      ? "bg-slate-800 text-white"
+                      ? "bg-white text-black"
                       : "text-slate-300 hover:bg-slate-800 hover:text-white"
                   }`
                 }
@@ -65,17 +66,18 @@ const AdminLayout = () => {
 
       {/* Main */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="h-20 bg-slate-900 border-b border-slate-800 flex items-center justify-between px-8">
+        <header className="h-20 bg-white border-b border-gray-300 flex items-center justify-between px-8">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-slate-800 rounded-lg transition"
+            className="p-2 hover:bg-gray-300 rounded-lg transition"
           >
             {sidebarOpen ? <X /> : <Menu />}
           </button>
           <span className="text-sm text-slate-400 text">Admin Dashboard</span>
         </header>
         {/* Content */}
-        <main className="flex-1 overflow-auto bg-slate-950 p-8">
+        <main className="flex-1 overflow-auto bg-gray-100 p-8">
+
           <Outlet />
         </main>
       </div>

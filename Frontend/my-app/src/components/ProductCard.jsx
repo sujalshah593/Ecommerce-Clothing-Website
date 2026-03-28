@@ -65,9 +65,6 @@ const ProductCard = ({ product }) => {
           <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-medium border-r pr-3">
             {product.category}
           </p>
-          <span className="text-[9px] text text-red-500 uppercase tracking-widest italic font-serif">
-            New Arrival
-          </span>
         </div>
       </div>
     </div>

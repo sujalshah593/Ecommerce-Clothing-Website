@@ -26,14 +26,14 @@ const OrdersPage = () => {
 
   return (
     <div className="space-y-8 font-serif">
-      <h1 className="text-4xl font-serif font-bold text-white text1">Orders</h1>
+      <h1 className="text-4xl font-serif font-bold text-black text1">Orders</h1>
 
       {/* Search */}
       <div className="flex gap-4">
         <div className="flex-1 relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black" />
           <input
-            className="w-full pl-12 pr-4 py-3 text  bg-slate-800 border border-slate-700 rounded-lg text-white"
+            className="w-full pl-12 pr-4 py-3 text  bg-white border border-black rounded-lg text-black"
             placeholder="Search order..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -43,7 +43,7 @@ const OrdersPage = () => {
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value)}
-          className="bg-slate-800 border text1 border-slate-700 rounded-lg px-4 text-white"
+          className="bg-white border text1 border-black rounded-lg px-4 text-black"
         >
           <option>All</option>
           <option>Pending</option>
@@ -57,7 +57,7 @@ const OrdersPage = () => {
         {filtered.map((o) => (
           <div
             key={o._id}
-            className="bg-slate-800 p-6 rounded-lg border border-slate-700"
+            className="bg-white p-6 rounded-lg border border-black"
           >
             <div className="flex justify-between items-center">
               <div className="flex gap-4 items-center">
@@ -70,7 +70,7 @@ const OrdersPage = () => {
                   </p>
 
                   {/* Customer name */}
-                  <p className="text-slate-300 text">
+                  <p className="text-gray-500 text">
                     {o.user?.name || "Guest User"}
                   </p>
                   {/*P name*/}
@@ -82,7 +82,7 @@ const OrdersPage = () => {
 
               <button
                 onClick={() => updateStatus(o._id, "Shipped")}
-                className="text-sm text1 bg-purple-600 px-4 py-2 rounded"
+                className="text-sm text1 bg-red-600 text-white px-4 py-2 rounded"
               >
                 Mark Shipped
               </button>
