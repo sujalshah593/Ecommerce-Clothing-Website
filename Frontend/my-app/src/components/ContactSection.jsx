@@ -4,7 +4,7 @@ import { Instagram, Facebook, Twitter, ChevronRight } from 'lucide-react'
 const ContactSection = () => {
   return (
     <>
-    <section className="bg-zinc-50 py-32 border-y border-border">
+    <section className="bg-[#F2ECE4] py-32 border-y border-[#EAEAEA]">
           <div className="px-6 md:px-12 max-w-3xl mx-auto text-center space-y-8 font-serif">
             <span className="text-[10px] text1 font-bold uppercase tracking-[0.5em] text-accent">Newsletter</span>
             <h2 className="text-4xl md:text-6xl text1 font-serif">Stay Informed</h2>
@@ -18,7 +18,7 @@ const ContactSection = () => {
                 placeholder="EMAIL ADDRESS"
                 className="flex-1 bg-transparent py-4 text-[10px] text tracking-[0.2em] uppercase focus:outline-none"
               />
-              <button className="py-4 md:px-8 text-[10px] text1 font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 group">
+              <button className="py-4 md:px-8 text-[10px] text1 font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 group bg-[#111111] text-[#FFFFFF] transition-colors rounded-none hover:bg-[#B76E4D] transition-colors">
                 Subscribe <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </button>
             </form>

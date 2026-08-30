@@ -46,25 +46,25 @@ const ProductsPage = () => {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-serif font-bold text-black text1">Products</h1>
+          <h1 className="text-4xl font-serif font-bold text-[#111111] text1">Products</h1>
           <p className="text-slate-500 mt-2 text">Manage your product inventory</p>
         </div>
 
       </div>
 
       <div className="relative">
-        <Search className="absolute font-serif left-4 top-1/2 -translate-y-1/2 text-black" />
+        <Search className="absolute font-serif left-4 top-1/2 -translate-y-1/2 text-[#111111]" />
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search by name or id..."
-          className="w-full pl-12 font-serif pr-4 py-3 bg-white border text border-slate-700 rounded-lg text-black"
+          className="w-full pl-12 font-serif pr-4 py-3 bg-[#FAFAF8] border text border-slate-700 rounded-lg text-[#111111]"
         />
       </div>
 
-      <div className="bg-white font-serif rounded-lg border border-slate-700 overflow-hidden">
+      <div className="bg-[#FAFAF8] font-serif rounded-lg border border-slate-700 overflow-hidden">
         <table className="w-full ">
-          <thead className="bg-white text1">
+          <thead className="bg-[#FAFAF8] text1">
             <tr>
               <th className="px-6 py-4 text-left">Image</th>
               <th className="px-6 py-4 text-left">Name</th>
@@ -107,7 +107,7 @@ const ProductsPage = () => {
         <div className="flex justify-center mt-6  font-serif">
           <button
             onClick={() => setVisibleCount((prev) => prev + 6)}
-            className="bg-slate-700 cursor-pointer hover:bg-slate-600 text-white px-6 py-2 rounded-lg"
+            className="bg-slate-700 cursor-pointer hover:bg-slate-600 text-[#FFFFFF] px-6 py-2 rounded-lg"
           >
             Load More
           </button>

@@ -10,7 +10,8 @@ import men2 from "../assets/men2.png";
 
 const FeaturedSection = () => {
   return (
-    <section className="px-6 md:px-12 py-24 max-w-7xl mx-auto">
+    <section className="bg-[#EEF3EC]">
+      <div className="px-6 md:px-12 py-24 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
 
         {/* Left Image */}
@@ -28,11 +29,11 @@ const FeaturedSection = () => {
             How you express identity, not just clothing.
           </h2>
 
-          <p className="text-sm text font-bold uppercase tracking-widest text-gray-500">
+          <p className="text-sm text font-bold uppercase tracking-widest text-[#6B7280]">
             / Latest Work 2025
           </p>
 
-          <p className="text-gray-600 text text-sm md:text-base leading-relaxed">
+          <p className="text-[#111111] text text-sm md:text-base leading-relaxed">
             To us, fashion goes beyond passing trends—it serves as a language of
             expression. Our collections embody freedom, individuality, and
             authenticity.
@@ -63,6 +64,7 @@ const FeaturedSection = () => {
           </div>
         </div>
 
+      </div>
       </div>
     </section>
   );

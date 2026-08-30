@@ -173,20 +173,20 @@ const ProfilePage = () => {
     <>
       <Navbar />
 
-      <div className="min-h-screen bg-white pt-32">
+      <div className="min-h-screen bg-[#FAFAF8] pt-32">
         <section className="px-6 md:px-12 max-w-7xl mx-auto mb-12">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-4xl text1 md:text-5xl font-serif">
                 My Account
               </h1>
-              <p className="text-gray-500 text mt-2">
+              <p className="text-[#6B7280] text mt-2">
                 Manage your profile and preferences
               </p>
             </div>
             <button
               onClick={logoutHandler}
-              className="p-3 hover:bg-gray-100 text rounded-full"
+              className="p-3 hover:bg-[#EAEAEA]/20 text rounded-full"
             >
               <LogOut />
             </button>
@@ -202,8 +202,8 @@ const ProfilePage = () => {
                   onClick={() => setActiveTab(tab)}
                   className={`block w-full text-left py-3 px-4 ${
                     activeTab === tab
-                      ? "border-l-2 border-black -ml-4 pl-3"
-                      : "text-gray-500"
+                      ? "border-l-2 border-[#111111] -ml-4 pl-3"
+                      : "text-[#6B7280]"
                   }`}
                 >
                   {tab === "account" && "Account Information"}
@@ -267,7 +267,7 @@ const ProfilePage = () => {
                     {isEditing && (
                       <button
                         onClick={saveProfileHandler}
-                        className="mt-8 text1 px-10 py-3 bg-black text-white uppercase text-xs"
+                        className="mt-8 text1 px-10 py-3 bg-[#111111] text-[#FFFFFF] uppercase text-xs hover:bg-[#B76E4D] transition-colors"
                       >
                         Save Changes
                       </button>
@@ -290,7 +290,7 @@ const ProfilePage = () => {
                     ) : (
                       <div className="max-w-md space-y-4 mt-6">
                         {passwordError && (
-                          <p className="text-sm text text-red-500">
+                          <p className="text-sm text text-[#B76E4D]">
                             {passwordError}
                           </p>
                         )}
@@ -330,7 +330,7 @@ const ProfilePage = () => {
                         <div className="flex gap-4 pt-2">
                           <button
                             onClick={submitPasswordChange}
-                            className="px-8 py-3 text1 bg-black text-white text-xs uppercase"
+                            className="px-8 py-3 text1 bg-[#111111] text-[#FFFFFF] text-xs uppercase hover:bg-[#B76E4D] transition-colors"
                           >
                             Update Password
                           </button>
@@ -356,7 +356,7 @@ const ProfilePage = () => {
                   {loading && <p>Loading orders...</p>}
 
                   {!loading && orders.length === 0 && (
-                    <p className="text-gray-500">
+                    <p className="text-[#6B7280]">
                       You haven’t placed any orders yet.
                     </p>
                   )}
@@ -370,14 +370,14 @@ const ProfilePage = () => {
                         {/* HEADER */}
                         <div className="flex justify-between mb-4">
                           <div>
-                            <p className="text-xs uppercase text-gray-500">
+                            <p className="text-xs uppercase text-[#6B7280]">
                               Order ID
                             </p>
                             <p className="font-medium">{order._id}</p>
                           </div>
 
                           <div className="text-right">
-                            <p className="text-xs uppercase text-gray-500">
+                            <p className="text-xs uppercase text-[#6B7280]">
                               Status
                             </p>
                             <p className="font-semibold text-green-600">
@@ -403,8 +403,8 @@ const ProfilePage = () => {
                               />
                               <div className="text-sm">
                                 <p className="font-medium">{item.name}</p>
-                                <p className="text-gray-500">Qty: {item.qty}</p>
-                                <p className="text-gray-500">₹{item.price}</p>
+                                <p className="text-[#6B7280]">Qty: {item.qty}</p>
+                                <p className="text-[#6B7280]">₹{item.price}</p>
                               </div>
                             </div>
                           ))}
@@ -413,17 +413,17 @@ const ProfilePage = () => {
                         {/* FOOTER */}
                         <div className="grid grid-cols-3 border-t pt-4 mt-6 text-sm">
                           <div>
-                            <p className="text-gray-500">Date</p>
+                            <p className="text-[#6B7280]">Date</p>
                             <p>
                               {new Date(order.createdAt).toLocaleDateString()}
                             </p>
                           </div>
                           <div>
-                            <p className="text-gray-500">Items</p>
+                            <p className="text-[#6B7280]">Items</p>
                             <p>{order.orderItems.length}</p>
                           </div>
                           <div>
-                            <p className="text-gray-500">Total</p>
+                            <p className="text-[#6B7280]">Total</p>
                             <p className="font-semibold">₹{order.totalPrice}</p>
                           </div>
                         </div>
@@ -496,7 +496,7 @@ const ProfilePage = () => {
 
                       <button
                         onClick={addAddressHandler}
-                        className="bg-black text1 text-white px-6 py-2 text-xs uppercase"
+                        className="bg-[#111111] text1 text-[#FFFFFF] px-6 py-2 text-xs uppercase hover:bg-[#B76E4D] transition-colors"
                       >
                         Save Address
                       </button>
@@ -525,7 +525,7 @@ const ProfilePage = () => {
 
                         <button
                           onClick={() => deleteAddressHandler(a._id)}
-                          className="text-red-500  text-xs uppercase"
+                          className="text-[#B76E4D]  text-xs uppercase"
                         >
                           <Trash className="hover:cursor-pointer hover:transition hover:scale-110" />
                         </button>
@@ -544,7 +544,7 @@ const ProfilePage = () => {
 
 const Info = ({ label, value }) => (
   <div>
-    <p className="text-xs uppercase text1 text-gray-500 mb-2">{label}</p>
+    <p className="text-xs uppercase text1 text-[#6B7280] mb-2">{label}</p>
     <p className="text-lg">{value}</p>
   </div>
 );

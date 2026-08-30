@@ -121,7 +121,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f7f3ee] px-4">
-      <Link to="/" className="absolute text top-6 left-6 text-sm text-gray-700 hover:underline" > ← Back to store </Link>
+      <Link to="/" className="absolute text top-6 left-6 text-sm text-[#111111] hover:underline" > ← Back to store </Link>
       <div className="w-full max-w-sm">
         <h1 className="text-3xl text1 font-serif text-center mb-6">
           {step === "LOGIN" && "Welcome Back"}
@@ -161,7 +161,7 @@ const Login = () => {
               </button>
             </div>
 
-            <button className="w-full text1 bg-black text-white py-3">
+            <button className="w-full text1 bg-[#111111] text-[#FFFFFF] py-3 hover:bg-[#B76E4D] transition-colors">
               Sign In
             </button>
 
@@ -184,7 +184,7 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full text border px-3 py-2"
             />
-            <button className="w-full text1 bg-black text-white py-3">
+            <button className="w-full text1 bg-[#111111] text-[#FFFFFF] py-3 hover:bg-[#B76E4D] transition-colors">
               Continue
             </button>
             <button
@@ -207,7 +207,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full border text px-3 py-2"
             />
-            <button className="w-full text1 bg-black text-white py-3">
+            <button className="w-full text1 bg-[#111111] text-[#FFFFFF] py-3 hover:bg-[#B76E4D] transition-colors">
               Reset Password
             </button>
           </form>
@@ -224,7 +224,7 @@ const Login = () => {
             />
             <button
               onClick={verifyOtpHandler}
-              className="w-full text1 bg-black text-white py-3"
+              className="w-full text1 bg-[#111111] text-[#FFFFFF] py-3 hover:bg-[#B76E4D] transition-colors"
             >
               Verify OTP
             </button>

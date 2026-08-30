@@ -31,7 +31,45 @@ const orderSchema = new mongoose.Schema(
     paymentMethod: {
       type: String,
       default: "COD",
+      enum: ["COD", "RAZORPAY"],
     },
+
+    paymentStatus: {
+      type: String,
+      enum: ["created", "pending", "paid", "failed", "refunded"],
+      default: "pending",
+    },
+
+    idempotencyKey: {
+      type: String,
+      trim: true,
+      maxlength: 100,
+    },
+
+    paidAt: Date,
+
+    razorpayOrderId: { type: String, unique: true, sparse: true },
+    razorpayPaymentId: { type: String, unique: true, sparse: true },
+    razorpaySignature: String,
+
+    paymentEvents: [
+      {
+        eventId: String,
+        event: { type: String, required: true },
+        status: String,
+        createdAt: { type: Date, default: Date.now },
+      },
+    ],
+
+    lastPaymentEvent: String,
+    paymentConfirmationSent: { type: Boolean, default: false },
+
+    statusHistory: [
+      {
+        status: { type: String, required: true },
+        date: { type: Date, default: Date.now },
+      },
+    ],
 
     totalPrice: {
       type: Number,
@@ -43,6 +81,11 @@ const orderSchema = new mongoose.Schema(
       default: false,
     },
 
+    inventoryDeducted: {
+      type: Boolean,
+      default: false,
+    },
+
     status: {
       type: String,
       enum: ["Placed", "Packed", "Shipped", "Out for Delivery", "Delivered"],
@@ -50,6 +93,17 @@ const orderSchema = new mongoose.Schema(
     },
   },
   { timestamps: true },
+);
+
+orderSchema.index(
+  { user: 1, idempotencyKey: 1 },
+  {
+    unique: true,
+    partialFilterExpression: {
+      paymentMethod: "RAZORPAY",
+      idempotencyKey: { $type: "string" },
+    },
+  },
 );
 
 export default mongoose.model("Order", orderSchema);

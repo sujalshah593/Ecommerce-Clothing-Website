@@ -42,8 +42,8 @@ const DashboardPage = () => {
     <div className="space-y-10">
       <div className="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div>
-          <h1 className="text-2xl md:text-5xl font-bold text-black text1">Dashboard</h1>
-          <p className="text-black text mt-2">
+          <h1 className="text-2xl md:text-5xl font-bold text-[#111111] text1">Dashboard</h1>
+          <p className="text-[#111111] text mt-2">
             Manage your product, driver and seller details
           </p>
         </div>
@@ -52,7 +52,7 @@ const DashboardPage = () => {
           <button
             className="bg-purple-600 hover:bg-purple-700 
                        hover:scale-105 transition-all duration-300
-                       text-white px-6 py-3 text rounded-xl 
+                       text-[#FFFFFF] px-6 py-3 text rounded-xl 
                        flex items-center gap-2 shadow-md"
           >
             <Plus className="w-5 h-5" />
@@ -101,17 +101,17 @@ const DashboardPage = () => {
             title="Pending Deliveries"
             value={stats.pendingDeliveries}
             icon={Truck}
-            color="bg-red-500"
+            color="bg-[#111111]"
           />
         </div>
         <div>
-          <div className="bg-white p-4 sm:p-6 rounded-lg font-serif">
+          <div className="bg-[#FAFAF8] p-4 sm:p-6 rounded-lg font-serif">
             <h2 className="text-lg mb-6 text1 text">Top Selling Products</h2>
 
             <div className="overflow-x-auto text">
               <table className="min-w-[500px] text-sm">
                 <thead className="border-b">
-                  <tr className="text-left text-gray-500 uppercase text-xs">
+                  <tr className="text-left text-[#6B7280] uppercase text-xs">
                     <th className="py-3 px-4">Product</th>
                     <th className="py-3 px-4 text-center">Sold</th>
                     <th className="py-3 px-4 text-right">Revenue</th>
@@ -127,13 +127,13 @@ const DashboardPage = () => {
                             alt={product.name}
                             className="w-10 h-10 object-cover rounded-md"
                           />
-                          <span className="font-medium text-gray-700">
+                          <span className="font-medium text-[#111111]">
                             {product.name}
                           </span>
                         </div>
                       </td>
 
-                      <td className="text-gray-600 text-center">
+                      <td className="text-[#111111] text-center">
                         {product.totalQty}
                       </td>
 
@@ -151,7 +151,7 @@ const DashboardPage = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* SALES BY CATEGORY */}
-        <div className="bg-white text font-serif p-6 rounded-lg w-full">
+        <div className="bg-[#FAFAF8] text font-serif p-6 rounded-lg w-full">
           <h2 className="text-lg mb-4 text1">Monthly Orders</h2>
 
           <div className="w-full overflow-x-auto">
@@ -176,7 +176,7 @@ const DashboardPage = () => {
             />
           </div>
         </div>
-        <div className="bg-white font-serif  p-6 rounded-lg">
+        <div className="bg-[#FAFAF8] font-serif  p-6 rounded-lg">
           <h2 className="text-lg text mb-4 text1">Sales by Category</h2>
 
           <PieChart
@@ -198,7 +198,7 @@ const DashboardPage = () => {
           />
         </div>
       </div>
-      <div className="bg-white p-6 rounded-lg font-serif">
+      <div className="bg-[#FAFAF8] p-6 rounded-lg font-serif">
         <h2 className="text-lg mb-4 text1">Revenue Trend</h2>
 
         <LineChart
@@ -240,19 +240,19 @@ const DashboardPage = () => {
 export default DashboardPage;
 
 const StatCard = ({ title, value, icon: Icon, color }) => (
-  <div className="relative bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+  <div className="relative bg-[#FAFAF8] p-6 rounded-2xl shadow-sm border border-[#EAEAEA]/30 hover:shadow-md transition-all duration-300">
     <div className="flex justify-between items-start">
       <div>
-        <p className="text-gray-500 text text-xs uppercase tracking-wider">
+        <p className="text-[#6B7280] text text-xs uppercase tracking-wider">
           {title}
         </p>
-        <h2 className="text-2xl font-bold mt-3 text-gray-700 text">{value}</h2>
+        <h2 className="text-2xl font-bold mt-3 text-[#111111] text">{value}</h2>
       </div>
 
       <div
         className={`w-12 h-12 flex items-center justify-center rounded-xl ${color}`}
       >
-        <Icon className="w-6 h-6 text-white" />
+        <Icon className="w-6 h-6 text-[#FFFFFF]" />
       </div>
     </div>
   </div>

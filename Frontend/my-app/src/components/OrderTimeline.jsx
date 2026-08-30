@@ -15,11 +15,11 @@ const OrderTimeline = ({ status }) => {
         <div key={step} className="flex-1 text-center">
           <div
             className={`w-6 h-6 mx-auto rounded-full 
-            ${index <= currentIndex ? "bg-black" : "bg-gray-300"}`}
+            ${index <= currentIndex ? "bg-[#111111]" : "bg-gray-300"}`}
           />
           <p
             className={`text-xs mt-2 
-            ${index <= currentIndex ? "text-black" : "text-gray-400"}`}
+            ${index <= currentIndex ? "text-[#111111]" : "text-gray-400"}`}
           >
             {step}
           </p>

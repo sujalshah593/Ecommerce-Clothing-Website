@@ -6,11 +6,7 @@ import FooterSection from "../components/FooterSection.jsx";
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { toastSuccess } from "../utils/toast.js";
-import { Trash } from "lucide-react";
 import { toast } from "react-toastify";
-import Lottie from "lottie-react";
-import orderProcessing from "../animations/orderProcessing.json";
-import { useEffect } from "react";
 import visa from "../assets/visa.png";
 import rupay from "../assets/rupay.png";
 import gpay from "../assets/gpay.png";
@@ -24,6 +20,14 @@ const CheckoutPage = () => {
   const [formError, setFormError] = useState("");
   const [placingOrder, setPlacingOrder] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const [idempotencyKey, setIdempotencyKey] = useState(() => {
+    const storageKey = "shreeji:checkout:idempotency-key";
+    const existingKey = sessionStorage.getItem(storageKey);
+    if (existingKey) return existingKey;
+    const newKey = globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    sessionStorage.setItem(storageKey, newKey);
+    return newKey;
+  });
 
   const { cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth || {});
@@ -68,6 +72,19 @@ const CheckoutPage = () => {
   const shipping = 0;
   const total = subtotal + tax + shipping;
 
+  const loadRazorpay = () => new Promise((resolve, reject) => {
+    if (window.Razorpay) return resolve(true);
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => reject(new Error("Unable to load Razorpay Checkout"));
+    document.body.appendChild(script);
+  });
+
+  const showCheckoutError = (message) => {
+    toast.error(message, { position: "top-right", autoClose: 2500 });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -83,10 +100,7 @@ const CheckoutPage = () => {
     try {
       const orderPayload = {
         orderItems: cartItems.map((i) => ({
-          name: i.name,
           qty: i.qty,
-          image: i.image,
-          price: i.price,
           product: i._id,
         })),
         shippingAddress: {
@@ -95,27 +109,70 @@ const CheckoutPage = () => {
           postalCode: formData.zipCode,
           country: "India",
         },
-        totalPrice: total,
+        paymentMethod: paymentMethod === "cod" ? "COD" : "RAZORPAY",
       };
       setPlacingOrder(true);
-      await api.post("/orders", orderPayload);
+      if (paymentMethod === "cod") {
+        await api.post("/orders", orderPayload);
+        dispatch(clearCart());
+        toastSuccess("Order Placed Successfully!");
+        setTimeout(() => navigate("/"), 2800);
+        return;
+      }
 
-      dispatch(clearCart());
-      toastSuccess("Order Placed Successfully!");
-      setTimeout(() => {
-        setPlacingOrder(false);
-        navigate("/");
-      }, 2800);
+      const { data: paymentOrder } = await api.post("/orders/payment-order", orderPayload, {
+        headers: { "Idempotency-Key": idempotencyKey },
+      });
+      await loadRazorpay();
+      await new Promise((resolve, reject) => {
+        const checkout = new window.Razorpay({
+          key: paymentOrder.keyId,
+          amount: paymentOrder.amount,
+          currency: paymentOrder.currency || "INR",
+          order_id: paymentOrder.razorpayOrderId,
+          name: "Shreeji Store",
+          description: "Order payment",
+          prefill: {
+            name: `${formData.firstName} ${formData.lastName}`.trim(),
+            email: formData.email,
+            contact: formData.phone,
+          },
+          handler: async (response) => {
+            try {
+              await api.post("/orders/verify-payment", {
+                localOrderId: paymentOrder.localOrderId,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              });
+              sessionStorage.removeItem("shreeji:checkout:idempotency-key");
+              dispatch(clearCart());
+              toastSuccess("Payment successful. Order placed!");
+              setTimeout(() => navigate("/"), 2800);
+              resolve();
+            } catch (error) {
+              reject(new Error(error.response?.data?.message || "Payment verification failed"));
+            }
+          },
+          modal: {
+            ondismiss: () => reject(new Error("Payment was cancelled. Your cart is still saved.")),
+          },
+          theme: { color: "#111111" },
+        });
+        checkout.on("payment.failed", (response) => reject(new Error(response.error?.description || "Payment failed")));
+        checkout.open();
+      });
     } catch (error) {
+      if (error.response?.data?.code === "PAYMENT_ATTEMPT_EXPIRED") {
+        const storageKey = "shreeji:checkout:idempotency-key";
+        const newKey = globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        sessionStorage.setItem(storageKey, newKey);
+        setIdempotencyKey(newKey);
+      }
       console.error("Checkout error:", error.response?.data || error.message);
-      toast.error(
-        error.response?.data?.message ||
-          "Something went wrong. Please try again.",
-        {
-          position: "top-right",
-          autoClose: 2000,
-        },
-      );
+      showCheckoutError(error.response?.data?.message || error.message || "Something went wrong. Please try again.");
+    } finally {
+      setPlacingOrder(false);
     }
   };
 
@@ -123,12 +180,12 @@ const CheckoutPage = () => {
     <>
       <Navbar />
 
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-[#FAFAF8]">
         <div className="max-w-7xl mx-auto px-6 py-20">
           <div className="flex items-center justify-between mb-12">
             <Link
               to="/cart"
-              className="text-sm text text-black font-serif hover:text-black transition"
+              className="text-sm text text-[#111111] font-serif hover:text-[#111111] transition"
             >
               ← Back to Cart
             </Link>
@@ -145,14 +202,14 @@ const CheckoutPage = () => {
               <div
                 key={step}
                 className={`flex flex-col items-center ${
-                  orderStep === step ? "text-black" : "text-gray-400"
+                  orderStep === step ? "text-[#111111]" : "text-gray-400"
                 }`}
               >
                 <div
                   className={`w-10 h-10 text1 rounded-full border flex items-center justify-center mb-2 ${
                     orderStep === step
-                      ? "border-black bg-black/10"
-                      : "border-gray-300"
+                      ? "border-[#111111] bg-[#111111]/10"
+                      : "border-[#EAEAEA]/30"
                   }`}
                 >
                   {i + 1}
@@ -166,7 +223,7 @@ const CheckoutPage = () => {
             <div className="lg:col-span-2">
               <form onSubmit={handleSubmit} className="space-y-8">
                 {formError && (
-                  <p className="text-sm text-red-500 tracking-wide">
+                  <p className="text-sm text-[#B76E4D] tracking-wide">
                     {formError}
                   </p>
                 )}
@@ -262,7 +319,7 @@ const CheckoutPage = () => {
 
                     <div className="space-y-5 text">
                       {/* CARD OPTION */}
-                      <label className="border text p-5 cursor-pointer hover:border-black transition block">
+                      <label className="border text p-5 cursor-pointer hover:border-[#111111] transition block">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <input
@@ -298,7 +355,7 @@ const CheckoutPage = () => {
                       </label>
 
                       {/* UPI OPTION */}
-                      <label className="border p-5 cursor-pointer hover:border-black transition block">
+                      <label className="border p-5 cursor-pointer hover:border-[#111111] transition block">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <input
@@ -332,7 +389,7 @@ const CheckoutPage = () => {
                       </label>
 
                       {/* COD OPTION */}
-                      <label className="border p-5 cursor-pointer hover:border-black transition block">
+                      <label className="border p-5 cursor-pointer hover:border-[#111111] transition block">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <input
@@ -347,14 +404,14 @@ const CheckoutPage = () => {
                             </span>
                           </div>
 
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-[#6B7280]">
                             Pay at doorstep
                           </span>
                         </div>
                       </label>
                     </div>
 
-                    <p className="mt-6 text-sm text text-gray-500">
+                    <p className="mt-6 text-sm text text-[#6B7280]">
                       🔒 All transactions are secured and encrypted.
                     </p>
                   </>
@@ -370,11 +427,14 @@ const CheckoutPage = () => {
                       Back
                     </button>
                   )}
-                  <button
-                    type="submit"
-                    className="flex-1 text1 bg-black text-white py-3 uppercase tracking-wider"
+                    <button
+                      type="submit"
+                      disabled={placingOrder}
+                    className="flex-1 text1 bg-[#111111] text-[#FFFFFF] py-3 uppercase tracking-wider hover:bg-[#B76E4D] transition-colors"
                   >
-                    {orderStep === "shipping"
+                    {placingOrder
+                      ? "Processing..."
+                      : orderStep === "shipping"
                       ? "Continue to Payment"
                       : "Place Order"}
                   </button>
@@ -405,12 +465,12 @@ const CheckoutPage = () => {
                         <p className="text-sm font-medium text1">{item.name}</p>
 
                         {item.size && (
-                          <p className="text-xs text text-gray-500">
+                          <p className="text-xs text text-[#6B7280]">
                             Size: {item.size}
                           </p>
                         )}
 
-                        <p className="text-xs text text-gray-500">
+                        <p className="text-xs text text-[#6B7280]">
                           Qty: {item.qty}
                         </p>
                       </div>
@@ -434,7 +494,7 @@ const CheckoutPage = () => {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Shipping</span>
-                    <span className="text-red-500">FREE</span>
+                    <span className="text-[#B76E4D]">FREE</span>
                   </div>
                 </div>
 

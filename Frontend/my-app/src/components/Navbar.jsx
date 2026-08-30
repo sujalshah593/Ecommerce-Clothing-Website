@@ -16,7 +16,7 @@ const Navbar = () => {
   const { products } = useSelector((state) => state.products);
 
   return (
-    <nav className="fixed top-0 w-full z-50 grid grid-cols-3 items-center px-4 py-3 md:px-12 bg-white">
+ <nav className="fixed top-0 w-full z-50 grid grid-cols-3 items-center px-4 py-3 md:px-12 bg-[#FAFAF8] border-b border-[#EAEAEA]/40 backdrop-blur-md">
       {/* Left Section */}
       <div className="flex items-center">
         {/* Mobile menu icon */}
@@ -26,17 +26,17 @@ const Navbar = () => {
         />
 
         {/* Desktop menu */}
-        <div className="hidden lg:flex gap-8 uppercase text font-bold tracking-widest text-gray-500 text-[13px] ml-4">
-          <Link to="/Boys" className="hover:text-black">
+        <div className="hidden lg:flex gap-8 uppercase text font-bold tracking-widest text-[#111111] text-[13px] ml-4">
+          <Link to="/Boys" className="hover:text-[#B76E4D] transition-colors duration-300">
             Boys
           </Link>
-          <Link to="/Mens" className="hover:text-black">
+          <Link to="/Mens" className="hover:text-[#B76E4D] transition-colors duration-300">
             Men
           </Link>
-          <Link to="/about-us" className="hover:text-black">
+          <Link to="/about-us" className="hover:text-[#B76E4D] transition-colors duration-300">
             About Us
           </Link>
-          <Link to="/privacy-policy" className="hover:text-black">
+          <Link to="/privacy-policy" className="hover:text-[#B76E4D] transition-colors duration-300">
             Privacy Policy
           </Link>
         </div>
@@ -48,7 +48,10 @@ const Navbar = () => {
           to="/"
           className="text-xl text1 md:text-2xl font-bold uppercase tracking-widest"
         >
-          SHRÉEJI<span className="text-red-500">.</span>
+         <span className="text-[#111111]">
+  SHRÉEJI
+</span>
+<span className="text-[#B76E4D]">.</span>
         </Link>
       </div>
 
@@ -56,29 +59,29 @@ const Navbar = () => {
       <div className="flex  items-center justify-end gap-4 md:gap-6">
         {/* Search */}
         <Search
-          className="w-5 h-5 hover:scale-105 cursor-pointer"
+           className="w-5 h-5 text-[#111111] hover:text-[#B76E4D] hover:scale-110 cursor-pointer transition"
           onClick={() => setSearchOpen(true)}
         />
 
         {/* Favorites */}
         <Link
           to="/favorite"
-          className="w-9 h-9 flex items-center justify-center hover:scale-105 bg-black rounded-full"
+          className="w-9 h-9 flex items-center justify-center rounded-full bg-[#111111] hover:bg-[#B76E4D] hover:scale-110 transition"
         >
-          <Heart className="w-5 h-5 text-gray-400" />
+          <Heart className="w-5 h-5 text-[#FFFFFF]" />
         </Link>
 
         {/* Cart */}
         <div className="relative">
           <Link
             to="/cart"
-            className="w-9 h-9 flex items-center hover:scale-105  justify-center bg-black rounded-full  transition"
+            className="w-9 h-9 flex items-center justify-center bg-[#111111] rounded-full hover:bg-[#B76E4D] transition"
           >
-            <ShoppingCart className="w-5 h-5 text-gray-400 text" />
+            <ShoppingCart className="w-5 h-5 text-[#FFFFFF]" />
           </Link>
 
           {cartCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] rounded-full px-1 font-bold">
+            <span className="absolute -top-1 -right-1 bg-[#111111] text-[#FFFFFF] text-[9px] rounded-full px-1 font-bold hover:bg-[#B76E4D] transition-colors">
               {cartCount}
             </span>
           )}
@@ -89,17 +92,17 @@ const Navbar = () => {
           <div className="relative hidden sm:block">
             <button
               onClick={() => setOpen((p) => !p)}
-              className="w-9 h-9 rounded-full text1 hover:scale-105 hover:cursor-pointer bg-black text-white flex items-center justify-center uppercase text-xs font-bold"
+              className="w-9 h-9 rounded-full text1 hover:scale-105 hover:cursor-pointer bg-[#111111] text-[#FFFFFF] transition flex items-center justify-center uppercase text-xs font-bold hover:bg-[#B76E4D] transition-colors"
             >
               {user.name?.charAt(0)}
             </button>
 
             {open && (
-              <div className="absolute right-0 text1 mt-2 w-40 bg-white shadow-lg z-50">
+              <div className="absolute right-0 text1 mt-2 w-40 bg-[#FAFAF8] border border-[#EAEAEA]/40 rounded-xl shadow-xl  z-50">
                 <Link
                   to="/profile"
                   onClick={() => setOpen(false)}
-                  className="block px-4 py-3 text-xs hover:bg-gray-100"
+                  className="block px-4 py-3 text-xs hover:bg-[#EAEAEA]/20 transition"
                 >
                   Profile
                 </Link>
@@ -108,7 +111,7 @@ const Navbar = () => {
                     logout();
                     setOpen(false);
                   }}
-                  className="w-full text-left px-4 py-3 text-xs hover:bg-gray-100"
+                  className="w-full text-left px-4 py-3 text-xs hover:bg-[#EAEAEA]/20 transition"
                 >
                   Logout
                 </button>
@@ -118,7 +121,7 @@ const Navbar = () => {
         ) : (
           <Link
             to="/login"
-            className="hidden sm:block text1 px-6 py-2 bg-black text-white text-[10px] uppercase tracking-widest"
+            className="hidden sm:block text1 px-6 py-2 bg-[#111111] text-[#FFFFFF] rounded-full transition duration-300 hover:bg-[#B76E4D] transition-colors"
           >
             Sign In
           </Link>
@@ -129,14 +132,15 @@ const Navbar = () => {
       {mobileOpen && (
         <div className="fixed inset-0 z-[999] lg:hidden">
           <div
-            className="absolute inset-0 bg-black/40"
+            className="absolute inset-0 bg-[#111111]/40"
             onClick={() => setMobileOpen(false)}
           />
-          <div className="absolute left-0 top-0 h-full w-[80%] max-w-sm bg-white shadow-xl flex flex-col">
-            <div className="flex items-center justify-between px-6 py-4 border-b">
-              <span className="text-lg text1 font-bold uppercase mr-5">
-                SHRÉEJI<span className="text-red-500">.</span>
-              </span>
+          <div className="absolute left-0 top-0 h-full w-[80%] max-w-sm bg-[#FAFAF8] shadow-xl flex flex-col">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#EAEAEA]">
+              <span className="text-[#111111]">
+  SHRÉEJI
+</span>
+<span className="text-[#B76E4D]">.</span>
               <button onClick={() => setMobileOpen(false)}>
                 <X />
               </button>
@@ -167,7 +171,7 @@ const Navbar = () => {
                   <>
                     <Link
                       to="/profile"
-                      className="bg-black text1 text-white px-7 py-3 block"
+                      className="bg-[#111111] text-[#FFFFFF] rounded-lg transition text1 px-7 py-3 block hover:bg-[#B76E4D] transition-colors"
                       onClick={() => setMobileOpen(false)}
                     >
                       Profile
@@ -177,7 +181,7 @@ const Navbar = () => {
                         logout();
                         setMobileOpen(false);
                       }}
-                      className="bg-black text1 text-white px-7 py-3 w-full text-left"
+                      className="bg-[#111111] text1 text-[#FFFFFF] px-7 py-3 w-full text-left rounded-lg transition hover:bg-[#B76E4D] transition-colors"
                     >
                       Logout
                     </button>
@@ -197,11 +201,11 @@ const Navbar = () => {
       {searchOpen && (
         <div className="fixed inset-0 z-[999]">
           <div
-            className="absolute inset-0 bg-black/40"
+            className="absolute inset-0 bg-[#111111]/40"
             onClick={() => setSearchOpen(false)}
           />
-          <div className="absolute right-0 text top-0 h-full w-full max-w-md bg-white shadow-xl flex flex-col">
-            <div className="flex items-center justify-between px-6 py-4 border-b">
+          <div className="absolute right-0 text top-0 h-full w-full max-w-md bg-[#FAFAF8] shadow-xl flex flex-col">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#EAEAEA]">
               <span className="flex gap-3 font-bold uppercase">
                 <Search /> Search
               </span>
@@ -216,7 +220,7 @@ const Navbar = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search products..."
-                className="w-full px-4 py-3 border rounded-md"
+                className="w-full px-4 py-3 rounded-xl border border-[#EAEAEA] bg-[#FAFAF8] focus:border-[#B76E4D] focus:ring-2 focus:ring-[#B76E4D]/20 outline-none"
               />
             </div>
 
@@ -243,8 +247,8 @@ const Navbar = () => {
                         className="w-14 h-20 object-cover rounded"
                       />
                       <div>
-                        <p className="text-sm font-semibold">{p.name}</p>
-                        <p className="text-xs text-gray-500">₹{p.price}</p>
+                        <p className="text-sm font-semibold text-[#111111]">{p.name}</p>
+                        <p className="text-xs text-[#B76E4D] font-semibold">₹{p.price}</p>
                       </div>
                     </Link>
                   ))}
@@ -253,7 +257,7 @@ const Navbar = () => {
                 products.filter((p) =>
                   p.name.toLowerCase().includes(searchQuery.toLowerCase()),
                 ).length === 0 && (
-                  <p className="text-sm text text-gray-500">
+                  <p className="text-sm text text-[#6B7280]">
                     No products found
                   </p>
                 )}

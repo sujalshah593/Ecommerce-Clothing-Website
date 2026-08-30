@@ -26,14 +26,14 @@ const OrdersPage = () => {
 
   return (
     <div className="space-y-8 font-serif">
-      <h1 className="text-4xl font-serif font-bold text-black text1">Orders</h1>
+      <h1 className="text-4xl font-serif font-bold text-[#111111] text1">Orders</h1>
 
       {/* Search */}
       <div className="flex gap-4">
         <div className="flex-1 relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#111111]" />
           <input
-            className="w-full pl-12 pr-4 py-3 text  bg-white border border-black rounded-lg text-black"
+            className="w-full pl-12 pr-4 py-3 text  bg-[#FAFAF8] border border-[#111111] rounded-lg text-[#111111]"
             placeholder="Search order..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -43,7 +43,7 @@ const OrdersPage = () => {
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value)}
-          className="bg-white border text1 border-black rounded-lg px-4 text-black"
+          className="bg-[#FAFAF8] border text1 border-[#111111] rounded-lg px-4 text-[#111111]"
         >
           <option>All</option>
           <option>Pending</option>
@@ -57,7 +57,7 @@ const OrdersPage = () => {
         {filtered.map((o) => (
           <div
             key={o._id}
-            className="bg-white p-6 rounded-lg border border-black"
+            className="bg-[#FAFAF8] p-6 rounded-lg border border-[#111111]"
           >
             <div className="flex justify-between items-center">
               <div className="flex gap-4 items-center">
@@ -70,7 +70,7 @@ const OrdersPage = () => {
                   </p>
 
                   {/* Customer name */}
-                  <p className="text-gray-500 text">
+                  <p className="text-[#6B7280] text">
                     {o.user?.name || "Guest User"}
                   </p>
                   {/*P name*/}
@@ -82,7 +82,7 @@ const OrdersPage = () => {
 
               <button
                 onClick={() => updateStatus(o._id, "Shipped")}
-                className="text-sm text1 bg-red-600 text-white px-4 py-2 rounded"
+                className="text-sm text1 bg-[#111111] text-[#FFFFFF] px-4 py-2 rounded hover:bg-[#B76E4D] transition-colors"
               >
                 Mark Shipped
               </button>

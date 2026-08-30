@@ -112,7 +112,9 @@ export const getDashboardStats = async (req, res) => {
     const activeUsers = await User.countDocuments();
     const totalProducts = await Product.countDocuments();
 
+    const paidOrderFilter = { isPaid: true, paymentStatus: "paid" };
     const revenueAgg = await Order.aggregate([
+      { $match: paidOrderFilter },
       { $group: { _id: null, total: { $sum: "$totalPrice" } } },
     ]);
 
@@ -127,6 +129,7 @@ export const getDashboardStats = async (req, res) => {
       : 0;
 
     const monthlyRevenueAgg = await Order.aggregate([
+      { $match: paidOrderFilter },
       {
         $group: {
           _id: { $month: "$createdAt" },
@@ -147,6 +150,7 @@ export const getDashboardStats = async (req, res) => {
     ]);
 
     const topProductsAgg = await Order.aggregate([
+      { $match: paidOrderFilter },
       { $unwind: "$orderItems" },
       {
         $group: {
@@ -180,6 +184,7 @@ export const getDashboardStats = async (req, res) => {
     }));
 
     const revenueTrendAgg = await Order.aggregate([
+      { $match: paidOrderFilter },
       {
         $group: {
           _id: { $month: "$createdAt" },
@@ -196,13 +201,14 @@ const months = [
 
 const revenueTrendData = revenueTrendAgg.map((r) => ({
   month: months[r._id],
-revenue: Number(r.revenue) + Math.floor(Math.random() * 5000)
+revenue: Number(r.revenue)
   
 }));
 
     
 
     const targetGroupAgg = await Order.aggregate([
+      { $match: paidOrderFilter },
       { $unwind: "$orderItems" },
 
       {

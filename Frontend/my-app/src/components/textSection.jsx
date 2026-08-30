@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 const SimpleSection = () => {
   return (
     <>
-      <section className="py-32 px-6 md:px-12 bg-black text-white text-center">
+      <section className="py-32 px-6 md:px-12 bg-[#F8EDEB] text-[#111111] text-center">
         <div className="max-w-4xl mx-auto space-y-8 reveal">
           <span className="text-[120px] leading-none text opacity-10 block">"</span>
 
@@ -12,7 +12,7 @@ const SimpleSection = () => {
             Fashion is not just about clothes, it's about the narrative we
             choose to tell the world through our silhouette.
           </h2>
-          <span className="text-xs uppercase tracking-[0.4em] text text-white/40">
+          <span className="text-xs uppercase tracking-[0.4em] text text-[#6B7280]">
             — Rohit Shah
           </span>
         </div>

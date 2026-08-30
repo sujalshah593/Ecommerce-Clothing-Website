@@ -58,7 +58,7 @@ const FavoritesPage = () => {
           </p>
 
           <Link to="/mens">
-            <button className="bg-accent text1 bg-black text-white hover:cursor-pointer hover:bg-accent/90 text-accent-foreground px-6 py-3 rounded-md">
+            <button className="bg-accent text1 bg-[#111111] text-[#FFFFFF] hover:cursor-pointer /90 text-accent-foreground px-6 py-3 rounded-md hover:bg-[#B76E4D] transition-colors">
               Continue Shopping
             </button>
           </Link>
@@ -76,9 +76,9 @@ const FavoritesPage = () => {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
 
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-end justify-between p-4">
+                  <div className="absolute inset-0 bg-[#111111]/0 group-hover:bg-[#111111]/20 transition-colors duration-300 flex items-end justify-between p-4">
                     <Link to={`/product/${item._id}`}>
-                      <button className="bg-foreground text text-background hover:bg-gray-300 hover:text-white hover:cursor-pointer px-4 py-2 text-sm flex items-center gap-2 rounded-md">
+                      <button className="bg-foreground text text-background hover:bg-[#EAEAEA]/20 hover:text-[#FFFFFF] hover:cursor-pointer px-4 py-2 text-sm flex items-center gap-2 rounded-md">
                         <ShoppingBag className="w-4 h-4" />
                         View
                       </button>
@@ -86,7 +86,7 @@ const FavoritesPage = () => {
 
                     <button
                       onClick={() => removeFavorite(item)}
-                      className="bg-background/80 hover:bg-red-500 hover:text-white hover:cursor-pointer p-2 rounded-full transition-colors"
+                      className="bg-background/80 hover:text-[#FFFFFF] hover:cursor-pointer p-2 rounded-full transition-colors hover:bg-[#B76E4D] transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -120,7 +120,7 @@ const FavoritesPage = () => {
 
             <div className="flex gap-4 mt-8 md:mt-0">
               <Link to="/cart">
-                <button className="border text1 px-6 py-3 rounded-md hover:bg-black font-serif hover:text-white hover:cursor-pointer">
+                <button className="border text1 px-6 py-3 rounded-md font-serif hover:text-[#FFFFFF] hover:cursor-pointer hover:bg-[#B76E4D] transition-colors">
                   Continue Shopping
                 </button>
               </Link>

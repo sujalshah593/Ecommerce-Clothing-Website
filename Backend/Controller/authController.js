@@ -44,6 +44,9 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
+  if (user?.googleId) {
+    return res.status(401).json({ message: "Invalid email or password" });
+  }
   if(!user.isVerified){
     const otp = generateOTP();
     user.otp = otp;

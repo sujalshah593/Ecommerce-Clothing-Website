@@ -8,7 +8,7 @@ const images = [boys, boys1, men, feature];
 
 const MiddleHeroSection = () => {
   return (
-    <section className="relative bg-black text-white py-24 overflow-hidden">
+    <section className="relative bg-[#111111] text-[#FFFFFF] py-24 overflow-hidden hover:bg-[#B76E4D] transition-colors">
       {/* Top Headline */}
       <div className="text-center space-y-4 px-6">
         <h2 className="text-2xl text md:text-4xl font-black uppercase tracking-wide">
@@ -26,7 +26,7 @@ const MiddleHeroSection = () => {
       </div>
 
       {/* Background Giant Text */}
-      <h2 className="absolute text2 inset-0 flex items-center justify-center text-[20vw] font-black uppercase text-white opacity-5 pointer-events-none">
+      <h2 className="absolute text2 inset-0 flex items-center justify-center text-[20vw] font-black uppercase text-[#FFFFFF] opacity-5 pointer-events-none">
         FREEMEE
       </h2>
 
@@ -35,7 +35,7 @@ const MiddleHeroSection = () => {
         <div className="relative">
           {/* Red diagonal ribbon */}
 
-          <div className="absolute text top-1/2 left-1/2 w-[150vw] -translate-x-1/2 -translate-y-1/2 rotate-[18deg] bg-red-600 text-white font-bold uppercase text-2xl tracking-widest py-8 text-center z-0">
+          <div className="absolute text top-1/2 left-1/2 w-[150vw] -translate-x-1/2 -translate-y-1/2 rotate-[18deg] bg-[#111111] text-[#FFFFFF] font-bold uppercase text-2xl tracking-widest py-8 text-center z-0 hover:bg-[#B76E4D] transition-colors">
             NEWFASHION ✦&nbsp;&nbsp; NEWFASHION ✦&nbsp;&nbsp; NEWFASHION
             ✦&nbsp;&nbsp; NEWFASHION ✦&nbsp;&nbsp; NEWFASHION ✦&nbsp;&nbsp;
             NEWFASHION ✦&nbsp;&nbsp; NEWFASHION ✦&nbsp;&nbsp; NEWFASHION
@@ -67,7 +67,7 @@ const MiddleHeroSection = () => {
       </div>
 
       {/* Bottom Text */}
-      <div className="flex text flex-col md:flex-row justify-between gap-8 px-6 md:px-40 md:py-20 text-sm text-white/70">
+      <div className="flex text flex-col md:flex-row justify-between gap-8 px-6 md:px-40 md:py-20 text-sm text-[#FFFFFF]/70">
         <p className="max-w-sm">
           To us, fashion goes beyond passing trends—it serves as a language of
           expression. Our collections embody freedom, individuality, and

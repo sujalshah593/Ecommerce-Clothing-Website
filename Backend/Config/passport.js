@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
-dotenv.config(); 
+dotenv.config({ path: new URL("../.env", import.meta.url) });
 
+import crypto from "crypto";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
@@ -24,7 +25,8 @@ passport.use(
             name: profile.displayName,
             email,
             googleId: profile.id,
-            password: "GOOGLE_USER", // temporary workaround
+            password: crypto.randomBytes(32).toString("hex"),
+            isVerified: true,
           });
         }
 

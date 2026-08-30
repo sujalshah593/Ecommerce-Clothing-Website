@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: new URL("./.env", import.meta.url) });
 
 import express from "express";
 import cors from "cors";
@@ -21,6 +21,7 @@ connectDB();
 
 // Middleware
 app.use(cors());
+app.use("/api/orders/webhook", express.raw({ type: "application/json" }));
 app.use(express.json());
 app.use(passport.initialize());
 

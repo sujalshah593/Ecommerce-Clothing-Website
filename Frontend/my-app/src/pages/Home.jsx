@@ -48,7 +48,7 @@ const Home = () => {
       <Navbar />
       <HeroSection />
       <FeaturedSection />
-            <MiddleHeroSection/>
+            {/* <MiddleHeroSection/> */}
       <BuyerSection/>
       <AutoStrip/>
       <ProductSection
