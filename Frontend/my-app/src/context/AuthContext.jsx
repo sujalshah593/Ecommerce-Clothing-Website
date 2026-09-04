@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { store } from "../Redux/store";
+import { clearCart } from "../Redux/Slices/cartSlice";
 
 const AuthContext = createContext();
 
@@ -24,6 +26,9 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("user");
     setUser(null);
+
+    // Clear Redux cart and localStorage cart on logout
+    store.dispatch(clearCart());
   };
 
   return (

@@ -1,7 +1,7 @@
 import { hash } from "bcryptjs";
 import User from "../Models/User.js";
 import generateToken from "../utils/generateToken.js";
-import { sendEmail } from "../utils/sendEmail.js";
+import { enqueueEmail } from "../Queue/emailQueue.js";
 import generateOTP from "../utils/generateOtp.js";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
@@ -16,7 +16,7 @@ export const registerUser = async (req, res) => {
 
   const user = await User.create({ name, email, password});
 
-  await sendEmail({
+  await enqueueEmail("emailJob", {
     to: user.email,
     subject: "Welcome to Shreeji Cloth Store",
     html: `
@@ -53,7 +53,7 @@ export const loginUser = async (req, res) => {
     user.otpExpires = Date.now() + 10 * 60 * 1000;
     await user.save();
 
-    await sendEmail({
+    await enqueueEmail("emailJob", {
       to: user.email,
       subject: "Verify your account - OTP",
       html: `<h2>Your OTP is ${otp}</h2><p>Valid for 10 minutes</p>`,
@@ -105,7 +105,7 @@ export const resendOtp = async (req, res) => {
   user.otpExpires = Date.now() + 10 * 60 * 1000;
   await user.save();
 
-  await sendEmail({
+  await enqueueEmail("emailJob", {
     to: email,
     subject: "Resend OTP",
     html: `<h2>Your OTP is ${otp}</h2>`,
@@ -167,7 +167,7 @@ export const forgotPassword = async (req, res) => {
   await user.save();
 const resetUrl = `http://localhost:5173/login?resetToken=${resetToken}`;
 
-  await sendEmail({
+  await enqueueEmail("emailJob", {
     to: user.email,
     subject: "Password Reset Request",
     html: `

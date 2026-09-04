@@ -25,6 +25,19 @@ const CartPage = () => {
   const shipping = subtotal > 5000 ? 0 : 150;
   const total = subtotal + tax + shipping;
 
+  const handleUpdateQty = (item, newQty) => {
+    if (newQty < 1 || newQty > 10) return;
+    dispatch(updateQty({ id: item._id, size: item.size, qty: newQty }));
+  };
+
+  const handleRemove = (item) => {
+    dispatch(removeFromCart({ id: item._id, size: item.size }));
+  };
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart({ ...product, size: product.sizes?.[0] || "" }));
+  };
+
   return (
     <>
       <div className="min-h-screen bg-[#FAFAF8]">
@@ -67,7 +80,7 @@ const CartPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               <div className="lg:col-span-2 space-y-6">
                 {cartItems.map((item) => (
-                  <div key={item._id} className="flex gap-6 pb-6 border-b">
+                  <div key={`${item._id}-${item.size}`} className="flex gap-6 pb-6 border-b">
                     <img
                       src={item.image}
                       alt={item.name}
@@ -91,12 +104,7 @@ const CartPage = () => {
                         </span>
                         <div className="flex items-center border">
                           <button
-                            onClick={() =>
-                              item.qty > 1 &&
-                              dispatch(
-                                updateQty({ id: item._id, qty: item.qty - 1 }),
-                              )
-                            }
+                            onClick={() => handleUpdateQty(item, item.qty - 1)}
                             className="px-3 py-2 text-[#6B7280] hover:text-[#111111]"
                           >
                             <Minus />
@@ -107,14 +115,7 @@ const CartPage = () => {
                           </span>
 
                           <button
-                            onClick={() =>
-                              dispatch(
-                                updateQty({
-                                  id: item._id,
-                                  qty: item.qty + 1,
-                                }),
-                              )
-                            }
+                            onClick={() => handleUpdateQty(item, item.qty + 1)}
                             className="px-3 py-2 text-[#6B7280] hover:text-[#111111]"
                           >
                             <Plus />
@@ -123,7 +124,7 @@ const CartPage = () => {
                       </div>
 
                       <button
-                        onClick={() => dispatch(removeFromCart(item._id))}
+                        onClick={() => handleRemove(item)}
                         className="text-sm text hover:cursor-pointer  text-[#B76E4D] hover:underline"
                       >
                         <Trash className="hover:fill-red-500" />
@@ -201,7 +202,7 @@ const CartPage = () => {
                     <ProductCard product={p} />
 
                     <button
-                      onClick={() => dispatch(addToCart(p))}
+                      onClick={() => handleAddToCart(p)}
                       className="absolute text left-3 right-3 bg-[#111111] text-[#FFFFFF] text-xs mt-2 py-3 uppercase tracking-wider hover:bg-[#B76E4D] transition-colors"
                     >
                       Add to Cart

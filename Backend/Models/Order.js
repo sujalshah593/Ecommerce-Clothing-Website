@@ -106,4 +106,7 @@ orderSchema.index(
   },
 );
 
+orderSchema.index({ createdAt: -1 });
+orderSchema.index({ user: 1 });
+
 export default mongoose.model("Order", orderSchema);

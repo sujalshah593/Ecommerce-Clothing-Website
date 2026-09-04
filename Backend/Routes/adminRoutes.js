@@ -9,10 +9,12 @@ import {
     updateProduct,
     getDashboardStats
 } from '../Controller/adminController.js';
+import { adminLimiter } from '../Middleware/rateLimiters.js';
+import { createProduct } from "../Controller/adminController.js";
 
 const router = express.Router();
 
-import { createProduct } from "../Controller/adminController.js";
+router.use(adminLimiter);
 
 router.get("/dashboard", protect, isAdmin, getDashboardStats);
 router.post("/products", protect, isAdmin, createProduct);

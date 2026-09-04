@@ -2,10 +2,11 @@ import crypto from "crypto";
 import mongoose from "mongoose";
 import Order from "../Models/Order.js";
 import Product from "../Models/Product.js";
+import Cart from "../Models/Cart.js";
 import WebhookEvent from "../Models/WebhookEvent.js";
 import razorpay from "../Config/razorpay.js";
 import orderEmailTemplate from "../utils/orderEmailTemplate.js";
-import { sendEmail } from "../utils/sendEmail.js";
+import { enqueueEmail } from "../Queue/emailQueue.js";
 
 const TAX_RATE = 0.1;
 const IDEMPOTENCY_KEY_PATTERN = /^[A-Za-z0-9_-]{1,100}$/;
@@ -38,13 +39,22 @@ const getValidatedOrderData = async (items) => {
 };
 
 const sendPaymentConfirmation = async (order, user) => {
+  // Atomically claim the right to send this confirmation.
+  // If another path (webhook or verify-payment) already claimed it, skip.
   const claimed = await Order.findOneAndUpdate(
     { _id: order._id, paymentConfirmationSent: false },
     { $set: { paymentConfirmationSent: true } },
     { new: true },
   );
   if (!claimed) return;
-  await sendEmail({ to: user.email, subject: "Order Confirmation - Shreeji Store", html: orderEmailTemplate({ user, order: claimed }) });
+  // Use a deterministic jobId so that even if enqueueEmail is called
+  // again for the same order (e.g. retry edge case), BullMQ rejects
+  // the duplicate and does not send a second email.
+  await enqueueEmail(
+    "payment-confirmation",
+    { to: user.email, subject: "Order Confirmation - Shreeji Store", html: orderEmailTemplate({ user, order: claimed }) },
+    { jobId: `payment-confirmation-${order._id}` }
+  );
 };
 
 const handleError = (res, error, fallback) => {
@@ -127,9 +137,16 @@ export const createOrder = async (req, res) => {
     const createdOrder = await runTransaction(async (session) => {
       const [order] = await Order.create([{ user: req.user._id, orderItems: validatedItems, shippingAddress, totalPrice, paymentMethod: "COD", paymentStatus: "pending", isPaid: false, inventoryDeducted: false, statusHistory: [{ status: "Placed" }] }], { session });
       await reserveOrderInventory(order, session);
+      await Cart.updateOne({ user: req.user._id }, { $set: { items: [] } }, { session });
       return order;
     });
-    await sendEmail({ to: req.user.email, subject: "Order Confirmation - Shreeji Store", html: orderEmailTemplate({ user: req.user, order: createdOrder }) });
+    // Fire-and-forget: enqueue COD order confirmation.
+    // The order is already created and committed; email is a non-critical side effect.
+    await enqueueEmail(
+      "cod-order-confirmation",
+      { to: req.user.email, subject: "Order Confirmation - Shreeji Store", html: orderEmailTemplate({ user: req.user, order: createdOrder }) },
+      { jobId: `cod-order-confirmation-${createdOrder._id}` }
+    );
     res.status(201).json(createdOrder);
   } catch (error) { handleError(res, error, "Order creation failed"); }
 };
@@ -230,11 +247,15 @@ export const verifyPayment = async (req, res) => {
           throw error;
         }
       }
-      return Order.findOneAndUpdate(
+      const finalOrder = await Order.findOneAndUpdate(
         { _id: paymentOrder._id, isPaid: false, paymentStatus: { $ne: "paid" } },
         { $set: { isPaid: true, paymentStatus: "paid", paidAt: new Date(), razorpayPaymentId: razorpay_payment_id, razorpaySignature: razorpay_signature, lastPaymentEvent: "payment.captured" }, $push: { paymentEvents: { event: "payment.captured", status: "paid" } } },
         { new: true, session },
       );
+      if (finalOrder) {
+        await Cart.updateOne({ user: req.user._id }, { $set: { items: [] } }, { session });
+      }
+      return finalOrder;
     });
     if (!updatedOrder) return res.json({ success: true, alreadyProcessed: true, order });
     await sendPaymentConfirmation(updatedOrder, req.user);
@@ -269,7 +290,10 @@ export const orderWebhook = async (req, res) => {
         }
 
         const update = { $set: { lastPaymentEvent: event }, $push: { paymentEvents: { eventId, event, status: payment.status } } };
-        if ((event === "payment.captured" || event === "order.paid") && !order.isPaid) Object.assign(update.$set, { isPaid: true, paymentStatus: "paid", paidAt: new Date(), razorpayPaymentId: payment.id });
+        if ((event === "payment.captured" || event === "order.paid") && !order.isPaid) {
+          Object.assign(update.$set, { isPaid: true, paymentStatus: "paid", paidAt: new Date(), razorpayPaymentId: payment.id });
+          await Cart.updateOne({ user: order.user }, { $set: { items: [] } }, { session });
+        }
         if (event === "payment.failed" && !order.isPaid) update.$set.paymentStatus = "failed";
         const processedOrder = await Order.findByIdAndUpdate(order._id, update, { new: true, session }).populate("user");
         await WebhookEvent.updateOne({ eventId }, { $set: { status: "processed", processedAt: new Date() } }, { session });

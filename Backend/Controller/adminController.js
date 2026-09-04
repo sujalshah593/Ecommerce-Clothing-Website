@@ -3,28 +3,73 @@ import User from "../Models/User.js";
 import Product from "../Models/Product.js";
 
 export const getAllOrders = async (req, res) => {
-  const orders = await Order.find()
-    .populate("user", "name email")
-    .sort({ createdAt: -1 });
-  res.json(orders);
+  try {
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    let limit = Math.max(1, parseInt(req.query.limit) || 20);
+    if (limit > 100) limit = 100;
+    const skip = (page - 1) * limit;
+
+    const total = await Order.countDocuments();
+    const orders = await Order.find()
+      .populate("user", "name email")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    res.json({
+      orders,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
+    });
+  } catch (error) {
+    console.error("GET ALL ORDERS ERROR:", error);
+    res.status(500).json({ message: "Failed to fetch orders" });
+  }
 };
 
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-password");
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    let limit = Math.max(1, parseInt(req.query.limit) || 20);
+    if (limit > 100) limit = 100;
+    const skip = (page - 1) * limit;
 
-    const usersWithOrder = await Promise.all(
-      users.map(async (user) => {
-        const orderCount = await Order.countDocuments({
-          user: user._id,
-        });
-        return {
-          ...user,
-          totalOrders: orderCount,
-        };
-      }),
-    );
-    res.json(users);
+    const total = await User.countDocuments();
+    const users = await User.find()
+      .select("-password")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    const userIds = users.map(u => u._id);
+
+    const orderCounts = await Order.aggregate([
+      { $match: { user: { $in: userIds } } },
+      { $group: { _id: "$user", count: { $sum: 1 } } }
+    ]);
+
+    const countMap = new Map();
+    orderCounts.forEach(oc => countMap.set(oc._id.toString(), oc.count));
+
+    const usersWithOrder = users.map(user => ({
+      ...user,
+      totalOrders: countMap.get(user._id.toString()) || 0
+    }));
+
+    res.json({
+      users: usersWithOrder,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
+    });
   } catch (error) {
     console.error("GET USERS ERROR:", error);
     res.status(500).json({ message: "Failed to fetch users" });
