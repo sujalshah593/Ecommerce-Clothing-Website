@@ -4,20 +4,20 @@ import men2 from "../assets/men2.png";
 
 const HeroSection = () => {
   return (
-<section className="pt-24 min-h-screen bg-[#FAFAF8]">
+    <section className="pt-24 min-h-screen bg-[#FAFAF8]">
       {/* Text Block */}
       <div className="px-6 md:px-12 py-10">
         <h1 className="text-6xl sm:text-6xl md:text-7xl lg:text-[99px] font-black uppercase leading-none tracking-tight">
-  <span className="text-[#111111]">FASHION </span>
+          <span className="text-[#111111]">FASHION </span>
 
-  <span className="text-[#B76E4D]">IS WHAT</span>
+          <span className="text-[#B76E4D]">IS WHAT</span>
 
-  <span className="text-[#111111]"> WE WEAR.</span>
-</h1>
+          <span className="text-[#111111]"> WE WEAR.</span>
+        </h1>
       </div>
- <div className="flex justify-between mb-8 px-6 md:px-12 text-xs md:text-sm font-medium text-[#111111] w-full">
+      <div className="flex justify-between mb-8 px-6 md:px-12 text-xs md:text-sm font-medium text-[#111111] w-full">
         <p className="max-w-xs text ">
-          Create merch your way—easy and effortless. We’ll print and deliver for
+          Create merch your way—easy and effortless. We'll print and deliver for
           you.
         </p>
 
@@ -68,18 +68,15 @@ const HeroSection = () => {
             while you focus on growing your brand.
           </p>
 
-          <button className="mx-auto md:mx-0 flex items-center gap-3 bg-[#111111] text-[#FFFFFF] px-6 py-3 rounded-full text-sm transition hover:bg-[#B76E4D] transition-colors">
-  Learn More
-  <span className="text-xl">
-    →
-  </span>
-</button>
+          <button className="mx-auto md:mx-0 flex items-center gap-3 bg-blue-600 text-white px-6 py-3 rounded-full text-sm transition hover:bg-blue-700 transition-colors">
+            Learn More
+          </button>
         </div>
 
         {/* Right Card (Hidden on mobile) */}
         {/* Right Card */}
-      <div
-  className="relative z-20
+        <div
+          className="relative z-20
   bg-[#FAFAF8]
   rounded-xl
   p-4
@@ -87,13 +84,13 @@ const HeroSection = () => {
   shadow-xl
   w-full md:w-[380px]
   hover:scale-105 transition"
->
+        >
           <img
             src={boys1}
             alt="Card"
             className="w-full h-72 md:h-64 object-cover rounded"
           />
-         <p className="text-[#111111] mt-3 text-sm uppercase">
+          <p className="text-[#111111] mt-3 text-sm uppercase">
             Awesome Merch, No Inventory
           </p>
         </div>

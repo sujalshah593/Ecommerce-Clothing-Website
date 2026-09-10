@@ -1,4 +1,4 @@
-import { ShoppingCart, Search, Menu, Heart, X } from "lucide-react";
+﻿import { ShoppingCart, Search, Menu, Heart, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useSelector } from "react-redux";
@@ -26,7 +26,7 @@ const Navbar = () => {
         />
 
         {/* Desktop menu */}
-        <div className="hidden lg:flex gap-8 uppercase text font-bold tracking-widest text-[#111111] text-[13px] ml-4">
+        <div className="hidden lg:flex gap-8 uppercase font-face font-bold tracking-widest text-blue-500 text-[13px] ml-4">
           <Link to="/Boys" className="hover:text-[#B76E4D] transition-colors duration-300">
             Boys
           </Link>
@@ -56,32 +56,33 @@ const Navbar = () => {
       </div>
 
       {/* Right Section */}
-      <div className="flex  items-center justify-end gap-4 md:gap-6">
+      <div className="flex items-center justify-end gap-7 md:gap-9">
         {/* Search */}
         <Search
-           className="w-5 h-5 text-[#111111] hover:text-[#B76E4D] hover:scale-110 cursor-pointer transition"
+           className="w-[22px] h-[22px] text-blue-500 hover:text-blue-700 hover:scale-110 cursor-pointer transition"
+           strokeWidth={2.5}
           onClick={() => setSearchOpen(true)}
         />
 
         {/* Favorites */}
         <Link
           to="/favorite"
-          className="w-9 h-9 flex items-center justify-center rounded-full bg-[#111111] hover:bg-[#B76E4D] hover:scale-110 transition"
+          className="hover:scale-110 transition flex items-center"
         >
-          <Heart className="w-5 h-5 text-[#FFFFFF]" />
+          <Heart className="w-[22px] h-[22px] text-blue-500 fill-blue-500 hover:text-blue-700 hover:fill-blue-800 transition" />
         </Link>
 
         {/* Cart */}
-        <div className="relative">
+        <div className="relative flex items-center">
           <Link
             to="/cart"
-            className="w-9 h-9 flex items-center justify-center bg-[#111111] rounded-full hover:bg-[#B76E4D] transition"
+            className="hover:scale-110 transition flex items-center"
           >
-            <ShoppingCart className="w-5 h-5 text-[#FFFFFF]" />
+            <ShoppingCart className="w-[22px] h-[22px] text-blue-500 fill-blue-500 hover:text-blue-700 hover:fill-blue-800 transition" />
           </Link>
 
           {cartCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-[#111111] text-[#FFFFFF] text-[9px] rounded-full px-1 font-bold hover:bg-[#B76E4D] transition-colors">
+            <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] rounded-full px-[5px] py-[1px] font-bold">
               {cartCount}
             </span>
           )}
@@ -92,7 +93,7 @@ const Navbar = () => {
           <div className="relative hidden sm:block">
             <button
               onClick={() => setOpen((p) => !p)}
-              className="w-9 h-9 rounded-full text1 hover:scale-105 hover:cursor-pointer bg-[#111111] text-[#FFFFFF] transition flex items-center justify-center uppercase text-xs font-bold hover:bg-[#B76E4D] transition-colors"
+              className="w-9 h-9 rounded-full  hover:scale-105 hover:cursor-pointer  text-white bg-blue-500 font-extrabold transition flex items-center justify-center uppercase text-xl  hover:bg-blue-700 transition-colors"
             >
               {user.name?.charAt(0)}
             </button>
@@ -121,7 +122,7 @@ const Navbar = () => {
         ) : (
           <Link
             to="/login"
-            className="hidden sm:block text1 px-6 py-2 bg-[#111111] text-[#FFFFFF] rounded-full transition duration-300 hover:bg-[#B76E4D] transition-colors"
+            className="hidden sm:block text1 px-6 py-2 bg-blue-600 text-[#FFFFFF] rounded-full transition duration-300 hover:bg-blue-700 transition-colors"
           >
             Sign In
           </Link>
@@ -171,7 +172,7 @@ const Navbar = () => {
                   <>
                     <Link
                       to="/profile"
-                      className="bg-[#111111] text-[#FFFFFF] rounded-lg transition text1 px-7 py-3 block hover:bg-[#B76E4D] transition-colors"
+                      className="bg-blue-600 text-[#FFFFFF] rounded-lg transition text1 px-7 py-3 block hover:bg-blue-700 transition-colors"
                       onClick={() => setMobileOpen(false)}
                     >
                       Profile
@@ -181,7 +182,7 @@ const Navbar = () => {
                         logout();
                         setMobileOpen(false);
                       }}
-                      className="bg-[#111111] text1 text-[#FFFFFF] px-7 py-3 w-full text-left rounded-lg transition hover:bg-[#B76E4D] transition-colors"
+                      className="bg-blue-600 text1 text-[#FFFFFF] px-7 py-3 w-full text-left rounded-lg transition hover:bg-blue-700 transition-colors"
                     >
                       Logout
                     </button>
@@ -248,7 +249,7 @@ const Navbar = () => {
                       />
                       <div>
                         <p className="text-sm font-semibold text-[#111111]">{p.name}</p>
-                        <p className="text-xs text-[#B76E4D] font-semibold">₹{p.price}</p>
+                        <p className="text-xs text-[#B76E4D] font-semibold">â‚¹{p.price}</p>
                       </div>
                     </Link>
                   ))}

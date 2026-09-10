@@ -17,8 +17,12 @@ import helmet from "helmet";
 
 const app = express();
 
-// Trust reverse proxy for accurate IP detection
-app.set("trust proxy", 1);
+// Security: Currently there is no trusted HTTP reverse proxy in the local topology.
+// Explicitly disable trust proxy so an untrusted client cannot spoof their IP
+// via the X-Forwarded-For header to bypass rate limits.
+// IMPORTANT: Before deploying to production behind a real reverse proxy (e.g. Nginx, AWS ALB),
+// you MUST configure this to explicitly trust the proxy's IP/subnet or hop count.
+app.set("trust proxy", false);
 
 // DB
 connectDB();

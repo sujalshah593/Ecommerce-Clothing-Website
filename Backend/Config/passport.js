@@ -21,6 +21,7 @@ passport.use(
         let user = await User.findOne({ email });
 
         if (!user) {
+          // Case A: New Google email -> create account normally
           user = await User.create({
             name: profile.displayName,
             email,
@@ -28,9 +29,23 @@ passport.use(
             password: crypto.randomBytes(32).toString("hex"),
             isVerified: true,
           });
+          return done(null, user);
         }
 
-        done(null, user);
+        // User exists
+        if (user.googleId === profile.id) {
+          // Case D: Existing Google account -> authenticate normally
+          return done(null, user);
+        }
+
+        // googleId is either missing or doesn't match
+        if (user.isVerified) {
+          // Case B: Existing local account with same email AND verified
+          return done(null, false, { message: "An account with this email already exists. Please log in using your password." });
+        } else {
+          // Case C: Existing local account with same email AND NOT verified
+          return done(null, false, { message: "An unverified account with this email exists. Please verify it or use a different account." });
+        }
       } catch (error) {
         done(error, null);
       }

@@ -6,12 +6,13 @@ import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
 import { Eye, EyeClosed } from "lucide-react";
 import { useEffect } from "react";
+import loginBanner from "../assets/login_banner.png";
 
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const [step, setStep] = useState("LOGIN"); // LOGIN | OTP | FORGOT | RESET
+  const [step, setStep] = useState("LOGIN");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -19,10 +20,9 @@ const Login = () => {
   const [otpData, setOtpData] = useState(null);
   const [resetToken, setResetToken] = useState("");
   const [timer, setTimer] = useState(60);
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
 
-
-  /* ================= TIMER ================= */
   const startTimer = () => {
     let t = 60;
     setTimer(t);
@@ -34,19 +34,18 @@ const Login = () => {
   };
 
   useEffect(() => {
-  const params = new URLSearchParams(location.search);
-  const token = params.get("resetToken");
+    const params = new URLSearchParams(location.search);
+    const token = params.get("resetToken");
+    if (token) {
+      setResetToken(token);
+      setStep("RESET");
+    }
+  }, [location.search]);
 
-  if (token) {
-    setResetToken(token);
-    setStep("RESET");
-  }
-}, [location.search]);
-
-
-  /* ================= LOGIN ================= */
   const submitHandler = async (e) => {
     e.preventDefault();
+    if (loading) return;
+    setLoading(true);
     try {
       const { data } = await api.post("/auth/login", { email, password });
       login(data);
@@ -61,17 +60,15 @@ const Login = () => {
       } else {
         toast.error(err.response?.data?.message || "Login failed");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
-  /* ================= OTP ================= */
   const verifyOtpHandler = async () => {
     try {
-      await api.post("/auth/verify-otp", {
-        userId: otpData.userId,
-        otp,
-      });
-      toast.success("OTP verified. Login again.");
+      await api.post("/auth/verify-otp", { userId: otpData.userId, otp });
+      toast.success("OTP verified. Please sign in.");
       setStep("LOGIN");
       setOtp("");
     } catch {
@@ -89,7 +86,6 @@ const Login = () => {
     }
   };
 
-  /* ================= FORGOT ================= */
   const forgotHandler = async (e) => {
     e.preventDefault();
     try {
@@ -102,7 +98,6 @@ const Login = () => {
     }
   };
 
-  /* ================= RESET ================= */
   const resetHandler = async (e) => {
     e.preventDefault();
     try {
@@ -120,152 +115,166 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f7f3ee] px-4">
-      <Link to="/" className="absolute text top-6 left-6 text-sm text-[#111111] hover:underline" > ← Back to store </Link>
-      <div className="w-full max-w-sm">
-        <h1 className="text-3xl text1 font-serif text-center mb-6">
-          {step === "LOGIN" && "Welcome Back"}
-          {step === "FORGOT" && "Forgot Password"}
-          {step === "RESET" && "Reset Password"}
-          {step === "OTP" && "Verify OTP"}
-        </h1>
-        <p className="text text-center mt-[-12px] mb-4"> Log in to continue shopping with ease </p>
+    <div className="h-screen flex overflow-hidden bg-white">
 
-        {/* ================= LOGIN ================= */}
-        {step === "LOGIN" && (
-          <form onSubmit={submitHandler} className="space-y-4">
-            <label className="block text-sm font-medium mb-1 text1">Email</label>
-            <input
-              type="email"
-              placeholder="Email"
-              required
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full text border px-3 py-2"
-            />
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬ LEFT: Form Ã¢â€â‚¬Ã¢â€â‚¬ */}
+      <div className="flex flex-col justify-center w-full lg:w-[52%] px-8 overflow-y-auto items-center">
 
-            <div className="relative">
-               <label className="block text-sm font-medium mb-1 text1">Password</label>
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                required
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full border text px-3 py-2 pr-10"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-11 -translate-y-1/2"
-              >
-                {showPassword ? <EyeClosed /> : <Eye />}
+
+        <div className="max-w-sm w-full">
+
+          {/* Heading */}
+          <h1 className="text-4xl font-bold text-black mb-1">
+            {step === "LOGIN" && "Welcome Back!"}
+            {step === "FORGOT" && "Forgot Password"}
+            {step === "RESET" && "Reset Password"}
+            {step === "OTP" && "Verify OTP"}
+          </h1>
+          <p className="text-sm font-light text-gray-400 mb-8">
+            {step === "LOGIN" && "Sign in to your account"}
+            {step === "FORGOT" && "Enter your registered email"}
+            {step === "RESET" && "Enter your new password"}
+            {step === "OTP" && "Enter the OTP sent to your email"}
+          </p>
+
+          {/* Ã¢â€â‚¬Ã¢â€â‚¬ LOGIN Ã¢â€â‚¬Ã¢â€â‚¬ */}
+          {step === "LOGIN" && (
+            <form onSubmit={submitHandler} className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Your Email Address</label>
+                <input
+                  type="email"
+                  placeholder="name@example.com"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-600"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="sujal123"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-600 pr-10"
+                  />
+                  <button type="button" onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700">
+                    {showPassword ? <EyeClosed size={17} /> : <Eye size={17} />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between text-sm">
+                <label className="flex items-center gap-2 text-gray-600 cursor-pointer select-none font-light">
+                  <input type="checkbox" className="accent-blue-600 w-4 h-4" />
+                  Remember Me
+                </label>
+                <button type="button" onClick={() => setStep("FORGOT")}
+                  className="text-gray-500 hover:text-blue-600 hover:underline transition-colors font-light">
+                  Forgot Password?
+                </button>
+              </div>
+
+              <button type="submit" disabled={loading}
+                className={`w-full rounded-md py-2.5 text-white font-semibold text-sm transition-colors ${
+                  loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`}>
+                {loading ? "Signing In..." : "Login"}
               </button>
-            </div>
 
-            <button className="w-full text1 bg-[#111111] text-[#FFFFFF] py-3 hover:bg-[#B76E4D] transition-colors">
-              Sign In
-            </button>
+              {/* Instant Login divider */}
+              <div className="flex items-center gap-3 my-1">
+                <div className="flex-grow border-t border-gray-200" />
+                <span className="text-xs font-light text-gray-400 whitespace-nowrap">Instant Login</span>
+                <div className="flex-grow border-t border-gray-200" />
+              </div>
 
-            <button
-              type="button"
-              onClick={() => setStep("FORGOT")}
-              className="text-sm text underline w-full"
-            >
-              Forgot password?
-            </button>
-          </form>
-        )}
-
-        {step === "FORGOT" && (
-          <form onSubmit={forgotHandler} className="space-y-4">
-            <input
-              type="email"
-              placeholder="Registered email"
-              required
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full text border px-3 py-2"
-            />
-            <button className="w-full text1 bg-[#111111] text-[#FFFFFF] py-3 hover:bg-[#B76E4D] transition-colors">
-              Continue
-            </button>
-            <button
-              type="button"
-              onClick={() => setStep("LOGIN")}
-              className="text-sm text underline w-full"
-            >
-              Back to login
-            </button>
-          </form>
-        )}
-
-        {/* ================= RESET ================= */}
-        {step === "RESET" && (
-          <form onSubmit={resetHandler} className="space-y-4">
-            <input
-              type="password"
-              placeholder="New password"
-              required
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full border text px-3 py-2"
-            />
-            <button className="w-full text1 bg-[#111111] text-[#FFFFFF] py-3 hover:bg-[#B76E4D] transition-colors">
-              Reset Password
-            </button>
-          </form>
-        )}
-
-        {/* ================= OTP ================= */}
-        {step === "OTP" && (
-          <div className="space-y-4">
-            <input
-              placeholder="Enter OTP"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              className="w-full text border px-3 py-2"
-            />
-            <button
-              onClick={verifyOtpHandler}
-              className="w-full text1 bg-[#111111] text-[#FFFFFF] py-3 hover:bg-[#B76E4D] transition-colors"
-            >
-              Verify OTP
-            </button>
-
-            {timer > 0 ? (
-              <p className="text-xs text text-center">Resend in {timer}s</p>
-            ) : (
-              <button
-                onClick={resendOtpHandler}
-                className="text-xs underline w-full"
-              >
-                Resend OTP
+              {/* Google */}
+              <button type="button" onClick={googleLogin}
+                className="w-full border border-gray-300 rounded-md py-2.5 text-sm text-black flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
+                <FcGoogle size={19} />
+                Login with Google
               </button>
-            )}
-          </div>
-        )}
 
-        {step === "LOGIN" && (
-          <>
-            <div className="flex items-center my-6">
-              <div className="flex-grow border-t" />
-              <span className="px-2 text-xs text">OR</span>
-              <div className="flex-grow border-t" />
+              <p className="text-sm font-light text-center text-gray-500 pt-1">
+                Don't have an account?{" "}
+                <Link to="/register" className="text-blue-600 font-semibold hover:underline">Register Now</Link>
+              </p>
+            </form>
+          )}
+
+          {/* Ã¢â€â‚¬Ã¢â€â‚¬ FORGOT Ã¢â€â‚¬Ã¢â€â‚¬ */}
+          {step === "FORGOT" && (
+            <form onSubmit={forgotHandler} className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Registered Email</label>
+                <input type="email" placeholder="name@example.com" required value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-600" />
+              </div>
+              <button type="submit" className="w-full rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 text-sm">
+                Continue
+              </button>
+              <button type="button" onClick={() => setStep("LOGIN")} className="w-full text-sm text-blue-600 hover:underline">
+                 Back to login
+              </button>
+            </form>
+          )}
+
+          {/* Ã¢â€â‚¬Ã¢â€â‚¬ RESET Ã¢â€â‚¬Ã¢â€â‚¬ */}
+          {step === "RESET" && (
+            <form onSubmit={resetHandler} className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">New Password</label>
+                <input type="password" placeholder="New password" required value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-600" />
+              </div>
+              <button type="submit" className="w-full rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 text-sm">
+                Reset Password
+              </button>
+            </form>
+          )}
+
+          {/* Ã¢â€â‚¬Ã¢â€â‚¬ OTP Ã¢â€â‚¬Ã¢â€â‚¬ */}
+          {step === "OTP" && (
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">One-Time Password</label>
+                <input placeholder="Enter 6-digit OTP" value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-600 tracking-widest" />
+              </div>
+              <button onClick={verifyOtpHandler}
+                className="w-full rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 text-sm">
+                Verify OTP
+              </button>
+              {timer > 0
+                ? <p className="text-xs text-center text-gray-400">Resend in <span className="font-semibold text-black">{timer}s</span></p>
+                : <button onClick={resendOtpHandler} className="w-full text-sm text-blue-600 hover:underline">Resend OTP</button>
+              }
             </div>
+          )}
 
-            <button
-              onClick={googleLogin}
-              className="w-full border py-3 text1 flex justify-center gap-2"
-            >
-              <FcGoogle /> Continue with Google
-            </button>
-          </>
-        )}
-
-        <p className="text-sm text text-center mt-6">
-          Don’t have an account?{" "}
-          <Link to="/register" className="underline">
-            Sign Up
-          </Link>
-        </p>
+        </div>
       </div>
+
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬ RIGHT: Contained image card Ã¢â€â‚¬Ã¢â€â‚¬ */}
+      <div className="hidden lg:flex lg:w-[48%] items-center justify-center bg-white p-4">
+        <div className="h-[98vh] w-full overflow-hidden shadow-md">
+          <img
+            src={loginBanner}
+            alt="Shreeji fashion collection"
+            className="w-full h-full object-cover object-center"
+          />
+        </div>
+      </div>
+
     </div>
   );
 };

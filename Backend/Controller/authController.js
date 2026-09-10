@@ -10,9 +10,16 @@ import crypto from "crypto";
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
+  if (typeof email !== "string") {
+    return res.status(400).json({ message: "Invalid email format" });
+  }
+
   const userExists = await User.findOne({ email });
-  if (userExists)
-    return res.status(400).json({ message: "User already exists" });
+  if (userExists) {
+    return res.status(201).json({
+      message: "Registration successful. Please login to continue."
+    });
+  }
 
   const user = await User.create({ name, email, password});
 
@@ -32,19 +39,20 @@ export const registerUser = async (req, res) => {
   });
 
   res.status(201).json({
-    _id: user._id,
-    name: user.name,
-    email: user.email,
-    isAdmin: user.isAdmin,
-    token: generateToken(user._id),
+    message: "Registration successful. Please login to continue."
   });
 };
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
+  if (typeof email !== "string") {
+    return res.status(400).json({ message: "Invalid email format" });
+  }
+
   const user = await User.findOne({ email });
-  if (user?.googleId) {
+
+  if (!user || user.googleId) {
     return res.status(401).json({ message: "Invalid email or password" });
   }
   if(!user.isVerified){
@@ -98,7 +106,16 @@ export const verifyOtp = async (req, res) => {
 
 export const resendOtp = async (req, res) => {
   const { email } = req.body;
+
+  if (typeof email !== "string") {
+    return res.status(400).json({ message: "Invalid email format" });
+  }
+
   const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.json({ message: "OTP resent" });
+  }
 
   const otp = generateOTP();
   user.otp = otp;
@@ -137,10 +154,7 @@ export const changePassword = async (req, res) => {
       return res.status(401).json({ message: "Current password is incorrect" });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newPassword, salt);
-
-user.password = await bcrypt.hash(req.body.password, salt);
+    user.password = newPassword;
 
     await user.save();
 
@@ -153,9 +167,14 @@ user.password = await bcrypt.hash(req.body.password, salt);
 
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
+  const genericMessage = "If the account exists, a password reset instruction has been sent.";
+
+  if (typeof email !== "string") {
+    return res.status(400).json({ message: "Invalid email format" });
+  }
 
   const user = await User.findOne({ email });
-  if(!user) return res.status(404).json({ message: "User not found"});
+  if(!user) return res.json({ message: genericMessage });
 
   const resetToken = crypto.randomBytes(20).toString("hex");
   user.resetPasswordToken = crypto
@@ -176,7 +195,7 @@ const resetUrl = `http://localhost:5173/login?resetToken=${resetToken}`;
       <p>This link is valid for 1 hour.</p>
     `,
   }); 
-  res.json({ message: "Password reset email sent" });
+  res.json({ message: genericMessage });
 }
 
 export const resetPassowrd = async (req, res) => {

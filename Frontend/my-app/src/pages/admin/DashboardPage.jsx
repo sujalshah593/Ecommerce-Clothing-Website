@@ -27,10 +27,10 @@ const DashboardPage = () => {
     fontWeight: 200,
   };
 
-  const chartBoldText = {
-    fontFamily: '"Zalando Sans Expanded", sans-serif',
-    fontWeight: "bold",
-  };
+  // const chartBoldText = {
+  //   fontFamily: '"Zalando Sans Expanded", sans-serif',
+  //   fontWeight: "bold",
+  // };
 
   useEffect(() => {
     api.get("/admin/dashboard").then((res) => setStats(res.data));
@@ -239,7 +239,7 @@ const DashboardPage = () => {
 
 export default DashboardPage;
 
-const StatCard = ({ title, value, icon: Icon, color }) => (
+const StatCard = ({ title, value, color }) => (
   <div className="relative bg-[#FAFAF8] p-6 rounded-2xl shadow-sm border border-[#EAEAEA]/30 hover:shadow-md transition-all duration-300">
     <div className="flex justify-between items-start">
       <div>

@@ -44,13 +44,17 @@ router.get(
 router.get(
   "/google/callback",
   googleAuthLimiter,
-  passport.authenticate("google", { session: false }),
-  (req, res) => {
-    const token = generateToken(req.user._id);
-
-    res.redirect(
-      `http://localhost:5173/auth/callback?token=${token}`
-    );
+  (req, res, next) => {
+    passport.authenticate("google", { session: false }, (err, user, info) => {
+      if (err) {
+        return res.status(500).json({ message: "Internal server error during authentication" });
+      }
+      if (!user) {
+        return res.status(401).json({ message: info?.message || "Authentication failed" });
+      }
+      const token = generateToken(user._id);
+      res.redirect(`http://localhost:5173/auth/callback?token=${token}`);
+    })(req, res, next);
   }
 );
 

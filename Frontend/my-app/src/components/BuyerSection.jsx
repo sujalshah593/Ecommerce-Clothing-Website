@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import boys from "../assets/boys.png";
 import men from "../assets/men.png";
 import download from "../assets/download.jpg";
@@ -39,7 +39,7 @@ const BuyerSection = () => {
             <div className="flex justify-between items-start gap-6">
               <div>
                 <h3 className="text-4xl text font-black uppercase leading-tight">
-                  More Than Style — It's Identity
+                  More Than Style â€” It's Identity
                 </h3>
                 <p className="text-sm text text-[#6B7280] mt-3">
                   Built for movement, comfort, and everyday adventure.
@@ -47,7 +47,7 @@ const BuyerSection = () => {
               </div>
 
               <div
-                className="w-20 h-13 rounded-full bg-[#111111] text-[#FFFFFF] flex items-center justify-center hover:scale-110 transition-all duration-300 cursor-pointer hover:bg-[#B76E4D] transition-colors"
+                className="w-20 h-13 rounded-full bg-blue-600 text-white flex items-center justify-center hover:scale-110 transition-all duration-300 cursor-pointer hover:bg-blue-700 transition-colors"
               >
                 <MoveUpRight size={20} />
               </div>
@@ -66,7 +66,7 @@ const BuyerSection = () => {
               </div>
 
               <div
-                className="w-20 h-15 rounded-full bg-[#111111] text-[#FFFFFF] flex items-center justify-center hover:scale-110 transition-all duration-300 cursor-pointer hover:bg-[#B76E4D] transition-colors"
+                className="w-20 h-15 rounded-full bg-blue-600 text-white flex items-center justify-center hover:scale-110 transition-all duration-300 cursor-pointer hover:bg-blue-700 transition-colors"
               >
                 <MoveUpRight size={20} />
               </div>
