@@ -173,7 +173,7 @@ const ProfilePage = () => {
     <>
       <Navbar />
 
-      <div className="min-h-screen bg-[#FAFAF8] pt-32">
+      <div className="min-h-screen bg-[#FAFAF8] pt-32 md:pt-48">
         <section className="px-6 md:px-12 max-w-7xl mx-auto mb-12">
           <div className="flex justify-between items-center">
             <div>
@@ -267,7 +267,7 @@ const ProfilePage = () => {
                     {isEditing && (
                       <button
                         onClick={saveProfileHandler}
-                        className="mt-8 text1 px-10 py-3 bg-[#111111] text-[#FFFFFF] uppercase text-xs hover:bg-[#B76E4D] transition-colors"
+                        className="mt-8 bg-blue-600 text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors"
                       >
                         Save Changes
                       </button>
@@ -330,7 +330,7 @@ const ProfilePage = () => {
                         <div className="flex gap-4 pt-2">
                           <button
                             onClick={submitPasswordChange}
-                            className="px-8 py-3 text1 bg-[#111111] text-[#FFFFFF] text-xs uppercase hover:bg-[#B76E4D] transition-colors"
+                            className="bg-blue-600 text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors"
                           >
                             Update Password
                           </button>
@@ -496,7 +496,7 @@ const ProfilePage = () => {
 
                       <button
                         onClick={addAddressHandler}
-                        className="bg-[#111111] text1 text-[#FFFFFF] px-6 py-2 text-xs uppercase hover:bg-[#B76E4D] transition-colors"
+                        className="bg-blue-600 text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors !py-2 !px-6"
                       >
                         Save Address
                       </button>

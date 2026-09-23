@@ -15,7 +15,7 @@ const UsersPage = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        setUsers(data);
+        setUsers(data.users || []);
       } catch (err) {
         console.error("Users fetch error:", err);
       }

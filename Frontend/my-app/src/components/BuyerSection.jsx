@@ -1,15 +1,13 @@
 ﻿import React from "react";
 import boys from "../assets/boys.png";
 import men from "../assets/men.png";
-import download from "../assets/download.jpg";
 import { ArrowRight, MoveUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import left_image from "../assets/left_image.png";
 
 const BuyerSection = () => {
   return (
     <>
-      <section className="bg-[#FDF1E8] mb-20">
+      <section className="bg-white mb-20">
         <div className="px-6 md:px-12 py-24 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* LEFT COLUMN - Boys */}
@@ -39,7 +37,7 @@ const BuyerSection = () => {
             <div className="flex justify-between items-start gap-6">
               <div>
                 <h3 className="text-4xl text font-black uppercase leading-tight">
-                  More Than Style â€” It's Identity
+                  More Than Style It's Identity
                 </h3>
                 <p className="text-sm text text-[#6B7280] mt-3">
                   Built for movement, comfort, and everyday adventure.

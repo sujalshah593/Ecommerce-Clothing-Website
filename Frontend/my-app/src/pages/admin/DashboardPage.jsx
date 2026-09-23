@@ -239,7 +239,7 @@ const DashboardPage = () => {
 
 export default DashboardPage;
 
-const StatCard = ({ title, value, color }) => (
+const StatCard = ({ title, value, color, icon: Icon }) => (
   <div className="relative bg-[#FAFAF8] p-6 rounded-2xl shadow-sm border border-[#EAEAEA]/30 hover:shadow-md transition-all duration-300">
     <div className="flex justify-between items-start">
       <div>

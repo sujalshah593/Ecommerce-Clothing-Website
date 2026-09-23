@@ -37,10 +37,10 @@ const ProductCard = ({ product }) => {
         </button>
 
         <button
-          className="absolute bottom-0 left-0 right-0 py-5 bg-[#111111] text-[#FFFFFF] text-[10px] font-bold uppercase tracking-[0.3em] translate-y-full group-hover:translate-y-0 transition-all duration-300 ease-in-out flex items-center justify-center gap-2 font-serif hover:bg-[#B76E4D] transition-colors"
+          className="absolute bottom-0 left-0 right-0 py-5 bg-blue-600 text-[#FFFFFF] text-[10px] font-bold uppercase tracking-[0.3em] translate-y-full group-hover:translate-y-0 transition-all duration-300 ease-in-out flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors"
         >
           <ShoppingBag className="w-3.5 h-3.5" />
-          <p className="text">Quick Buy</p>
+          <p className="font-bold text-sm" style={{fontFamily: 'Poppins, sans-serif'}}>Quick Buy</p>
         </button>
       </div>
 

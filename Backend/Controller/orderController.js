@@ -216,9 +216,63 @@ export const createPaymentOrder = async (req, res) => {
   } catch (error) { handleError(res, error, "Unable to create payment order"); }
 };
 
+const processPaymentSuccess = async (orderId, paymentData, session) => {
+  const paymentOrder = await Order.findOneAndUpdate(
+    { _id: orderId, isPaid: false, paymentStatus: { $ne: "paid" }, inventoryDeducted: false },
+    { $set: { inventoryDeducted: true } },
+    { new: true, session },
+  );
+  if (!paymentOrder) return null;
+
+  for (const item of paymentOrder.orderItems) {
+    const product = await Product.findOneAndUpdate(
+      { _id: item.product, countInStock: { $gte: item.qty } },
+      { $inc: { countInStock: -item.qty } },
+      { new: true, session },
+    );
+    if (!product) {
+      const error = new Error("One or more products are out of stock");
+      error.status = 409;
+      throw error;
+    }
+  }
+
+  const paymentEvent = { event: paymentData.event, status: paymentData.status };
+  if (paymentData.eventId) paymentEvent.eventId = paymentData.eventId;
+
+  const updatePayload = {
+    $set: { 
+      isPaid: true, 
+      paymentStatus: "paid", 
+      paidAt: new Date(), 
+      razorpayPaymentId: paymentData.razorpayPaymentId,
+      lastPaymentEvent: paymentData.event 
+    },
+    $push: { paymentEvents: paymentEvent }
+  };
+  if (paymentData.razorpaySignature) updatePayload.$set.razorpaySignature = paymentData.razorpaySignature;
+
+  const finalOrder = await Order.findOneAndUpdate(
+    { _id: paymentOrder._id },
+    updatePayload,
+    { new: true, session },
+  ).populate("user");
+
+  if (finalOrder) {
+    await Cart.updateOne({ user: finalOrder.user._id }, { $set: { items: [] } }, { session });
+  }
+
+  return finalOrder;
+};
+
 export const verifyPayment = async (req, res) => {
   try {
     const { localOrderId, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    
+    if (!mongoose.isValidObjectId(localOrderId)) {
+      return res.status(400).json({ message: "Invalid order ID" });
+    }
+
     const order = await Order.findOne({ _id: localOrderId, user: req.user._id });
     if (!order) return res.status(404).json({ message: "Order not found" });
     if (order.paymentStatus === "paid") {
@@ -226,38 +280,21 @@ export const verifyPayment = async (req, res) => {
       return res.status(409).json({ message: "Order has already been paid" });
     }
     if (!order.razorpayOrderId || order.razorpayOrderId !== razorpay_order_id) return res.status(400).json({ message: "Razorpay order mismatch" });
+    
     const expectedSignature = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET).update(`${razorpay_order_id}|${razorpay_payment_id}`).digest("hex");
     if (!razorpay_signature || expectedSignature.length !== razorpay_signature.length || !crypto.timingSafeEqual(Buffer.from(expectedSignature), Buffer.from(razorpay_signature))) return res.status(400).json({ message: "Invalid payment signature" });
+    
     const updatedOrder = await runTransaction(async (session) => {
-      const paymentOrder = await Order.findOneAndUpdate(
-        { _id: order._id, user: req.user._id, isPaid: false, paymentStatus: { $ne: "paid" }, inventoryDeducted: false },
-        { $set: { inventoryDeducted: true } },
-        { new: true, session },
-      );
-      if (!paymentOrder) return null;
-      for (const item of paymentOrder.orderItems) {
-        const product = await Product.findOneAndUpdate(
-          { _id: item.product, countInStock: { $gte: item.qty } },
-          { $inc: { countInStock: -item.qty } },
-          { new: true, session },
-        );
-        if (!product) {
-          const error = new Error("One or more products are out of stock");
-          error.status = 409;
-          throw error;
-        }
-      }
-      const finalOrder = await Order.findOneAndUpdate(
-        { _id: paymentOrder._id, isPaid: false, paymentStatus: { $ne: "paid" } },
-        { $set: { isPaid: true, paymentStatus: "paid", paidAt: new Date(), razorpayPaymentId: razorpay_payment_id, razorpaySignature: razorpay_signature, lastPaymentEvent: "payment.captured" }, $push: { paymentEvents: { event: "payment.captured", status: "paid" } } },
-        { new: true, session },
-      );
-      if (finalOrder) {
-        await Cart.updateOne({ user: req.user._id }, { $set: { items: [] } }, { session });
-      }
-      return finalOrder;
+      return await processPaymentSuccess(order._id, {
+        razorpayPaymentId: razorpay_payment_id,
+        razorpaySignature: razorpay_signature,
+        event: "payment.captured",
+        status: "paid"
+      }, session);
     });
+
     if (!updatedOrder) return res.json({ success: true, alreadyProcessed: true, order });
+    
     await sendPaymentConfirmation(updatedOrder, req.user);
     res.json({ success: true, order: updatedOrder });
   } catch (error) { handleError(res, error, "Payment verification failed"); }
@@ -270,10 +307,12 @@ export const orderWebhook = async (req, res) => {
     if (!webhookSecret || !signature || !Buffer.isBuffer(req.body)) return res.status(400).json({ message: "Webhook is not configured" });
     const expectedSignature = crypto.createHmac("sha256", webhookSecret).update(req.body).digest("hex");
     if (expectedSignature.length !== signature.length || !crypto.timingSafeEqual(Buffer.from(expectedSignature), Buffer.from(signature))) return res.status(400).json({ message: "Invalid webhook signature" });
+    
     const payload = JSON.parse(req.body.toString("utf8"));
     const eventId = req.headers["x-razorpay-event-id"] || payload.id;
     const event = payload.event;
     const payment = payload.payload?.payment?.entity;
+    
     if (typeof eventId !== "string" || !eventId.trim() || eventId.length > 200 || !event || !payment?.order_id) {
       return res.status(400).json({ message: "Invalid webhook event" });
     }
@@ -289,24 +328,44 @@ export const orderWebhook = async (req, res) => {
           return null;
         }
 
-        const update = { $set: { lastPaymentEvent: event }, $push: { paymentEvents: { eventId, event, status: payment.status } } };
-        if ((event === "payment.captured" || event === "order.paid") && !order.isPaid) {
-          Object.assign(update.$set, { isPaid: true, paymentStatus: "paid", paidAt: new Date(), razorpayPaymentId: payment.id });
-          await Cart.updateOne({ user: order.user }, { $set: { items: [] } }, { session });
+        let processedOrder = null;
+        let wasUnpaid = false;
+
+        if (event === "payment.captured" || event === "order.paid") {
+          if (!order.isPaid) {
+            wasUnpaid = true;
+            processedOrder = await processPaymentSuccess(order._id, {
+              razorpayPaymentId: payment.id,
+              eventId,
+              event,
+              status: payment.status
+            }, session);
+          }
+        } 
+        
+        if (!processedOrder) {
+          const update = { $set: { lastPaymentEvent: event }, $push: { paymentEvents: { eventId, event, status: payment.status } } };
+          if (event === "payment.failed" && !order.isPaid) update.$set.paymentStatus = "failed";
+          processedOrder = await Order.findByIdAndUpdate(order._id, update, { new: true, session }).populate("user");
+          wasUnpaid = false;
         }
-        if (event === "payment.failed" && !order.isPaid) update.$set.paymentStatus = "failed";
-        const processedOrder = await Order.findByIdAndUpdate(order._id, update, { new: true, session }).populate("user");
+
         await WebhookEvent.updateOne({ eventId }, { $set: { status: "processed", processedAt: new Date() } }, { session });
-        return { order: processedOrder, wasUnpaid: !order.isPaid };
+        return { order: processedOrder, wasUnpaid };
       });
     } catch (error) {
       if (error.code === 11000) return res.json({ received: true, alreadyProcessed: true });
       throw error;
     }
 
-    if (updatedOrder?.order?.isPaid && updatedOrder.wasUnpaid) await sendPaymentConfirmation(updatedOrder.order, updatedOrder.order.user);
+    if (updatedOrder?.order?.isPaid && updatedOrder.wasUnpaid) {
+      await sendPaymentConfirmation(updatedOrder.order, updatedOrder.order.user);
+    }
     res.json({ received: true });
-  } catch (error) { console.error("Razorpay webhook error:", error); res.status(400).json({ message: "Webhook processing failed" }); }
+  } catch (error) { 
+    console.error("Razorpay webhook error:", error); 
+    res.status(400).json({ message: "Webhook processing failed" }); 
+  }
 };
 
 export const getAllOrders = async (req, res) => {

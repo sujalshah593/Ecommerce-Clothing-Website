@@ -143,7 +143,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full rounded-md py-2.5 text-white font-semibold text-sm transition-colors ${loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`}
+              className={`w-full rounded-full py-2.5 text-white font-semibold text-sm transition-colors ${loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`}
             >
               {loading ? "Creating Account..." : "Create Account"}
             </button>

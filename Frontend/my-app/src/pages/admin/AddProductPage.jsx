@@ -111,7 +111,7 @@ const AddProductPage = () => {
           className="w-full p-3 bg-[#FAFAF8] text-[#111111] border border-slate-700 rounded"
         />
 
-        <button className="w-full text1 bg-[#111111] text-[#FFFFFF] py-3 rounded hover:bg-[#B76E4D] transition-colors">
+        <button className="w-full bg-blue-600 text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors">
           Add Product
         </button>
       </form>

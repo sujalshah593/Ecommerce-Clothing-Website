@@ -6,7 +6,7 @@ export default function PrivacyPolicyPage() {
     <>
     
     <Navbar/>
-    <div className="min-h-screen font-sans bg-background text-foreground pt-32">
+    <div className="min-h-screen font-sans bg-background text-foreground pt-32 md:pt-48">
       {/* Header */}
       <section className="px-6 md:px-12 max-w-4xl mx-auto mb-20">
         <div className="space-y-6">

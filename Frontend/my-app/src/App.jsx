@@ -18,6 +18,7 @@ import ProductsPage from "./pages/admin/ProductsPage";
 import UsersPage from "./pages/admin/UsersPage";
 import AddProductPage from "./pages/admin/AddProductPage";
 import DashboardPage from "./pages/admin/DashboardPage";
+import InventoryPage from "./pages/admin/InventoryPage";
 import BoysPage from "./pages/BoysPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import PrivacyPolicyPage from "./pages/Privacy";
@@ -106,6 +107,7 @@ const App = () => {
           <Route path="products" element={<ProductsPage />} />
           <Route path="users" element={<UsersPage />} />
           <Route path="add-product" element={<AddProductPage />} />
+          <Route path="inventory" element={<InventoryPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

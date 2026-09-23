@@ -6,7 +6,7 @@ const About = () => {
     <>
       <Navbar />
 
-      <main className="pt-32 bg-[#FAFAF8] text">
+      <main className="pt-32 md:pt-48 bg-[#FAFAF8] text">
         <section className="max-w-7xl mx-auto px-6 mb-20">
           <h1 className="font-serif text1 text-5xl md:text-6xl tracking-tight">
             About <span className="text-[#B76E4D]">SHRÉEJI</span>
@@ -74,7 +74,7 @@ const About = () => {
         </section>
 
         {/* ================= QUALITY & MATERIAL ================= */}
-        <section className="bg-[#111111] text-[#FFFFFF] py-20 text hover:bg-[#B76E4D] transition-colors">
+        <section className="bg-[#111111] text-[#FFFFFF] py-20 text hover:bg-blue-600 transition-colors">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="font-serif text-3xl mb-8 text1">Quality & Craftsmanship</h2>
 

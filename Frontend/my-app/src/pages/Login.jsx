@@ -36,9 +36,15 @@ const Login = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const token = params.get("resetToken");
+    const errorMsg = params.get("error");
     if (token) {
       setResetToken(token);
       setStep("RESET");
+    }
+    if (errorMsg) {
+      toast.error(errorMsg);
+      // Remove error from URL without reloading
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, [location.search]);
 
@@ -182,7 +188,7 @@ const Login = () => {
               </div>
 
               <button type="submit" disabled={loading}
-                className={`w-full rounded-md py-2.5 text-white font-semibold text-sm transition-colors ${
+                className={`w-full rounded-full py-2.5 text-white font-semibold text-sm transition-colors ${
                   loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`}>
                 {loading ? "Signing In..." : "Login"}
               </button>

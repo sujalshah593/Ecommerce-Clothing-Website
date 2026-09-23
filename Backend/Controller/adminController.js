@@ -113,12 +113,32 @@ export const updateProduct = async (req, res) => {
   product.name = req.body.name || product.name;
   product.price = req.body.price || product.price;
   product.category = req.body.category || product.category;
-  product.countInStock = req.body.countInStock || product.countInStock;
+  product.countInStock = req.body.countInStock !== undefined ? req.body.countInStock : product.countInStock;
   product.image = req.body.image || product.image;
   product.description = req.body.description || product.description;
 
   const updateProduct = await product.save();
   res.json(updateProduct);
+};
+
+export const updateInventory = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    const newStock = parseInt(req.body.countInStock, 10);
+    if (isNaN(newStock) || newStock < 0) {
+      return res.status(400).json({ message: "Invalid stock quantity" });
+    }
+
+    product.countInStock = newStock;
+    const updatedProduct = await product.save();
+    res.json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to update inventory" });
+  }
 };
 
 export const createProduct = async (req, res) => {

@@ -56,7 +56,7 @@ const ProductPage = () => {
     return (
       <>
         <Navbar />
-        <div className="pt-32 text-center text-sm tracking-widest uppercase">
+        <div className="pt-32 md:pt-48 text-center text-sm tracking-widest uppercase">
           <TruckLoader />
         </div>
       </>
@@ -67,7 +67,7 @@ const ProductPage = () => {
     return (
       <>
         <Navbar />
-        <div className="pt-32 text-center text-[#B76E4D] text-sm tracking-widest">
+        <div className="pt-32 md:pt-48 text-center text-[#B76E4D] text-sm tracking-widest">
           {error}
         </div>
       </>
@@ -101,7 +101,7 @@ const ProductPage = () => {
     <>
       <Navbar />
 
-      <main className="pt-32 px-6 md:px-12 max-w-7xl mx-auto">
+      <main className="pt-32 md:pt-48 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* LEFT: IMAGE */}
           <div className="lg:col-span-7">
@@ -116,7 +116,7 @@ const ProductPage = () => {
 
           {/* RIGHT: DETAILS */}
           <div className="lg:col-span-5">
-            <div className="lg:sticky lg:top-32 space-y-10">
+            <div className="lg:sticky lg:top-48 space-y-10">
               {/* Title */}
               <div className="space-y-4">
                 <h1 className="text-4xl text1 md:text-6xl font-serif tracking-tight">
@@ -169,7 +169,7 @@ const ProductPage = () => {
                 <button
                   onClick={addToCartHandler}
                   disabled={product.countInStock === 0}
-                  className="w-full py-5 text1 bg-[#111111] text-[#FFFFFF] text-[10px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3 transition-all disabled:opacity-40 hover:bg-[#B76E4D] transition-colors"
+                  className="w-full py-4 bg-blue-600 text-white font-semibold rounded-full flex items-center justify-center gap-3 transition-all disabled:opacity-40 hover:bg-blue-700"
                 >
                   <ShoppingBag className="w-4 h-4" />
                   Add to Cart

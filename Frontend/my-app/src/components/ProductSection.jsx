@@ -12,7 +12,7 @@ const ProductSection = ({
     <section className="bg-[#FFFFFF]">
       <div className="px-6 md:px-12 py-24 max-w-7xl mx-auto">
       <div className="flex justify-between items-end mb-12">
-        <h2 className="text-6xl text1">New Arrivals</h2>
+        <h2 className="text-6xl header uppercase">New Arrivals</h2>
 
         <p className="text-sm uppercase text tracking-widest text-[#111111]">
           — Choose Wisely
@@ -38,7 +38,7 @@ const ProductSection = ({
           <button
             onClick={() => setCurrentPage((prev) => prev + 1)}
             disabled={loading}
-            className="px-10 text1 py-3 bg-[#FFFFFF] border border-[#111111] text-[#111111] text-xs font-bold uppercase tracking-widest hover:text-[#FFFFFF] transition hover:bg-[#B76E4D] transition-colors"
+            className="bg-blue-600 text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors"
           >
             {loading ? "Loading..." : "Load More"}
           </button>

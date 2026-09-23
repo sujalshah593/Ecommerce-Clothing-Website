@@ -8,16 +8,20 @@ import {
   LogOut,
   Menu,
   X,
+  ClipboardList
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { logout } = useAuth();
 
   const navItems = [
     { to: "/admin", label: "Dashboard", icon: BarChart3 },
     { to: "/admin/users", label: "Users", icon: BarChart3 },
     { to: "/admin/products", label: "Products", icon: Package },
+    { to: "/admin/inventory", label: "Inventory", icon: ClipboardList },
     { to: "/admin/orders", label: "Orders", icon: ShoppingCart },
   ];
 
@@ -57,7 +61,10 @@ const AdminLayout = () => {
           })}
         </nav>
         <div className="border-t text1 border-slate-800 p-4">
-          <button className="flex items-center gap-4 w-full px-4 py-3 rounded-lg hover:bg-[#111111]/20 transition text-slate-300 hover:text-[#B76E4D]">
+          <button 
+            onClick={logout}
+            className="flex items-center gap-4 w-full px-4 py-3 rounded-lg hover:bg-[#111111]/20 transition text-slate-300 hover:text-blue-600"
+          >
             <LogOut className="w-5 h-5" />
             {sidebarOpen && <span>Logout</span>}
           </button>

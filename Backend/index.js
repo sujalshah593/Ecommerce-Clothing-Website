@@ -35,7 +35,11 @@ app.use(helmet({
   crossOriginResourcePolicy: false,
   hsts: process.env.NODE_ENV === "production",
 }));
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Idempotency-Key"]
+}));
 app.use("/api/orders/webhook", express.raw({ type: "application/json" }));
 app.use(express.json());
 app.use(passport.initialize());

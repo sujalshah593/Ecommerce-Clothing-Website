@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const FooterSection = () => {
   return (
     <>
-        <footer className="bg-[#111111] text-[#FFFFFF] px-6 md:px-12 pt-24 pb-12 hover:bg-[#B76E4D] transition-colors">
+        <footer className="bg-[#111111] text-[#FFFFFF] px-6 md:px-12 pt-24 pb-12 transition-colors">
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 font-serif lg:gap-24 pb-24 border-b border-[#FAFAF8]/10">
             <div className="md:col-span-4 space-y-8">
               <a href="/" className="text-2xl font-bold tracking-tighter uppercase">

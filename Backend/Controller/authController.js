@@ -16,6 +16,20 @@ export const registerUser = async (req, res) => {
 
   const userExists = await User.findOne({ email });
   if (userExists) {
+    if (!userExists.isVerified) {
+      userExists.name = name;
+      userExists.password = password;
+      const otp = generateOTP();
+      userExists.otp = otp;
+      userExists.otpExpires = Date.now() + 10 * 60 * 1000;
+      await userExists.save();
+
+      await enqueueEmail("emailJob", {
+        to: userExists.email,
+        subject: "Verify your account - OTP",
+        html: `<h2>Your OTP is ${otp}</h2><p>Valid for 10 minutes</p>`,
+      });
+    }
     return res.status(201).json({
       message: "Registration successful. Please login to continue."
     });

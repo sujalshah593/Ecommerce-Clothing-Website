@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 const SimpleSection = () => {
   return (
     <>
-      <section className="py-32 px-6 md:px-12 bg-[#F8EDEB] text-[#111111] text-center">
+      <section className="py-32 px-6 md:px-12 bg-white text-[#111111] text-center">
         <div className="max-w-4xl mx-auto space-y-8 reveal">
           <span className="text-[120px] leading-none text opacity-10 block">"</span>
 

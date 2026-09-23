@@ -37,7 +37,7 @@ const FavoritesPage = () => {
     <main className="min-h-screen bg-background">
       {/* Header */}
       <div className="">
-        <div className="max-w-7xl mx-auto px-6 mt-20">
+        <div className="max-w-7xl mx-auto px-6 pt-32 md:pt-48">
           <h1 className="font-serif text1 text-4xl md:text-4xl font-light tracking-tight">
             Your Favorites
           </h1>
@@ -51,14 +51,14 @@ const FavoritesPage = () => {
       {favorites.length === 0 ? (
         // Empty State
         <div className="max-w-7xl font-serif mx-auto px-6 py-24 text-center">
-          <Heart className="w-16 h-16 mx-auto mb-6 text-border" strokeWidth={1} />
+          <img src="/empty-box.png" alt="Empty Box" className="w-64 max-w-xs h-auto mx-auto mb-6 opacity-90" />
           <h2 className="font-serif text-2xl mb-3 text">No Favorites Yet</h2>
           <p className="text-muted-foreground mb-8 text">
             Start adding items to your favorites to save them for later.
           </p>
 
           <Link to="/mens">
-            <button className="bg-accent text1 bg-[#111111] text-[#FFFFFF] hover:cursor-pointer /90 text-accent-foreground px-6 py-3 rounded-md hover:bg-[#B76E4D] transition-colors">
+            <button className="bg-blue-600 text-white font-semibold px-6 py-3 rounded-full hover:bg-blue-700 transition-colors">
               Continue Shopping
             </button>
           </Link>
@@ -86,7 +86,7 @@ const FavoritesPage = () => {
 
                     <button
                       onClick={() => removeFavorite(item)}
-                      className="bg-background/80 hover:text-[#FFFFFF] hover:cursor-pointer p-2 rounded-full transition-colors hover:bg-[#B76E4D] transition-colors"
+                      className="bg-background/80 hover:text-[#FFFFFF] hover:cursor-pointer p-2 rounded-full transition-colors hover:bg-blue-600 transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -120,7 +120,7 @@ const FavoritesPage = () => {
 
             <div className="flex gap-4 mt-8 md:mt-0">
               <Link to="/cart">
-                <button className="border text1 px-6 py-3 rounded-md font-serif hover:text-[#FFFFFF] hover:cursor-pointer hover:bg-[#B76E4D] transition-colors">
+                <button className="border text1 px-6 py-3 rounded-md font-serif hover:text-[#FFFFFF] hover:cursor-pointer hover:bg-blue-600 transition-colors">
                   Continue Shopping
                 </button>
               </Link>

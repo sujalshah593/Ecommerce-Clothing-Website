@@ -1,4 +1,4 @@
-﻿import { ShoppingCart, Search, Menu, Heart, X } from "lucide-react";
+import { ShoppingCart, Search, ChevronDown, LayoutGrid, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useSelector } from "react-redux";
@@ -7,261 +7,131 @@ import { useState } from "react";
 const Navbar = () => {
   const { user, logout } = useAuth();
   const { cartItems } = useSelector((state) => state.cart);
-  const cartCount = cartItems.reduce((total, item) => total + item.qty, 0);
-  const [open, setOpen] = useState(false);
+  const cartCount = cartItems?.reduce((total, item) => total + item.qty, 0) || 0;
+  
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const { products } = useSelector((state) => state.products);
+  const [open, setOpen] = useState(false);
 
   return (
- <nav className="fixed top-0 w-full z-50 grid grid-cols-3 items-center px-4 py-3 md:px-12 bg-[#FAFAF8] border-b border-[#EAEAEA]/40 backdrop-blur-md">
-      {/* Left Section */}
-      <div className="flex items-center">
-        {/* Mobile menu icon */}
-        <Menu
-          className="lg:hidden w-6 h-6 cursor-pointer"
-          onClick={() => setMobileOpen(true)}
-        />
-
-        {/* Desktop menu */}
-        <div className="hidden lg:flex gap-8 uppercase font-face font-bold tracking-widest text-blue-500 text-[13px] ml-4">
-          <Link to="/Boys" className="hover:text-[#B76E4D] transition-colors duration-300">
-            Boys
-          </Link>
-          <Link to="/Mens" className="hover:text-[#B76E4D] transition-colors duration-300">
-            Men
-          </Link>
-          <Link to="/about-us" className="hover:text-[#B76E4D] transition-colors duration-300">
-            About Us
-          </Link>
-          <Link to="/privacy-policy" className="hover:text-[#B76E4D] transition-colors duration-300">
-            Privacy Policy
+    <nav className="fixed top-0 w-full z-50 bg-white px-4 md:px-12 py-4 flex flex-col font-sans">
+      {/* Top Section */}
+      <div className="flex items-center justify-between w-full pb-6">
+        {/* Logo */}
+        <div className="flex justify-center">
+          <Link to="/" className="text-xl text1 md:text-2xl font-bold uppercase tracking-widest">
+            <span className="text-[#111111]">SHRÉEJI</span>
+            <span className="text-[#B76E4D]">.</span>
           </Link>
         </div>
-      </div>
 
-      {/* Center Logo */}
-      <div className="flex justify-center">
-        <Link
-          to="/"
-          className="text-xl text1 md:text-2xl font-bold uppercase tracking-widest"
-        >
-         <span className="text-[#111111]">
-  SHRÉEJI
-</span>
-<span className="text-[#B76E4D]">.</span>
-        </Link>
-      </div>
-
-      {/* Right Section */}
-      <div className="flex items-center justify-end gap-7 md:gap-9">
-        {/* Search */}
-        <Search
-           className="w-[22px] h-[22px] text-blue-500 hover:text-blue-700 hover:scale-110 cursor-pointer transition"
-           strokeWidth={2.5}
-          onClick={() => setSearchOpen(true)}
-        />
-
-        {/* Favorites */}
-        <Link
-          to="/favorite"
-          className="hover:scale-110 transition flex items-center"
-        >
-          <Heart className="w-[22px] h-[22px] text-blue-500 fill-blue-500 hover:text-blue-700 hover:fill-blue-800 transition" />
-        </Link>
-
-        {/* Cart */}
-        <div className="relative flex items-center">
-          <Link
-            to="/cart"
-            className="hover:scale-110 transition flex items-center"
-          >
-            <ShoppingCart className="w-[22px] h-[22px] text-blue-500 fill-blue-500 hover:text-blue-700 hover:fill-blue-800 transition" />
-          </Link>
-
-          {cartCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] rounded-full px-[5px] py-[1px] font-bold">
-              {cartCount}
-            </span>
-          )}
+        {/* Search Bar - Center */}
+        <div className="hidden md:flex flex-1 max-w-2xl mx-8">
+          <div className="flex items-center w-full bg-white rounded-full px-6 py-2.5 shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-gray-100">
+            <input 
+              type="text" 
+              placeholder="Search..." 
+              className="flex-1 bg-transparent outline-none text-sm text-gray-700 placeholder-gray-400 font-medium"
+            />
+            <Search className="w-4 h-4 text-gray-500" />
+          </div>
         </div>
 
-        {/* Profile / Sign In */}
-        {user ? (
-          <div className="relative hidden sm:block">
-            <button
-              onClick={() => setOpen((p) => !p)}
-              className="w-9 h-9 rounded-full  hover:scale-105 hover:cursor-pointer  text-white bg-blue-500 font-extrabold transition flex items-center justify-center uppercase text-xl  hover:bg-blue-700 transition-colors"
+        {/* Right Section (Cart & Profile) */}
+        <div className="flex items-center gap-6">
+          <Menu className="md:hidden w-6 h-6 cursor-pointer" onClick={() => setMobileOpen(true)} />
+          
+          <Link to="/cart" className="relative hidden md:flex items-center cursor-pointer hover:opacity-80 transition">
+            <ShoppingCart className="w-5 h-5 text-black" strokeWidth={2} />
+            {cartCount > 0 && (
+              <span className="absolute -top-1.5 -right-2 bg-black text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
+                {cartCount}
+              </span>
+            )}
+          </Link>
+
+          <div className="hidden md:flex items-center gap-3 relative">
+            <div className="h-6 w-px bg-gray-300 mx-1"></div>
+            <div 
+              className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition"
+              onClick={() => setOpen(!open)}
             >
-              {user.name?.charAt(0)}
-            </button>
+              <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200">
+                <img 
+                  src="https://api.dicebear.com/7.x/notionists/svg?seed=Robin&backgroundColor=e2e8f0" 
+                  alt="Avatar" 
+                  className="w-full h-full object-cover" 
+                />
+              </div>
+              <span className="text-sm font-medium text-black">
+                {user ? user.name?.split(' ')[0] : 'Robin'}
+              </span>
+              <ChevronDown className="w-4 h-4 text-black" />
+            </div>
 
+            {/* Dropdown */}
             {open && (
-              <div className="absolute right-0 text1 mt-2 w-40 bg-[#FAFAF8] border border-[#EAEAEA]/40 rounded-xl shadow-xl  z-50">
-                <Link
-                  to="/profile"
-                  onClick={() => setOpen(false)}
-                  className="block px-4 py-3 text-xs hover:bg-[#EAEAEA]/20 transition"
-                >
-                  Profile
-                </Link>
-                <button
-                  onClick={() => {
-                    logout();
-                    setOpen(false);
-                  }}
-                  className="w-full text-left px-4 py-3 text-xs hover:bg-[#EAEAEA]/20 transition"
-                >
-                  Logout
-                </button>
+              <div className="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-100 rounded-xl shadow-lg z-50 overflow-hidden">
+                {user?.isAdmin && (
+                  <Link to="/admin" onClick={() => setOpen(false)} className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 font-semibold text-blue-600">Admin Dashboard</Link>
+                )}
+                <Link to="/profile" onClick={() => setOpen(false)} className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">Profile</Link>
+                {user ? (
+                  <button onClick={() => { logout(); setOpen(false); }} className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">Logout</button>
+                ) : (
+                  <Link to="/login" onClick={() => setOpen(false)} className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">Sign In</Link>
+                )}
               </div>
             )}
           </div>
-        ) : (
-          <Link
-            to="/login"
-            className="hidden sm:block text1 px-6 py-2 bg-blue-600 text-[#FFFFFF] rounded-full transition duration-300 hover:bg-blue-700 transition-colors"
-          >
-            Sign In
-          </Link>
-        )}
+        </div>
+      </div>
+
+      {/* Categories Navigation (Styled as Tags) */}
+      <div className="hidden md:flex flex-wrap items-center justify-center gap-10 w-full pt-4 pb-2 text-[11px] font-bold tracking-[0.05em] text-blue-900 uppercase">
+        <Link to="/categories" className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-gray-200 text-gray-700 shadow-sm hover:border-blue-600 hover:bg-blue-600 hover:text-white transition-all">
+          <LayoutGrid className="w-3.5 h-3.5" />
+          ALL CATEGORIES
+        </Link>
+        <Link to="/new" className="px-5 py-2.5 rounded-full bg-white border border-gray-200 text-gray-700 shadow-sm hover:border-blue-600 hover:bg-blue-600 hover:text-white transition-all">NEW PRODUCT</Link>
+        <Link to="/Mens" className="px-5 py-2.5 rounded-full bg-white border border-gray-200 text-gray-700 shadow-sm hover:border-blue-600 hover:bg-blue-600 hover:text-white transition-all">MEN</Link>
+        <Link to="/Boys" className="px-5 py-2.5 rounded-full bg-white border border-gray-200 text-gray-700 shadow-sm hover:border-blue-600 hover:bg-blue-600 hover:text-white transition-all">BOYS</Link>
       </div>
 
       {/* Mobile Menu Drawer */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-[999] lg:hidden">
-          <div
-            className="absolute inset-0 bg-[#111111]/40"
-            onClick={() => setMobileOpen(false)}
-          />
-          <div className="absolute left-0 top-0 h-full w-[80%] max-w-sm bg-[#FAFAF8] shadow-xl flex flex-col">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[#EAEAEA]">
-              <span className="text-[#111111]">
-  SHRÉEJI
-</span>
-<span className="text-[#B76E4D]">.</span>
-              <button onClick={() => setMobileOpen(false)}>
-                <X />
-              </button>
+        <div className="fixed inset-0 z-[999] md:hidden">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setMobileOpen(false)} />
+          <div className="absolute left-0 top-0 h-full w-[80%] bg-[#F6F7ED] flex flex-col shadow-xl">
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <span className="font-bold text-xl">Linea Fashion</span>
+              <X onClick={() => setMobileOpen(false)} className="cursor-pointer" />
             </div>
+            
+            <div className="p-4">
+              <div className="flex items-center w-full bg-white rounded-full px-4 py-2 shadow-sm border border-gray-100 mb-6">
+                <input 
+                  type="text" 
+                  placeholder="Search..." 
+                  className="flex-1 bg-transparent outline-none text-sm text-gray-700"
+                />
+                <Search className="w-4 h-4 text-gray-500" />
+              </div>
 
-            <div className="flex flex-col px-6 py-8 text space-y-6 text-sm font-bold uppercase tracking-widest">
-              <Link to="/" onClick={() => setMobileOpen(false)}>
-                Home
-              </Link>
-              <Link to="/Mens" onClick={() => setMobileOpen(false)}>
-                Men
-              </Link>
-              <Link to="/Boys" onClick={() => setMobileOpen(false)}>
-                Boys
-              </Link>
-              <Link to="/about-us" onClick={() => setMobileOpen(false)}>
-                About Us
-              </Link>
-              <Link to="/privacy-policy" onClick={() => setMobileOpen(false)}>
-                Privacy Policy
-              </Link>
-              <Link to="/cart" onClick={() => setMobileOpen(false)}>
-                Cart ({cartCount})
-              </Link>
-
-              <div className="border-t pt-6 space-y-4">
+              <div className="flex flex-col gap-5 uppercase font-semibold text-sm">
+                <Link to="/categories" onClick={() => setMobileOpen(false)}>All Categories</Link>
+                <Link to="/new" onClick={() => setMobileOpen(false)}>New Product</Link>
+                <Link to="/Mens" onClick={() => setMobileOpen(false)}>Men</Link>
+                <Link to="/Boys" onClick={() => setMobileOpen(false)}>Boys</Link>
+                <Link to="/cart" onClick={() => setMobileOpen(false)}>Cart ({cartCount})</Link>
+                {user?.isAdmin && (
+                  <Link to="/admin" onClick={() => setMobileOpen(false)} className="text-blue-600">Admin Dashboard</Link>
+                )}
                 {user ? (
-                  <>
-                    <Link
-                      to="/profile"
-                      className="bg-blue-600 text-[#FFFFFF] rounded-lg transition text1 px-7 py-3 block hover:bg-blue-700 transition-colors"
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      Profile
-                    </Link>
-                    <button
-                      onClick={() => {
-                        logout();
-                        setMobileOpen(false);
-                      }}
-                      className="bg-blue-600 text1 text-[#FFFFFF] px-7 py-3 w-full text-left rounded-lg transition hover:bg-blue-700 transition-colors"
-                    >
-                      Logout
-                    </button>
-                  </>
+                  <button onClick={() => { logout(); setMobileOpen(false); }} className="text-left">Logout</button>
                 ) : (
-                  <Link to="/login" onClick={() => setMobileOpen(false)}>
-                    Sign In
-                  </Link>
+                  <Link to="/login" onClick={() => setMobileOpen(false)}>Sign In</Link>
                 )}
               </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Search Drawer */}
-      {searchOpen && (
-        <div className="fixed inset-0 z-[999]">
-          <div
-            className="absolute inset-0 bg-[#111111]/40"
-            onClick={() => setSearchOpen(false)}
-          />
-          <div className="absolute right-0 text top-0 h-full w-full max-w-md bg-[#FAFAF8] shadow-xl flex flex-col">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[#EAEAEA]">
-              <span className="flex gap-3 font-bold uppercase">
-                <Search /> Search
-              </span>
-              <button onClick={() => setSearchOpen(false)}>
-                <X />
-              </button>
-            </div>
-
-            <div className="p-6">
-              <input
-                autoFocus
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products..."
-                className="w-full px-4 py-3 rounded-xl border border-[#EAEAEA] bg-[#FAFAF8] focus:border-[#B76E4D] focus:ring-2 focus:ring-[#B76E4D]/20 outline-none"
-              />
-            </div>
-
-            <div className="flex-1 overflow-y-auto px-6 pb-6 space-y-4">
-              {searchQuery &&
-                products
-                  .filter((p) =>
-                    p.name.toLowerCase().includes(searchQuery.toLowerCase()),
-                  )
-                  .slice(0, 10)
-                  .map((p) => (
-                    <Link
-                      key={p._id}
-                      to={`/product/${p._id}`}
-                      onClick={() => {
-                        setSearchOpen(false);
-                        setSearchQuery("");
-                      }}
-                      className="flex gap-4 items-center border-b pb-4"
-                    >
-                      <img
-                        src={p.image}
-                        alt={p.name}
-                        className="w-14 h-20 object-cover rounded"
-                      />
-                      <div>
-                        <p className="text-sm font-semibold text-[#111111]">{p.name}</p>
-                        <p className="text-xs text-[#B76E4D] font-semibold">â‚¹{p.price}</p>
-                      </div>
-                    </Link>
-                  ))}
-
-              {searchQuery &&
-                products.filter((p) =>
-                  p.name.toLowerCase().includes(searchQuery.toLowerCase()),
-                ).length === 0 && (
-                  <p className="text-sm text text-[#6B7280]">
-                    No products found
-                  </p>
-                )}
             </div>
           </div>
         </div>

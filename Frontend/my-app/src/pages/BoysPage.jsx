@@ -68,7 +68,7 @@ const BoysContent = () => {
 
       <Navbar />
 
-      <main className="pt-[72px]">
+      <main className="pt-32 md:pt-48">
 
         {/* ================= HERO SECTION ================= */}
         <section className="w-full">
@@ -176,7 +176,7 @@ const BoysContent = () => {
               <button
                 onClick={() => setPage((prev) => prev + 1)}
                 disabled={loading}
-                className="px-12 py-4 border border-[#111111] text-[10px] font-bold uppercase tracking-[0.3em] hover:text-[#FFFFFF] transition hover:bg-[#B76E4D] transition-colors"
+                className="bg-blue-600 text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors"
               >
                 {loading ? "Loading..." : "Load More"}
               </button>

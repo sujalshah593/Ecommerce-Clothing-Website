@@ -1,26 +1,20 @@
-import mongoose from 'mongoose';
-import User from './Models/User.js';
-import bcrypt from 'bcryptjs';
-import dotenv from 'dotenv';
-dotenv.config();
+import { MongoClient } from "mongodb";
+import bcrypt from "bcryptjs";
 
-(async () => {
-  await mongoose.connect(process.env.MONGO_URL);
+async function run() {
+  const client = await MongoClient.connect("mongodb+srv://mern:PZfCpjgWSjXJJQEB@cluster0.5cn0oid.mongodb.net/?appName=Cluster0");
+  const db = client.db("test");
+  const email2 = "test2_1789293944335@example.com";
+  let u2 = await db.collection("users").findOne({ email: email2 });
   
-  const email = 'hash_test_2@example.com';
-  const password = 'mytestpassword';
-
-  await User.deleteOne({ email });
-
-  const user = await User.create({ name: 'Test', email, password });
-  console.log('Stored Hash:', user.password);
-
-  const match1 = await bcrypt.compare(password, user.password);
-  console.log('Match with original password:', match1);
+  console.log("Hash in DB:", u2.password);
   
-  const doubleHash = await bcrypt.hash(password, 10);
-  const match2 = await bcrypt.compare(doubleHash, user.password);
-  console.log('Match with double-hashed password:', match2);
+  let matchNew = await bcrypt.compare("NewPassword1!", u2.password);
+  let matchOld = await bcrypt.compare("OldPassword1!", u2.password);
+  console.log("Match New:", matchNew);
+  console.log("Match Old:", matchOld);
+  
+  await client.close();
+}
 
-  process.exit(0);
-})();
+run();

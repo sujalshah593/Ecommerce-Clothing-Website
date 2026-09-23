@@ -36,7 +36,7 @@ const Home = () => {
     return (
       <>
         <Navbar />
-        <div className="pt-32 min-h-screen flex items-center justify-center">
+        <div className="pt-32 md:pt-48 min-h-screen flex items-center justify-center">
           <TruckLoader />
         </div>
       </>
@@ -47,10 +47,10 @@ const Home = () => {
     <>
       <Navbar />
       <HeroSection />
-      <FeaturedSection />
+      {/* <FeaturedSection /> */}
             {/* <MiddleHeroSection/> */}
       <BuyerSection/>
-      <AutoStrip/>
+      {/* <AutoStrip/> */}
       <ProductSection
         products={products}
         loading={loading}

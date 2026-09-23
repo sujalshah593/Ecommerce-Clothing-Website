@@ -82,7 +82,7 @@ const OrdersPage = () => {
 
               <button
                 onClick={() => updateStatus(o._id, "Shipped")}
-                className="text-sm text1 bg-[#111111] text-[#FFFFFF] px-4 py-2 rounded hover:bg-[#B76E4D] transition-colors"
+                className="bg-blue-600 text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors !py-2 !px-4"
               >
                 Mark Shipped
               </button>

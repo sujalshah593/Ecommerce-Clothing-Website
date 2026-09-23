@@ -7,6 +7,7 @@ import {
     updateOrderStatus,
     deleteProduct,
     updateProduct,
+    updateInventory,
     getDashboardStats
 } from '../Controller/adminController.js';
 import { adminLimiter } from '../Middleware/rateLimiters.js';
@@ -23,6 +24,7 @@ router.get("/users", protect, isAdmin, getAllUsers);
 router.get("/products", protect, isAdmin, getAllProducts);
 router.put("/orders/:id", protect, isAdmin, updateOrderStatus);
 router.put("/products/:id", protect, isAdmin, updateProduct);
+router.patch("/products/:id/inventory", protect, isAdmin, updateInventory);
 router.delete("/products/:id", protect, isAdmin, deleteProduct);
 
 export default router;
