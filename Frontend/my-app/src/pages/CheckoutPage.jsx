@@ -180,28 +180,28 @@ const CheckoutPage = () => {
     <>
       <Navbar />
 
-      <div className="min-h-screen bg-[#FAFAF8]">
+      <div className="min-h-screen bg-[#FFFAF3]">
         <div className="max-w-7xl mx-auto px-6 pt-32 md:pt-48 pb-20">
           <div className="flex items-center justify-between mb-8">
             <button
               onClick={() => navigate('/cart')}
-              className="bg-white border border-gray-200 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition"
+              className="bg-[#FFFAF3] border border-[#A8C7F0]/30 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 hover:bg-[#FFFAF3] transition"
             >
               ← Back
             </button>
-            <div className="hidden md:flex items-center gap-4 text-sm font-medium text-gray-400">
+            <div className="hidden md:flex items-center gap-4 text-sm font-medium text-[#382A3A]/40">
               <div className="flex items-center gap-2">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${orderStep === 'payment' ? 'bg-[#10B981]' : 'bg-[#111827]'}`}>
                   {orderStep === 'payment' ? '✓' : '1'}
                 </div>
-                <span className="text-gray-800">Delivery</span>
+                <span className="text-[#382A3A]">Delivery</span>
               </div>
               <div className={`w-8 h-px ${orderStep === 'payment' ? 'bg-[#10B981]' : 'bg-gray-300'}`}></div>
               <div className="flex items-center gap-2">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${orderStep === 'payment' ? 'bg-[#111827] text-white' : 'border border-gray-300'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${orderStep === 'payment' ? 'bg-[#111827] text-white' : 'border border-[#A8C7F0]/40'}`}>
                   2
                 </div>
-                <span className={orderStep === 'payment' ? 'text-gray-800' : ''}>Payment</span>
+                <span className={orderStep === 'payment' ? 'text-[#382A3A]' : ''}>Payment</span>
               </div>
             </div>
             <div className="w-20 hidden md:block"></div>
@@ -209,7 +209,7 @@ const CheckoutPage = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-7 xl:col-span-8">
-              <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-gray-100">
+              <form onSubmit={handleSubmit} className="bg-[#FFFAF3] rounded-3xl p-6 md:p-10 shadow-sm border border-[#A8C7F0]/20">
                 {formError && (
                   <p className="text-sm text-red-500 mb-6 bg-red-50 p-3 rounded-xl border border-red-100">
                     {formError}
@@ -218,10 +218,10 @@ const CheckoutPage = () => {
 
                 {orderStep === "shipping" && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
+                    <h2 className="text-xl md:text-2xl font-bold text-[#382A3A] mb-2">
                       Delivery Details
                     </h2>
-                    <p className="text-gray-500 text-sm mb-6">Enter your shipping information to continue.</p>
+                    <p className="text-[#382A3A]/60 text-sm mb-6">Enter your shipping information to continue.</p>
 
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
@@ -230,7 +230,7 @@ const CheckoutPage = () => {
                           placeholder="First Name"
                           value={formData.firstName}
                           onChange={handleInputChange}
-                          className="border border-gray-200 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
+                          className="border border-[#A8C7F0]/30 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
                           required
                         />
                         <input
@@ -238,7 +238,7 @@ const CheckoutPage = () => {
                           placeholder="Last Name"
                           value={formData.lastName}
                           onChange={handleInputChange}
-                          className="border border-gray-200 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
+                          className="border border-[#A8C7F0]/30 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
                           required
                         />
                       </div>
@@ -249,7 +249,7 @@ const CheckoutPage = () => {
                         placeholder="Email Address"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="border border-gray-200 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
+                        className="border border-[#A8C7F0]/30 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
                         required
                       />
 
@@ -258,7 +258,7 @@ const CheckoutPage = () => {
                         placeholder="Phone Number"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className="border border-gray-200 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
+                        className="border border-[#A8C7F0]/30 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
                         required
                       />
 
@@ -267,7 +267,7 @@ const CheckoutPage = () => {
                         placeholder="Full Address"
                         value={formData.address}
                         onChange={handleInputChange}
-                        className="border border-gray-200 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
+                        className="border border-[#A8C7F0]/30 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
                         required
                       />
 
@@ -277,7 +277,7 @@ const CheckoutPage = () => {
                           placeholder="City"
                           value={formData.city}
                           onChange={handleInputChange}
-                          className="border border-gray-200 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
+                          className="border border-[#A8C7F0]/30 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
                           required
                         />
                         <input
@@ -285,7 +285,7 @@ const CheckoutPage = () => {
                           placeholder="State"
                           value={formData.state}
                           onChange={handleInputChange}
-                          className="border border-gray-200 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
+                          className="border border-[#A8C7F0]/30 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
                           required
                         />
                       </div>
@@ -295,7 +295,7 @@ const CheckoutPage = () => {
                         placeholder="ZIP Code"
                         value={formData.zipCode}
                         onChange={handleInputChange}
-                        className="border border-gray-200 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
+                        className="border border-[#A8C7F0]/30 rounded-xl px-4 py-3 w-full outline-none focus:border-blue-400 transition"
                         required
                       />
                     </div>
@@ -304,25 +304,25 @@ const CheckoutPage = () => {
 
                 {orderStep === "payment" && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
+                    <h2 className="text-xl md:text-2xl font-bold text-[#382A3A] mb-2">
                       Payment Method Options
                     </h2>
-                    <p className="text-gray-500 text-sm mb-6">Pick a payment option to continue to review.</p>
+                    <p className="text-[#382A3A]/60 text-sm mb-6">Pick a payment option to continue to review.</p>
 
                     <div className="space-y-4">
                       {/* COD OPTION */}
-                      <label className={`border rounded-2xl p-5 cursor-pointer block transition ${paymentMethod === 'cod' ? 'border-[#1DA1F2] bg-[#F8FBFF]' : 'border-gray-200 hover:border-gray-300'}`}>
+                      <label className={`border rounded-2xl p-5 cursor-pointer block transition ${paymentMethod === 'cod' ? 'border-[#1DA1F2] bg-[#F8FBFF]' : 'border-[#A8C7F0]/30 hover:border-[#A8C7F0]/40'}`}>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-sm">
+                            <div className="w-12 h-12 bg-[#A8C7F0] text-[#382A3A] rounded-xl flex items-center justify-center shadow-sm">
                               <Banknote className="w-6 h-6" />
                             </div>
                             <div>
                               <div className="flex items-center gap-2">
-                                <span className="font-bold text-gray-800">Cash on Delivery</span>
+                                <span className="font-bold text-[#382A3A]">Cash on Delivery</span>
                                 <span className="bg-gray-800 text-white text-[10px] px-2 py-0.5 rounded-md">Popular</span>
                               </div>
-                              <span className="text-sm text-gray-500">Pay when you receive your order.</span>
+                              <span className="text-sm text-[#382A3A]/60">Pay when you receive your order.</span>
                             </div>
                           </div>
                           <input
@@ -337,15 +337,15 @@ const CheckoutPage = () => {
                       </label>
 
                       {/* CARD OPTION */}
-                      <label className={`border rounded-2xl p-5 cursor-pointer block transition ${paymentMethod === 'card' ? 'border-[#1DA1F2] bg-[#F8FBFF]' : 'border-gray-200 hover:border-gray-300'}`}>
+                      <label className={`border rounded-2xl p-5 cursor-pointer block transition ${paymentMethod === 'card' ? 'border-[#1DA1F2] bg-[#F8FBFF]' : 'border-[#A8C7F0]/30 hover:border-[#A8C7F0]/40'}`}>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-sm">
+                            <div className="w-12 h-12 bg-[#A8C7F0] text-[#382A3A] rounded-xl flex items-center justify-center shadow-sm">
                               <CreditCard className="w-6 h-6" />
                             </div>
                             <div>
-                              <span className="font-bold text-gray-800 block">Credit / Debit Card</span>
-                              <span className="text-sm text-gray-500">Accepted: Visa, Mastercard, RuPay.</span>
+                              <span className="font-bold text-[#382A3A] block">Credit / Debit Card</span>
+                              <span className="text-sm text-[#382A3A]/60">Accepted: Visa, Mastercard, RuPay.</span>
                             </div>
                           </div>
                           <input
@@ -360,15 +360,15 @@ const CheckoutPage = () => {
                       </label>
 
                       {/* UPI OPTION */}
-                      <label className={`border rounded-2xl p-5 cursor-pointer block transition ${paymentMethod === 'upi' ? 'border-[#1DA1F2] bg-[#F8FBFF]' : 'border-gray-200 hover:border-gray-300'}`}>
+                      <label className={`border rounded-2xl p-5 cursor-pointer block transition ${paymentMethod === 'upi' ? 'border-[#1DA1F2] bg-[#F8FBFF]' : 'border-[#A8C7F0]/30 hover:border-[#A8C7F0]/40'}`}>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-sm">
+                            <div className="w-12 h-12 bg-[#A8C7F0] text-[#382A3A] rounded-xl flex items-center justify-center shadow-sm">
                               <Smartphone className="w-6 h-6" />
                             </div>
                             <div>
-                              <span className="font-bold text-gray-800 block">Mobile Banking / UPI</span>
-                              <span className="text-sm text-gray-500">Supported: GPay, PhonePe, BHIM.</span>
+                              <span className="font-bold text-[#382A3A] block">Mobile Banking / UPI</span>
+                              <span className="text-sm text-[#382A3A]/60">Supported: GPay, PhonePe, BHIM.</span>
                             </div>
                           </div>
                           <input
@@ -385,12 +385,12 @@ const CheckoutPage = () => {
                   </>
                 )}
 
-                <div className="flex flex-col sm:flex-row gap-4 pt-8 mt-4 border-t border-gray-100">
+                <div className="flex flex-col sm:flex-row gap-4 pt-8 mt-4 border-t border-[#A8C7F0]/20">
                   {orderStep === "payment" && (
                     <button
                       type="button"
                       onClick={() => setOrderStep("shipping")}
-                      className="flex-1 bg-white border border-gray-200 text-gray-700 py-4 rounded-xl font-semibold hover:bg-gray-50 transition"
+                      className="flex-1 bg-[#FFFAF3] border border-[#A8C7F0]/30 text-[#382A3A] py-4 rounded-xl font-semibold hover:bg-[#FFFAF3] transition"
                     >
                       Back to Delivery
                     </button>
@@ -398,7 +398,7 @@ const CheckoutPage = () => {
                   <button
                     type="submit"
                     disabled={placingOrder}
-                    className="flex-1 bg-blue-600 text-white py-4 rounded-xl font-semibold hover:bg-blue-700 transition text-center shadow-md"
+                    className="flex-1 bg-[#A8C7F0] text-[#382A3A] py-4 rounded-xl font-semibold hover:bg-[#A8C7F0] transition text-center shadow-md"
                   >
                     {placingOrder
                       ? "Processing..."
@@ -411,65 +411,65 @@ const CheckoutPage = () => {
             </div>
 
             <div className="lg:col-span-5 xl:col-span-4">
-              <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 sticky top-32 md:top-48">
+              <div className="bg-[#FFFAF3] rounded-3xl p-6 md:p-8 shadow-sm border border-[#A8C7F0]/20 sticky top-32 md:top-48">
                 <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-xl font-bold text-gray-800">Order Summary</h2>
-                  <Info className="w-5 h-5 text-gray-400" />
+                  <h2 className="text-xl font-bold text-[#382A3A]">Order Summary</h2>
+                  <Info className="w-5 h-5 text-[#382A3A]/40" />
                 </div>
 
                 <div className="space-y-4 mb-6 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
                   {cartItems.map((item) => (
                     <div key={item._id} className="flex gap-4">
-                      <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-xl bg-gray-50" />
+                      <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-xl bg-[#FFFAF3]" />
                       <div className="flex-1">
                         <div className="flex justify-between items-start">
                           <div>
                             <h3 className="text-[11px] font-medium text-[#1DA1F2] italic mb-0.5">{item.category || "Apparel"}</h3>
-                            <h2 className="font-bold text-gray-800 text-sm leading-tight line-clamp-1">{item.name}</h2>
+                            <h2 className="font-bold text-[#382A3A] text-sm leading-tight line-clamp-1">{item.name}</h2>
                           </div>
                         </div>
-                        <p className="font-bold text-gray-600 mt-1 text-sm">₹{item.price.toLocaleString()}</p>
+                        <p className="font-bold text-[#382A3A]/70 mt-1 text-sm">₹{item.price.toLocaleString()}</p>
                       </div>
                       <div className="flex flex-col justify-between items-end">
-                        <span className="text-xs font-bold bg-gray-100 text-gray-600 px-2 rounded-md">x{item.qty}</span>
+                        <span className="text-xs font-bold bg-[#D8C9FF]/20 text-[#382A3A]/70 px-2 rounded-md">x{item.qty}</span>
                       </div>
                     </div>
                   ))}
                 </div>
 
                 <div className="mb-6">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-3">Promotion Code</h3>
-                  <div className="flex items-center border border-gray-200 rounded-xl p-1 bg-white focus-within:border-blue-400 transition">
-                    <input type="text" placeholder="Add Promo Code" className="flex-1 bg-transparent px-3 py-2 text-sm outline-none text-gray-700 font-sans" />
-                    <button className="w-10 h-10 bg-blue-600 text-white rounded-lg flex items-center justify-center hover:bg-blue-700 transition">
+                  <h3 className="text-sm font-semibold text-[#382A3A] mb-3">Promotion Code</h3>
+                  <div className="flex items-center border border-[#A8C7F0]/30 rounded-xl p-1 bg-[#FFFAF3] focus-within:border-blue-400 transition">
+                    <input type="text" placeholder="Add Promo Code" className="flex-1 bg-transparent px-3 py-2 text-sm outline-none text-[#382A3A] font-sans" />
+                    <button className="w-10 h-10 bg-[#A8C7F0] text-[#382A3A] rounded-lg flex items-center justify-center hover:bg-[#A8C7F0] transition">
                       <Send className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
 
                 <div className="space-y-3 mb-6">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-2">Order Total</h3>
-                  <div className="flex justify-between text-sm text-gray-500 font-medium">
+                  <h3 className="text-sm font-semibold text-[#382A3A] mb-2">Order Total</h3>
+                  <div className="flex justify-between text-sm text-[#382A3A]/60 font-medium">
                     <span>Subtotal</span>
-                    <span className="text-gray-900">₹{subtotal.toLocaleString()}</span>
+                    <span className="text-[#382A3A]">₹{subtotal.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between text-sm text-gray-500 font-medium">
+                  <div className="flex justify-between text-sm text-[#382A3A]/60 font-medium">
                     <span>Shipping</span>
-                    <span className="text-gray-900">{shipping === 0 ? "FREE" : `₹${shipping}`}</span>
+                    <span className="text-[#382A3A]">{shipping === 0 ? "FREE" : `₹${shipping}`}</span>
                   </div>
-                  <div className="flex justify-between text-sm text-gray-500 font-medium">
+                  <div className="flex justify-between text-sm text-[#382A3A]/60 font-medium">
                     <span>Tax (10%)</span>
-                    <span className="text-gray-900">₹{tax.toLocaleString()}</span>
+                    <span className="text-[#382A3A]">₹{tax.toLocaleString()}</span>
                   </div>
                 </div>
 
-                <div className="border-t border-gray-100 pt-4 mb-6 flex justify-between items-center">
-                  <span className="font-bold text-gray-800 text-lg">Total</span>
+                <div className="border-t border-[#A8C7F0]/20 pt-4 mb-6 flex justify-between items-center">
+                  <span className="font-bold text-[#382A3A] text-lg">Total</span>
                   <span className="font-bold text-[#1DA1F2] text-2xl">₹{total.toLocaleString()}</span>
                 </div>
                 
                 <div className="bg-[#F5F8F2] border border-[#E3EDD9] rounded-xl p-4">
-                  <p className="text-[11px] text-gray-600 text-center leading-relaxed">
+                  <p className="text-[11px] text-[#382A3A]/70 text-center leading-relaxed">
                     Welcome to our Store. By proceeding, you agree to be bound by these Terms and Conditions. Enjoy your shopping!
                   </p>
                 </div>

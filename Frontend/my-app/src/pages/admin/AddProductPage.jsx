@@ -47,13 +47,13 @@ const AddProductPage = () => {
 
       <form
         onSubmit={submitHandler}
-        className="bg-[#FAFAF8] text p-8 rounded-lg space-y-4"
+        className="bg-[#FFFAF3] text p-8 rounded-lg space-y-4"
       >
         <input
           name="name"
           placeholder="Product Name"
           onChange={changeHandler}
-          className="w-full p-3 bg-[#FAFAF8] text-[#111111] border border-slate-700 rounded"
+          className="w-full p-3 bg-[#FFFAF3] text-[#111111] border border-slate-700 rounded"
         />
 
         <input
@@ -61,20 +61,20 @@ const AddProductPage = () => {
           type="number"
           placeholder="Price"
           onChange={changeHandler}
-          className="w-full p-3 bg-[#FAFAF8] text-[#111111] border border-slate-700 rounded"
+          className="w-full p-3 bg-[#FFFAF3] text-[#111111] border border-slate-700 rounded"
         />
 
         <input
           name="category"
           placeholder="Category"
           onChange={changeHandler}
-          className="w-full p-3 bg-[#FAFAF8] text-[#111111] border border-slate-700 rounded"
+          className="w-full p-3 bg-[#FFFAF3] text-[#111111] border border-slate-700 rounded"
         />
         <input
           name="subCategory"
           placeholder="Sub Category (e.g. Shirts, Jeans)"
           onChange={changeHandler}
-          className="w-full p-3 bg-[#FAFAF8] text-[#111111] border border-slate-700 rounded"
+          className="w-full p-3 bg-[#FFFAF3] text-[#111111] border border-slate-700 rounded"
         />
 
         <select
@@ -82,7 +82,7 @@ const AddProductPage = () => {
           value={form.targetGroup}
           onChange={changeHandler}
           required
-          className="w-full p-3 bg-[#FAFAF8] text-[#111111] border border-slate-700 rounded"
+          className="w-full p-3 bg-[#FFFAF3] text-[#111111] border border-slate-700 rounded"
         >
           <option value="">Select Target Group</option>
           <option value="Men">Men</option>
@@ -94,24 +94,24 @@ const AddProductPage = () => {
           type="number"
           placeholder="Stock"
           onChange={changeHandler}
-          className="w-full p-3 bg-[#FAFAF8] text-[#111111] border border-slate-700 rounded"
+          className="w-full p-3 bg-[#FFFAF3] text-[#111111] border border-slate-700 rounded"
         />
 
         <input
           name="image"
           placeholder="Image URL"
           onChange={changeHandler}
-          className="w-full p-3 bg-[#FAFAF8] text-[#111111] border border-slate-700 rounded"
+          className="w-full p-3 bg-[#FFFAF3] text-[#111111] border border-slate-700 rounded"
         />
 
         <textarea
           name="description"
           placeholder="Description"
           onChange={changeHandler}
-          className="w-full p-3 bg-[#FAFAF8] text-[#111111] border border-slate-700 rounded"
+          className="w-full p-3 bg-[#FFFAF3] text-[#111111] border border-slate-700 rounded"
         />
 
-        <button className="w-full bg-blue-600 text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors">
+        <button className="w-full bg-[#A8C7F0] text-[#382A3A] px-8 py-3 rounded-full text-sm font-semibold hover:bg-[#A8C7F0] transition-colors">
           Add Product
         </button>
       </form>

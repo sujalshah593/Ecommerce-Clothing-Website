@@ -44,7 +44,7 @@ export default function PrivacyPolicyPage() {
         {/* Section 1 */}
         <div className="space-y-6">
           <div className="space-y-3">
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent text">01</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#A8C7F0] text">01</span>
             <h3 className="text-3xl md:text-4xl font-serif text1">Information We Collect</h3>
           </div>
           <p className="text-muted-foreground leading-relaxed max-w-2xl">
@@ -52,25 +52,25 @@ export default function PrivacyPolicyPage() {
           </p>
           <ul className="space-y-4 text text-muted-foreground leading-relaxed max-w-2xl">
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>
                 <strong>Personal Information:</strong> Full name, email address, phone number, billing address, shipping address
               </span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>
                 <strong>Payment Information:</strong> Processed securely through third-party gateways; we do not store full card details
               </span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>
                 <strong>Order Details:</strong> Products purchased, order history, transaction status
               </span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>
                 <strong>Device & Usage Data:</strong> IP address, browser type, device information, pages visited, referring URLs
               </span>
@@ -81,7 +81,7 @@ export default function PrivacyPolicyPage() {
         {/* Section 2 */}
         <div className="space-y-6">
           <div className="space-y-3">
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent text">02</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#A8C7F0] text">02</span>
             <h3 className="text-3xl text1 md:text-4xl font-serif">How We Use Your Information</h3>
           </div>
           <p className="text-muted-foreground text leading-relaxed max-w-2xl">
@@ -89,27 +89,27 @@ export default function PrivacyPolicyPage() {
           </p>
           <ul className="space-y-4 text-muted-foreground text leading-relaxed max-w-2xl">
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>Processing and delivering your orders</span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>Managing your account and preferences</span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>Sending transactional emails and order updates</span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>Providing customer support and resolving disputes</span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>Improving website performance and user experience</span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>Sending promotional offers (with your consent)</span>
             </li>
           </ul>
@@ -118,7 +118,7 @@ export default function PrivacyPolicyPage() {
         {/* Section 3 */}
         <div className="space-y-6">
           <div className="space-y-3">
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent text">03</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#A8C7F0] text">03</span>
             <h3 className="text-3xl md:text-4xl font-serif text1">Sharing Your Information</h3>
           </div>
           <p className="text-muted-foreground leading-relaxed text max-w-2xl">
@@ -126,19 +126,19 @@ export default function PrivacyPolicyPage() {
           </p>
           <ul className="space-y-4 text-muted-foreground leading-relaxed text max-w-2xl">
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>
                 <strong>Service Providers:</strong> Payment gateways, courier partners, hosting providers, and email services
               </span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>
                 <strong>Legal Compliance:</strong> If required by law or government authorities
               </span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>
                 <strong>Business Transfers:</strong> In case of a merger, acquisition, or asset sale
               </span>
@@ -149,7 +149,7 @@ export default function PrivacyPolicyPage() {
         {/* Section 4 */}
         <div className="space-y-6">
           <div className="space-y-3">
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text text-accent">04</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text text-[#A8C7F0]">04</span>
             <h3 className="text-3xl md:text-4xl font-serif text1">Data Security</h3>
           </div>
           <p className="text-muted-foreground leading-relaxed max-w-2xl text">
@@ -160,7 +160,7 @@ export default function PrivacyPolicyPage() {
         {/* Section 5 */}
         <div className="space-y-6">
           <div className="space-y-3">
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text text-accent">05</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text text-[#A8C7F0]">05</span>
             <h3 className="text-3xl md:text-4xl font-serif text1">Cookies & Tracking</h3>
           </div>
           <p className="text-muted-foreground leading-relaxed text max-w-2xl">
@@ -168,19 +168,19 @@ export default function PrivacyPolicyPage() {
           </p>
           <ul className="space-y-4 text-muted-foreground text leading-relaxed max-w-2xl">
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>
                 <strong>Essential Cookies:</strong> Required for core website operations
               </span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>
                 <strong>Analytics Cookies:</strong> Help us measure and improve performance
               </span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>
                 <strong>Marketing Cookies:</strong> Used for personalized promotions (optional)
               </span>
@@ -194,7 +194,7 @@ export default function PrivacyPolicyPage() {
         {/* Section 6 */}
         <div className="space-y-6">
           <div className="space-y-3">
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text text-accent">06</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text text-[#A8C7F0]">06</span>
             <h3 className="text-3xl md:text-4xl font-serif text1">Your Rights</h3>
           </div>
           <p className="text-muted-foreground leading-relaxed text max-w-2xl">
@@ -202,19 +202,19 @@ export default function PrivacyPolicyPage() {
           </p>
           <ul className="space-y-4 text-muted-foreground text leading-relaxed max-w-2xl">
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>Access your personal information</span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>Correct inaccurate or incomplete data</span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>Request deletion of your information</span>
             </li>
             <li className="flex gap-4">
-              <span className="text-accent font-bold">•</span>
+              <span className="text-[#A8C7F0] font-bold">•</span>
               <span>Opt out of marketing communications</span>
             </li>
           </ul>
@@ -226,7 +226,7 @@ export default function PrivacyPolicyPage() {
         {/* Section 7 */}
         <div className="space-y-6 py-12 border-t border-border">
           <div className="space-y-3">
-            <span className="text-[10px] font-bold uppercase text tracking-[0.3em] text-accent">07</span>
+            <span className="text-[10px] font-bold uppercase text tracking-[0.3em] text-[#A8C7F0]">07</span>
             <h3 className="text-3xl md:text-4xl font-serif text1">Contact Us</h3>
           </div>
           <p className="text-muted-foreground leading-relaxed text max-w-2xl">

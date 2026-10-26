@@ -42,7 +42,7 @@ const UsersPage = () => {
   const inactiveUsers = users.length - activeUsers;
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] p-8">
+    <div className="min-h-screen bg-[#FFFAF3] p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12">
           <h1 className="text-5xl font-serif mb-3 text-[#111111] text1">Customer Directory</h1>
@@ -72,7 +72,7 @@ const UsersPage = () => {
             <p className="text-[10px] font-bold  uppercase tracking-[0.2em] text-[#6B7280] mb-3">
               Inactive Users
             </p>
-            <p className="text-4xl font-serif text1 text-[#B76E4D]">
+            <p className="text-4xl font-serif text1 text-[#A8C7F0]">
               {inactiveUsers}
             </p>
           </div>
@@ -81,7 +81,7 @@ const UsersPage = () => {
         <div className="border rounded p-6 mb-8 space-y-4">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-4 top-3 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-4 top-3 w-5 h-5 text-[#382A3A]/40" />
               <input
                 type="text"
                 placeholder="Search by name or email..."
@@ -112,7 +112,7 @@ const UsersPage = () => {
         <div className="border rounded overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="border-b bg-gray-100">
+              <thead className="border-b bg-[#D8C9FF]/20">
                 <tr>
                   <th className="px-6 py-4 text1 text-[#111111] text-left text-[10px] font-bold uppercase tracking-[0.2em]">
                     Name
@@ -139,7 +139,7 @@ const UsersPage = () => {
                 {filteredUsers.map((user) => (
                   <tr
                     key={user._id}
-                    className="border-b hover:bg-gray-50"
+                    className="border-b hover:bg-[#FFFAF3]"
                   >
                     <td className="px-6 text text-[#111111] py-4 font-medium">
                       {user.name || "No Name"}

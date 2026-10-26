@@ -33,7 +33,7 @@ const OrdersPage = () => {
         <div className="flex-1 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#111111]" />
           <input
-            className="w-full pl-12 pr-4 py-3 text  bg-[#FAFAF8] border border-[#111111] rounded-lg text-[#111111]"
+            className="w-full pl-12 pr-4 py-3 text  bg-[#FFFAF3] border border-[#111111] rounded-lg text-[#111111]"
             placeholder="Search order..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -43,7 +43,7 @@ const OrdersPage = () => {
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value)}
-          className="bg-[#FAFAF8] border text1 border-[#111111] rounded-lg px-4 text-[#111111]"
+          className="bg-[#FFFAF3] border text1 border-[#111111] rounded-lg px-4 text-[#111111]"
         >
           <option>All</option>
           <option>Pending</option>
@@ -57,7 +57,7 @@ const OrdersPage = () => {
         {filtered.map((o) => (
           <div
             key={o._id}
-            className="bg-[#FAFAF8] p-6 rounded-lg border border-[#111111]"
+            className="bg-[#FFFAF3] p-6 rounded-lg border border-[#111111]"
           >
             <div className="flex justify-between items-center">
               <div className="flex gap-4 items-center">
@@ -82,7 +82,7 @@ const OrdersPage = () => {
 
               <button
                 onClick={() => updateStatus(o._id, "Shipped")}
-                className="bg-blue-600 text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors !py-2 !px-4"
+                className="bg-[#A8C7F0] text-[#382A3A] px-8 py-3 rounded-full text-sm font-semibold hover:bg-[#A8C7F0] transition-colors !py-2 !px-4"
               >
                 Mark Shipped
               </button>

@@ -6,10 +6,11 @@ import {
   resetProductsDetails,
 } from "../Redux/Slices/productDetailSlice.js";
 import Navbar from "../components/Navbar.jsx";
-import { ShoppingBag, Heart, Truck, ShieldCheck } from "lucide-react";
+import { ShoppingBag, Heart, Wrench, IndianRupee, ShieldCheck, ChevronRight } from "lucide-react";
 import { fetchProducts } from "../Redux/Slices/productSlice.js";
 import ProductCard from "../components/ProductCard.jsx";
 import FooterSection from "../components/FooterSection.jsx";
+import ProductReviews from "../components/ProductReviews.jsx";
 import { useNavigate } from "react-router-dom";
 import { addToCart } from "../Redux/Slices/cartSlice.js";
 import TruckLoader from "../components/TruckLoader.jsx";
@@ -67,7 +68,7 @@ const ProductPage = () => {
     return (
       <>
         <Navbar />
-        <div className="pt-32 md:pt-48 text-center text-[#B76E4D] text-sm tracking-widest">
+        <div className="pt-32 md:pt-48 text-center text-[#A8C7F0] text-sm tracking-widest">
           {error}
         </div>
       </>
@@ -101,11 +102,11 @@ const ProductPage = () => {
     <>
       <Navbar />
 
-      <main className="pt-32 md:pt-48 px-6 md:px-12 max-w-7xl mx-auto">
+      <main className="pt-28 md:pt-36 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* LEFT: IMAGE */}
           <div className="lg:col-span-7">
-            <div className="relative aspect-[3/4] bg-[#FFFFFF] border border-[#EAEAEA] shadow-sm overflow-hidden">
+            <div className="relative aspect-[3/4] bg-[#FFFFFF] border border-[#EAEAEA] shadow-sm overflow-hidden rounded-2xl">
               <img
                 src={product.image}
                 alt={product.name}
@@ -116,34 +117,35 @@ const ProductPage = () => {
 
           {/* RIGHT: DETAILS */}
           <div className="lg:col-span-5">
-            <div className="lg:sticky lg:top-48 space-y-10">
-              {/* Title */}
-              <div className="space-y-4">
-                <h1 className="text-4xl text1 md:text-6xl font-serif tracking-tight">
+            <div className="lg:sticky lg:top-40 space-y-8">
+              {/* Title & Price */}
+              <div className="space-y-3">
+                <h1 className="text-4xl text1 md:text-5xl font-serif tracking-tight text-[#382A3A]">
                   {product.name}
                 </h1>
 
-                <p className="text-2xl font-light text">₹{product.price}</p>
+                <p className="text-2xl font-light text text-[#382A3A]">₹{product.price}</p>
               </div>
 
               {/* Description */}
-              <p className="text-sm text md:text-base text-[#111111] leading-relaxed">
+              <p className="text-sm text md:text-base text-[#382A3A]/80 leading-relaxed">
                 {product.description}
               </p>
+
               {/* SIZE SELECTOR */}
               <div className="space-y-3">
-                <p className="text-xs uppercase tracking-widest">Select Size</p>
+                <p className="text-xs uppercase tracking-widest text-[#382A3A]/70 font-semibold">Select Size</p>
 
-                <div className="flex gap-3">
+                <div className="flex gap-2.5">
                   {product.sizes?.map((size) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
-                      className={`w-10 h-10 border text-xs font-bold
+                      className={`w-11 h-11 rounded-xl border text-xs font-bold transition cursor-pointer
         ${
           selectedSize === size
-            ? "bg-[#111111] text-[#FFFFFF] border-[#111111]"
-            : "border-[#EAEAEA]/30"
+            ? "bg-[#382A3A] text-white border-[#382A3A] shadow-xs"
+            : "border-[#A8C7F0]/40 bg-white hover:border-[#A8C7F0] text-[#382A3A]"
         }`}
                     >
                       {size}
@@ -153,11 +155,11 @@ const ProductPage = () => {
               </div>
 
               {/* Stock */}
-              <p className="text-xs text uppercase tracking-widest">
+              <p className="text-xs text uppercase tracking-widest text-[#382A3A]/70">
                 Stock:{" "}
                 <span
                   className={`font-bold ${
-                    product.countInStock > 0 ? "text-green-600" : "text-[#B76E4D]"
+                    product.countInStock > 0 ? "text-green-600" : "text-red-500"
                   }`}
                 >
                   {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
@@ -165,11 +167,11 @@ const ProductPage = () => {
               </p>
 
               {/* ACTIONS */}
-              <div className="space-y-4 pt-4">
+              <div className="space-y-3 pt-2">
                 <button
                   onClick={addToCartHandler}
                   disabled={product.countInStock === 0}
-                  className="w-full py-4 bg-blue-600 text-white font-semibold rounded-full flex items-center justify-center gap-3 transition-all disabled:opacity-40 hover:bg-blue-700"
+                  className="w-full py-4 bg-[#A8C7F0] hover:bg-[#8FB8EC] text-[#382A3A] font-bold rounded-2xl flex items-center justify-center gap-3 transition-all disabled:opacity-40 shadow-sm cursor-pointer"
                 >
                   <ShoppingBag className="w-4 h-4" />
                   Add to Cart
@@ -177,41 +179,76 @@ const ProductPage = () => {
 
                 <button
                   onClick={toggleFavoriteHandler}
-                  className="w-full text1 py-5 border border-zinc-300 text-[10px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3 hover:bg-zinc-50 transition-all"
+                  className="w-full py-4 border border-[#A8C7F0]/40 bg-white hover:bg-[#FFFAF3] text-[11px] font-bold uppercase tracking-wider text-[#382A3A] rounded-2xl flex items-center justify-center gap-2.5 transition-all shadow-xs cursor-pointer"
                 >
                   <Heart
                     className={`w-4 h-4 transition-colors ${
-                      isFavorite ? "text-pink-500 fill-pink-500" : "text-[#111111]"
+                      isFavorite ? "text-red-500 fill-red-500" : "text-[#382A3A]"
                     }`}
                   />
                   {isFavorite ? "Remove from Wishlist" : "Add to Wishlist"}
                 </button>
               </div>
 
-              {/* TRUST */}
-              <div className="grid grid-cols-2 gap-4 pt-8 border-t">
-                <div className="flex text items-center gap-3 text-xs uppercase tracking-widest">
-                  <Truck className="w-4 h-4" />
-                  Free Shipping
-                </div>
-                <div className="flex text items-center gap-3 text-xs uppercase tracking-widest">
-                  <ShieldCheck className="w-4 h-4" />
-                  Secure Checkout
+              {/* ASSURED BADGES & SERVICES */}
+              <div className="pt-6 border-t border-[#A8C7F0]/30">
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  {/* 7-day brand support */}
+                  <div className="flex flex-col items-center group cursor-pointer p-2 rounded-2xl hover:bg-white/60 transition">
+                    <div className="w-12 h-12 rounded-2xl bg-white border border-[#A8C7F0]/40 shadow-xs flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                      <div className="w-8 h-8 rounded-full bg-[#A8C7F0]/25 flex items-center justify-center">
+                        <Wrench className="w-4 h-4 text-blue-600" />
+                      </div>
+                    </div>
+                    <span className="text-[11px] font-semibold text-[#382A3A] flex items-center justify-center gap-0.5 leading-tight">
+                      7-day brand support <ChevronRight className="w-3 h-3 text-[#382A3A]/40 shrink-0" />
+                    </span>
+                  </div>
+
+                  {/* Cash on Delivery */}
+                  <div className="flex flex-col items-center group cursor-pointer p-2 rounded-2xl hover:bg-white/60 transition">
+                    <div className="w-12 h-12 rounded-2xl bg-white border border-[#A8C7F0]/40 shadow-xs flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                      <div className="w-8 h-8 rounded-full bg-[#A8C7F0]/25 flex items-center justify-center">
+                        <IndianRupee className="w-4 h-4 text-blue-600" />
+                      </div>
+                    </div>
+                    <span className="text-[11px] font-semibold text-[#382A3A] flex items-center justify-center gap-0.5 leading-tight">
+                      Cash on Delivery <ChevronRight className="w-3 h-3 text-[#382A3A]/40 shrink-0" />
+                    </span>
+                  </div>
+
+                  {/* Flipkart / Brand Assured */}
+                  <div className="flex flex-col items-center group cursor-pointer p-2 rounded-2xl hover:bg-white/60 transition">
+                    <div className="w-12 h-12 rounded-2xl bg-white border border-[#A8C7F0]/40 shadow-xs flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                      <div className="w-8 h-8 rounded-full bg-[#A8C7F0]/25 flex items-center justify-center">
+                        <ShieldCheck className="w-4 h-4 text-blue-600" />
+                      </div>
+                    </div>
+                    <span className="text-[11px] font-semibold text-[#382A3A] flex items-center justify-center gap-0.5 leading-tight">
+                      SHREEJI Assured <ChevronRight className="w-3 h-3 text-[#382A3A]/40 shrink-0" />
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <section className="mt-24 mb-12">
-          <h2 className="text-2xl font-serif text1 mb-8">You may also like</h2>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {/* REVIEWS & DISCUSSION SECTION */}
+        <ProductReviews productId={product._id} productName={product.name} />
+
+        {/* YOU MAY ALSO LIKE */}
+        <section className="mt-20 mb-16">
+          <h2 className="text-2xl font-serif text1 mb-8 text-[#382A3A]">You may also like</h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {otherProducts.map((p) => (
               <ProductCard key={p._id} product={p} />
             ))}
           </div>
         </section>
       </main>
+
       <FooterSection />
     </>
   );

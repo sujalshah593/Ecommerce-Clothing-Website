@@ -58,7 +58,7 @@ const FavoritesPage = () => {
           </p>
 
           <Link to="/mens">
-            <button className="bg-blue-600 text-white font-semibold px-6 py-3 rounded-full hover:bg-blue-700 transition-colors">
+            <button className="bg-[#A8C7F0] text-[#382A3A] font-semibold px-6 py-3 rounded-full hover:bg-[#A8C7F0] transition-colors">
               Continue Shopping
             </button>
           </Link>
@@ -86,7 +86,7 @@ const FavoritesPage = () => {
 
                     <button
                       onClick={() => removeFavorite(item)}
-                      className="bg-background/80 hover:text-[#FFFFFF] hover:cursor-pointer p-2 rounded-full transition-colors hover:bg-blue-600 transition-colors"
+                      className="bg-background/80 hover:text-[#FFFFFF] hover:cursor-pointer p-2 rounded-full transition-colors hover:bg-[#A8C7F0] transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -101,7 +101,7 @@ const FavoritesPage = () => {
                   <h3 className="font-serif text1 text-lg leading-tight">
                     {item.name}
                   </h3>
-                  <p className="font-semibold text text-accent">
+                  <p className="font-semibold text text-[#A8C7F0]">
                     ₹{item.price.toLocaleString()}
                   </p>
                 </div>
@@ -120,14 +120,14 @@ const FavoritesPage = () => {
 
             <div className="flex gap-4 mt-8 md:mt-0">
               <Link to="/cart">
-                <button className="border text1 px-6 py-3 rounded-md font-serif hover:text-[#FFFFFF] hover:cursor-pointer hover:bg-blue-600 transition-colors">
+                <button className="border text1 px-6 py-3 rounded-md font-serif hover:text-[#FFFFFF] hover:cursor-pointer hover:bg-[#A8C7F0] transition-colors">
                   Continue Shopping
                 </button>
               </Link>
 
               <button
                 onClick={addAllToCart}
-                className="bg-accent font-serif text1 border hover:cursor-pointer hover:bg-accent/90 text-accent-foreground px-6 py-3 rounded-md"
+                className="bg-accent font-serif text1 border hover:cursor-pointer hover:bg-accent/90 text-[#A8C7F0]-foreground px-6 py-3 rounded-md"
               >
                 Add All to Cart
               </button>

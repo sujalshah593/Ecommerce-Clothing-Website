@@ -4,9 +4,9 @@ import { Instagram, Facebook, Twitter, ChevronRight } from 'lucide-react'
 const ContactSection = () => {
   return (
     <>
-    <section className="bg-white py-32 border-y border-[#EAEAEA]">
+    <section className="bg-[#FFFAF3] py-32 border-y border-[#EAEAEA]">
           <div className="px-6 md:px-12 max-w-3xl mx-auto text-center space-y-8 font-serif">
-            <span className="text-[10px] text1 font-bold uppercase tracking-[0.5em] text-accent">Newsletter</span>
+            <span className="text-[10px] text1 font-bold uppercase tracking-[0.5em] text-[#A8C7F0]">Newsletter</span>
             <h2 className="text-4xl md:text-6xl header uppercase">Stay Informed</h2>
             <p className="text-muted-foreground leading-relaxed text md:text-base">
               Be the first to hear about new collection launches, exclusive events, and the latest from the 
@@ -18,7 +18,7 @@ const ContactSection = () => {
                 placeholder="EMAIL ADDRESS"
                 className="flex-1 bg-transparent py-4 text-[10px] text tracking-[0.2em] uppercase focus:outline-none"
               />
-              <button className="py-4 md:px-8 text-[10px] text1 font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 group bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+              <button className="py-4 md:px-8 text-[10px] text1 font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 group bg-[#A8C7F0] text-[#382A3A] rounded-full hover:bg-[#A8C7F0] transition-colors">
                 Subscribe <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </button>
             </form>

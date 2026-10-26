@@ -26,7 +26,7 @@ const AdminLayout = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-[#FAFAF8]">
+    <div className="flex h-screen bg-[#FFFAF3]">
       <aside
         className={`${
           sidebarOpen ? "w-64" : "w-20"
@@ -49,7 +49,7 @@ const AdminLayout = () => {
                 className={({ isActive }) =>
                   `flex items-center gap-4 px-4 py-3 rounded-lg transition ${
                     isActive
-                      ? "bg-[#FAFAF8] text-[#111111]"
+                      ? "bg-[#FFFAF3] text-[#111111]"
                       : "text-slate-300 hover:bg-slate-800 hover:text-[#FFFFFF]"
                   }`
                 }
@@ -63,7 +63,7 @@ const AdminLayout = () => {
         <div className="border-t text1 border-slate-800 p-4">
           <button 
             onClick={logout}
-            className="flex items-center gap-4 w-full px-4 py-3 rounded-lg hover:bg-[#111111]/20 transition text-slate-300 hover:text-blue-600"
+            className="flex items-center gap-4 w-full px-4 py-3 rounded-lg hover:bg-[#111111]/20 transition text-slate-300 hover:text-[#382A3A]"
           >
             <LogOut className="w-5 h-5" />
             {sidebarOpen && <span>Logout</span>}
@@ -73,7 +73,7 @@ const AdminLayout = () => {
 
       {/* Main */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="h-20 bg-[#FAFAF8] border-b border-[#EAEAEA]/30 flex items-center justify-between px-8">
+        <header className="h-20 bg-[#FFFAF3] border-b border-[#EAEAEA]/30 flex items-center justify-between px-8">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="p-2 hover:bg-[#EAEAEA]/20 rounded-lg transition"
@@ -83,7 +83,7 @@ const AdminLayout = () => {
           <span className="text-sm text-slate-400 text">Admin Dashboard</span>
         </header>
         {/* Content */}
-        <main className="flex-1 overflow-auto bg-gray-100 p-8">
+        <main className="flex-1 overflow-auto bg-[#D8C9FF]/20 p-8">
 
           <Outlet />
         </main>

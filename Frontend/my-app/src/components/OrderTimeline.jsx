@@ -19,7 +19,7 @@ const OrderTimeline = ({ status }) => {
           />
           <p
             className={`text-xs mt-2 
-            ${index <= currentIndex ? "text-[#111111]" : "text-gray-400"}`}
+            ${index <= currentIndex ? "text-[#111111]" : "text-[#382A3A]/40"}`}
           >
             {step}
           </p>

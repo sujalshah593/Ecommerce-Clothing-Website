@@ -58,13 +58,13 @@ const ProductsPage = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search by name or id..."
-          className="w-full pl-12 font-serif pr-4 py-3 bg-[#FAFAF8] border text border-slate-700 rounded-lg text-[#111111]"
+          className="w-full pl-12 font-serif pr-4 py-3 bg-[#FFFAF3] border text border-slate-700 rounded-lg text-[#111111]"
         />
       </div>
 
-      <div className="bg-[#FAFAF8] font-serif rounded-lg border border-slate-700 overflow-hidden">
+      <div className="bg-[#FFFAF3] font-serif rounded-lg border border-slate-700 overflow-hidden">
         <table className="w-full ">
-          <thead className="bg-[#FAFAF8] text1">
+          <thead className="bg-[#FFFAF3] text1">
             <tr>
               <th className="px-6 py-4 text-left">Image</th>
               <th className="px-6 py-4 text-left">Name</th>

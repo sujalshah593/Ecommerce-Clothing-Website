@@ -173,7 +173,7 @@ const ProfilePage = () => {
     <>
       <Navbar />
 
-      <div className="min-h-screen bg-[#FAFAF8] pt-32 md:pt-48">
+      <div className="min-h-screen bg-[#FFFAF3] pt-32 md:pt-48">
         <section className="px-6 md:px-12 max-w-7xl mx-auto mb-12">
           <div className="flex justify-between items-center">
             <div>
@@ -267,7 +267,7 @@ const ProfilePage = () => {
                     {isEditing && (
                       <button
                         onClick={saveProfileHandler}
-                        className="mt-8 bg-blue-600 text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors"
+                        className="mt-8 bg-[#A8C7F0] text-[#382A3A] px-8 py-3 rounded-full text-sm font-semibold hover:bg-[#A8C7F0] transition-colors"
                       >
                         Save Changes
                       </button>
@@ -290,7 +290,7 @@ const ProfilePage = () => {
                     ) : (
                       <div className="max-w-md space-y-4 mt-6">
                         {passwordError && (
-                          <p className="text-sm text text-[#B76E4D]">
+                          <p className="text-sm text text-[#A8C7F0]">
                             {passwordError}
                           </p>
                         )}
@@ -330,7 +330,7 @@ const ProfilePage = () => {
                         <div className="flex gap-4 pt-2">
                           <button
                             onClick={submitPasswordChange}
-                            className="bg-blue-600 text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors"
+                            className="bg-[#A8C7F0] text-[#382A3A] px-8 py-3 rounded-full text-sm font-semibold hover:bg-[#A8C7F0] transition-colors"
                           >
                             Update Password
                           </button>
@@ -496,7 +496,7 @@ const ProfilePage = () => {
 
                       <button
                         onClick={addAddressHandler}
-                        className="bg-blue-600 text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors !py-2 !px-6"
+                        className="bg-[#A8C7F0] text-[#382A3A] px-8 py-3 rounded-full text-sm font-semibold hover:bg-[#A8C7F0] transition-colors !py-2 !px-6"
                       >
                         Save Address
                       </button>
@@ -525,7 +525,7 @@ const ProfilePage = () => {
 
                         <button
                           onClick={() => deleteAddressHandler(a._id)}
-                          className="text-[#B76E4D]  text-xs uppercase"
+                          className="text-[#A8C7F0]  text-xs uppercase"
                         >
                           <Trash className="hover:cursor-pointer hover:transition hover:scale-110" />
                         </button>

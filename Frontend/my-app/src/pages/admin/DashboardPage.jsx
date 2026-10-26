@@ -105,7 +105,7 @@ const DashboardPage = () => {
           />
         </div>
         <div>
-          <div className="bg-[#FAFAF8] p-4 sm:p-6 rounded-lg font-serif">
+          <div className="bg-[#FFFAF3] p-4 sm:p-6 rounded-lg font-serif">
             <h2 className="text-lg mb-6 text1 text">Top Selling Products</h2>
 
             <div className="overflow-x-auto text">
@@ -119,7 +119,7 @@ const DashboardPage = () => {
                 </thead>
                 <tbody>
                   {stats.topProductsAgg.map((product, index) => (
-                    <tr key={index} className=" hover:bg-gray-50">
+                    <tr key={index} className=" hover:bg-[#FFFAF3]">
                       <td className="py-4">
                         <div className="flex items-center gap-3">
                           <img
@@ -151,7 +151,7 @@ const DashboardPage = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* SALES BY CATEGORY */}
-        <div className="bg-[#FAFAF8] text font-serif p-6 rounded-lg w-full">
+        <div className="bg-[#FFFAF3] text font-serif p-6 rounded-lg w-full">
           <h2 className="text-lg mb-4 text1">Monthly Orders</h2>
 
           <div className="w-full overflow-x-auto">
@@ -176,7 +176,7 @@ const DashboardPage = () => {
             />
           </div>
         </div>
-        <div className="bg-[#FAFAF8] font-serif  p-6 rounded-lg">
+        <div className="bg-[#FFFAF3] font-serif  p-6 rounded-lg">
           <h2 className="text-lg text mb-4 text1">Sales by Category</h2>
 
           <PieChart
@@ -198,7 +198,7 @@ const DashboardPage = () => {
           />
         </div>
       </div>
-      <div className="bg-[#FAFAF8] p-6 rounded-lg font-serif">
+      <div className="bg-[#FFFAF3] p-6 rounded-lg font-serif">
         <h2 className="text-lg mb-4 text1">Revenue Trend</h2>
 
         <LineChart
@@ -240,7 +240,7 @@ const DashboardPage = () => {
 export default DashboardPage;
 
 const StatCard = ({ title, value, color, icon: Icon }) => (
-  <div className="relative bg-[#FAFAF8] p-6 rounded-2xl shadow-sm border border-[#EAEAEA]/30 hover:shadow-md transition-all duration-300">
+  <div className="relative bg-[#FFFAF3] p-6 rounded-2xl shadow-sm border border-[#EAEAEA]/30 hover:shadow-md transition-all duration-300">
     <div className="flex justify-between items-start">
       <div>
         <p className="text-[#6B7280] text text-xs uppercase tracking-wider">

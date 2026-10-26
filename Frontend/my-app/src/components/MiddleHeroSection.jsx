@@ -8,7 +8,7 @@ const images = [boys, boys1, men, feature];
 
 const MiddleHeroSection = () => {
   return (
-    <section className="relative bg-[#111111] text-[#FFFFFF] py-24 overflow-hidden hover:bg-blue-600 transition-colors">
+    <section className="relative bg-[#111111] text-[#FFFFFF] py-24 overflow-hidden hover:bg-[#A8C7F0] transition-colors">
       {/* Top Headline */}
       <div className="text-center space-y-4 px-6">
         <h2 className="text-2xl text md:text-4xl font-black uppercase tracking-wide">
@@ -35,7 +35,7 @@ const MiddleHeroSection = () => {
         <div className="relative">
           {/* Red diagonal ribbon */}
 
-          <div className="absolute text top-1/2 left-1/2 w-[150vw] -translate-x-1/2 -translate-y-1/2 rotate-[18deg] bg-[#111111] text-[#FFFFFF] font-bold uppercase text-2xl tracking-widest py-8 text-center z-0 hover:bg-blue-600 transition-colors">
+          <div className="absolute text top-1/2 left-1/2 w-[150vw] -translate-x-1/2 -translate-y-1/2 rotate-[18deg] bg-[#111111] text-[#FFFFFF] font-bold uppercase text-2xl tracking-widest py-8 text-center z-0 hover:bg-[#A8C7F0] transition-colors">
             NEWFASHION ✦&nbsp;&nbsp; NEWFASHION ✦&nbsp;&nbsp; NEWFASHION
             ✦&nbsp;&nbsp; NEWFASHION ✦&nbsp;&nbsp; NEWFASHION ✦&nbsp;&nbsp;
             NEWFASHION ✦&nbsp;&nbsp; NEWFASHION ✦&nbsp;&nbsp; NEWFASHION

@@ -6,10 +6,10 @@ const About = () => {
     <>
       <Navbar />
 
-      <main className="pt-32 md:pt-48 bg-[#FAFAF8] text">
+      <main className="pt-32 md:pt-48 bg-[#FFFAF3] text">
         <section className="max-w-7xl mx-auto px-6 mb-20">
           <h1 className="font-serif text1 text-5xl md:text-6xl tracking-tight">
-            About <span className="text-[#B76E4D]">SHRÉEJI</span>
+            About <span className="text-[#A8C7F0]">SHRÉEJI</span>
           </h1>
 
           <p className="mt-6 max-w-4xl text-[#111111] leading-relaxed">
@@ -22,7 +22,7 @@ const About = () => {
         </section>
 
 
-        <section className="bg-gray-50 py-20">
+        <section className="bg-[#FFFAF3] py-20">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="font-serif text1 text-3xl mb-8">Our Story</h2>
 
@@ -74,7 +74,7 @@ const About = () => {
         </section>
 
         {/* ================= QUALITY & MATERIAL ================= */}
-        <section className="bg-[#111111] text-[#FFFFFF] py-20 text hover:bg-blue-600 transition-colors">
+        <section className="bg-[#111111] text-[#FFFFFF] py-20 text hover:bg-[#A8C7F0] transition-colors">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="font-serif text-3xl mb-8 text1">Quality & Craftsmanship</h2>
 
@@ -111,7 +111,7 @@ const About = () => {
         </section>
 
         {/* ================= CUSTOMER PROMISE ================= */}
-        <section className="bg-gray-50 py-20">
+        <section className="bg-[#FFFAF3] py-20">
           <div className="max-w-7xl mx-auto px-6 text">
             <h2 className="font-serif text-3xl mb-8 text1" >Our Promise</h2>
 

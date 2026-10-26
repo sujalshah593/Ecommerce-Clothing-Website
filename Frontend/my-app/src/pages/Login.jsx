@@ -121,7 +121,7 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen flex overflow-hidden bg-white">
+    <div className="h-screen flex overflow-hidden bg-[#FFFAF3]">
 
       {/* Ã¢â€â‚¬Ã¢â€â‚¬ LEFT: Form Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <div className="flex flex-col justify-center w-full lg:w-[52%] px-8 overflow-y-auto items-center">
@@ -136,7 +136,7 @@ const Login = () => {
             {step === "RESET" && "Reset Password"}
             {step === "OTP" && "Verify OTP"}
           </h1>
-          <p className="text-sm font-light text-gray-400 mb-8">
+          <p className="text-sm font-light text-[#382A3A]/40 mb-8">
             {step === "LOGIN" && "Sign in to your account"}
             {step === "FORGOT" && "Enter your registered email"}
             {step === "RESET" && "Enter your new password"}
@@ -147,19 +147,19 @@ const Login = () => {
           {step === "LOGIN" && (
             <form onSubmit={submitHandler} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Your Email Address</label>
+                <label className="block text-sm font-semibold text-[#382A3A] mb-1">Your Email Address</label>
                 <input
                   type="email"
                   placeholder="name@example.com"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full border border-[#A8C7F0]/40 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-[#A8C7F0]"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+                <label className="block text-sm font-semibold text-[#382A3A] mb-1">Password</label>
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
@@ -167,49 +167,49 @@ const Login = () => {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-600 pr-10"
+                    className="w-full border border-[#A8C7F0]/40 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-[#A8C7F0] pr-10"
                   />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700">
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#382A3A]/40 hover:text-[#382A3A]">
                     {showPassword ? <EyeClosed size={17} /> : <Eye size={17} />}
                   </button>
                 </div>
               </div>
 
               <div className="flex items-center justify-between text-sm">
-                <label className="flex items-center gap-2 text-gray-600 cursor-pointer select-none font-light">
+                <label className="flex items-center gap-2 text-[#382A3A]/70 cursor-pointer select-none font-light">
                   <input type="checkbox" className="accent-blue-600 w-4 h-4" />
                   Remember Me
                 </label>
                 <button type="button" onClick={() => setStep("FORGOT")}
-                  className="text-gray-500 hover:text-blue-600 hover:underline transition-colors font-light">
+                  className="text-[#382A3A]/60 hover:text-[#382A3A] hover:underline transition-colors font-light">
                   Forgot Password?
                 </button>
               </div>
 
               <button type="submit" disabled={loading}
-                className={`w-full rounded-full py-2.5 text-white font-semibold text-sm transition-colors ${
-                  loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`}>
+                className={`w-full rounded-full py-2.5 text-[#382A3A] font-semibold text-sm transition-colors ${
+                  loading ? "bg-blue-400 cursor-not-allowed" : "bg-[#A8C7F0] hover:bg-[#A8C7F0]"}`}>
                 {loading ? "Signing In..." : "Login"}
               </button>
 
               {/* Instant Login divider */}
               <div className="flex items-center gap-3 my-1">
-                <div className="flex-grow border-t border-gray-200" />
-                <span className="text-xs font-light text-gray-400 whitespace-nowrap">Instant Login</span>
-                <div className="flex-grow border-t border-gray-200" />
+                <div className="flex-grow border-t border-[#A8C7F0]/30" />
+                <span className="text-xs font-light text-[#382A3A]/40 whitespace-nowrap">Instant Login</span>
+                <div className="flex-grow border-t border-[#A8C7F0]/30" />
               </div>
 
               {/* Google */}
               <button type="button" onClick={googleLogin}
-                className="w-full border border-gray-300 rounded-md py-2.5 text-sm text-black flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
+                className="w-full border border-[#A8C7F0]/40 rounded-md py-2.5 text-sm text-black flex items-center justify-center gap-2 hover:bg-[#FFFAF3] transition-colors">
                 <FcGoogle size={19} />
                 Login with Google
               </button>
 
-              <p className="text-sm font-light text-center text-gray-500 pt-1">
+              <p className="text-sm font-light text-center text-[#382A3A]/60 pt-1">
                 Don't have an account?{" "}
-                <Link to="/register" className="text-blue-600 font-semibold hover:underline">Register Now</Link>
+                <Link to="/register" className="text-[#382A3A] font-semibold hover:underline">Register Now</Link>
               </p>
             </form>
           )}
@@ -218,15 +218,15 @@ const Login = () => {
           {step === "FORGOT" && (
             <form onSubmit={forgotHandler} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Registered Email</label>
+                <label className="block text-sm font-semibold text-[#382A3A] mb-1">Registered Email</label>
                 <input type="email" placeholder="name@example.com" required value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-600" />
+                  className="w-full border border-[#A8C7F0]/40 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-[#A8C7F0]" />
               </div>
-              <button type="submit" className="w-full rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 text-sm">
+              <button type="submit" className="w-full rounded-md bg-[#A8C7F0] hover:bg-[#A8C7F0] text-[#382A3A] font-semibold py-2.5 text-sm">
                 Continue
               </button>
-              <button type="button" onClick={() => setStep("LOGIN")} className="w-full text-sm text-blue-600 hover:underline">
+              <button type="button" onClick={() => setStep("LOGIN")} className="w-full text-sm text-[#382A3A] hover:underline">
                  Back to login
               </button>
             </form>
@@ -236,12 +236,12 @@ const Login = () => {
           {step === "RESET" && (
             <form onSubmit={resetHandler} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">New Password</label>
+                <label className="block text-sm font-semibold text-[#382A3A] mb-1">New Password</label>
                 <input type="password" placeholder="New password" required value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-600" />
+                  className="w-full border border-[#A8C7F0]/40 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-[#A8C7F0]" />
               </div>
-              <button type="submit" className="w-full rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 text-sm">
+              <button type="submit" className="w-full rounded-md bg-[#A8C7F0] hover:bg-[#A8C7F0] text-[#382A3A] font-semibold py-2.5 text-sm">
                 Reset Password
               </button>
             </form>
@@ -251,18 +251,18 @@ const Login = () => {
           {step === "OTP" && (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">One-Time Password</label>
+                <label className="block text-sm font-semibold text-[#382A3A] mb-1">One-Time Password</label>
                 <input placeholder="Enter 6-digit OTP" value={otp}
                   onChange={(e) => setOtp(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-600 tracking-widest" />
+                  className="w-full border border-[#A8C7F0]/40 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-[#A8C7F0] tracking-widest" />
               </div>
               <button onClick={verifyOtpHandler}
-                className="w-full rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 text-sm">
+                className="w-full rounded-md bg-[#A8C7F0] hover:bg-[#A8C7F0] text-[#382A3A] font-semibold py-2.5 text-sm">
                 Verify OTP
               </button>
               {timer > 0
-                ? <p className="text-xs text-center text-gray-400">Resend in <span className="font-semibold text-black">{timer}s</span></p>
-                : <button onClick={resendOtpHandler} className="w-full text-sm text-blue-600 hover:underline">Resend OTP</button>
+                ? <p className="text-xs text-center text-[#382A3A]/40">Resend in <span className="font-semibold text-black">{timer}s</span></p>
+                : <button onClick={resendOtpHandler} className="w-full text-sm text-[#382A3A] hover:underline">Resend OTP</button>
               }
             </div>
           )}
@@ -271,7 +271,7 @@ const Login = () => {
       </div>
 
       {/* Ã¢â€â‚¬Ã¢â€â‚¬ RIGHT: Contained image card Ã¢â€â‚¬Ã¢â€â‚¬ */}
-      <div className="hidden lg:flex lg:w-[48%] items-center justify-center bg-white p-4">
+      <div className="hidden lg:flex lg:w-[48%] items-center justify-center bg-[#FFFAF3] p-4">
         <div className="h-[98vh] w-full overflow-hidden shadow-md">
           <img
             src={loginBanner}

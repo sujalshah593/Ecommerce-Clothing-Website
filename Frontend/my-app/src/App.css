@@ -1,10 +1,21 @@
 @import "tailwindcss";  
 
+:root {
+  --color-bg: #FFFAF3;
+  --color-primary: #A8C7F0;
+  --color-secondary: #D8C9FF;
+  --color-text: #382A3A;
+}
 
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
 
-
-
-
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 2.5px #382A3A;
+}
 
 @layer base {
   html, body, * {
@@ -15,4 +26,19 @@
     font-weight: 400 !important;
     letter-spacing: 0.5px;
   }
+}
+
+/* Custom Soft Scrollbar */
+.reviews-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.reviews-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.reviews-scroll::-webkit-scrollbar-thumb {
+  background-color: #A8C7F0;
+  border-radius: 9999px;
+}
+.reviews-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #8FB8EC;
 }

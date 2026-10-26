@@ -96,7 +96,7 @@ const InventoryPage = () => {
   };
 
   return (
-    <div className="relative min-h-[calc(100vh-5rem)] bg-[#FAFAF8] p-8">
+    <div className="relative min-h-[calc(100vh-5rem)] bg-[#FFFAF3] p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12">
           <h1 className="text-5xl font-serif mb-3 text-[#111111] text1">Inventory</h1>
@@ -106,14 +106,14 @@ const InventoryPage = () => {
         </div>
 
         <div className="grid grid-cols-1 text md:grid-cols-4 gap-6 mb-12">
-          <div className="border rounded p-6 bg-white shadow-sm">
+          <div className="border rounded p-6 bg-[#FFFAF3] shadow-sm">
             <p className="text-[10px] font-bold text1 uppercase tracking-[0.2em] text-[#6B7280] mb-3 flex items-center gap-2">
               <Package className="w-4 h-4" /> Total Products
             </p>
             <p className="text-4xl text1 font-serif text-[#111111]">{totalProducts}</p>
           </div>
 
-          <div className="border rounded p-6 bg-white shadow-sm">
+          <div className="border rounded p-6 bg-[#FFFAF3] shadow-sm">
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6B7280] mb-3 flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-green-500" /> In Stock
             </p>
@@ -122,7 +122,7 @@ const InventoryPage = () => {
             </p>
           </div>
 
-          <div className="border rounded p-6 bg-white shadow-sm">
+          <div className="border rounded p-6 bg-[#FFFAF3] shadow-sm">
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6B7280] mb-3 flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-orange-500" /> Low Stock
             </p>
@@ -131,7 +131,7 @@ const InventoryPage = () => {
             </p>
           </div>
 
-          <div className="border rounded p-6 bg-white shadow-sm">
+          <div className="border rounded p-6 bg-[#FFFAF3] shadow-sm">
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6B7280] mb-3 flex items-center gap-2">
               <XCircle className="w-4 h-4 text-red-500" /> Out of Stock
             </p>
@@ -141,10 +141,10 @@ const InventoryPage = () => {
           </div>
         </div>
 
-        <div className="border rounded p-6 mb-8 space-y-4 bg-white shadow-sm">
+        <div className="border rounded p-6 mb-8 space-y-4 bg-[#FFFAF3] shadow-sm">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-4 top-3 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-4 top-3 w-5 h-5 text-[#382A3A]/40" />
               <input
                 type="text"
                 placeholder="Search products by name..."
@@ -172,10 +172,10 @@ const InventoryPage = () => {
           </div>
         </div>
 
-        <div className="border rounded bg-white shadow-sm overflow-hidden">
+        <div className="border rounded bg-[#FFFAF3] shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="border-b bg-gray-100">
+              <thead className="border-b bg-[#D8C9FF]/20">
                 <tr>
                   <th className="px-6 py-4 text1 text-[#111111] text-left text-[10px] font-bold uppercase tracking-[0.2em]">Product</th>
                   <th className="px-6 py-4 text-left text1 text-[#111111] text-[10px] font-bold uppercase tracking-[0.2em]">Category</th>
@@ -197,7 +197,7 @@ const InventoryPage = () => {
                   return (
                     <tr
                       key={product._id}
-                      className="border-b hover:bg-gray-50 cursor-pointer transition"
+                      className="border-b hover:bg-[#FFFAF3] cursor-pointer transition"
                       onClick={() => openDetailsModal(product)}
                     >
                       <td className="px-6 py-4">
@@ -224,7 +224,7 @@ const InventoryPage = () => {
                       <td className="px-6 py-4 text-right">
                         <button 
                           onClick={(e) => openAdjustModal(product, e)}
-                          className="flex items-center gap-1 ml-auto text-[10px] font-bold uppercase tracking-[0.1em] text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded transition"
+                          className="flex items-center gap-1 ml-auto text-[10px] font-bold uppercase tracking-[0.1em] text-[#382A3A] hover:text-blue-800 bg-[#D8C9FF]/20 hover:bg-blue-100 px-3 py-1.5 rounded transition"
                         >
                           <Edit className="w-3 h-3" /> Adjust
                         </button>
@@ -247,10 +247,10 @@ const InventoryPage = () => {
       {/* DETAILS MODAL */}
       {isDetailsModalOpen && selectedProduct && (
         <div className="absolute inset-0 z-50 flex items-start justify-center p-4 pt-32" style={{ minHeight: '100%', backgroundColor: 'rgba(0, 0, 0, 0.4)', backdropFilter: 'blur(4px)' }}>
-          <div className="bg-white rounded-xl shadow-2xl overflow-hidden sticky top-32" style={{ maxWidth: '500px', width: '100%' }}>
+          <div className="bg-[#FFFAF3] rounded-xl shadow-2xl overflow-hidden sticky top-32" style={{ maxWidth: '500px', width: '100%' }}>
             <div className="flex justify-between items-center p-6 border-b">
               <h2 className="text-xl font-bold text-[#111111] m-0">Stock Details</h2>
-              <button onClick={() => setIsDetailsModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => setIsDetailsModalOpen(false)} className="text-[#382A3A]/40 hover:text-[#382A3A]/70">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -260,19 +260,19 @@ const InventoryPage = () => {
                 <img src={selectedProduct.image} alt={selectedProduct.name} className="w-24 h-24 object-cover rounded-lg border" />
                 <div>
                   <h3 className="font-bold text-lg text-[#111111]">{selectedProduct.name}</h3>
-                  <p className="text-sm text-gray-500 mb-1">{selectedProduct.category}</p>
+                  <p className="text-sm text-[#382A3A]/60 mb-1">{selectedProduct.category}</p>
                   <p className="font-medium text-[#111111]">₹{selectedProduct.price}</p>
-                  <p className="text-xs text-gray-400 mt-2">ID: {selectedProduct._id}</p>
+                  <p className="text-xs text-[#382A3A]/40 mt-2">ID: {selectedProduct._id}</p>
                 </div>
               </div>
               
-              <div className="bg-gray-50 rounded-lg p-4 flex justify-between items-center mb-6 border">
-                <div className="text-sm text-gray-600">Current Stock</div>
+              <div className="bg-[#FFFAF3] rounded-lg p-4 flex justify-between items-center mb-6 border">
+                <div className="text-sm text-[#382A3A]/70">Current Stock</div>
                 <div className="text-2xl font-bold text-[#111111]">{selectedProduct.countInStock}</div>
               </div>
 
-              <div className="bg-blue-50 text-blue-800 text-xs p-4 rounded-lg flex gap-3 items-start border border-blue-100">
-                <AlertTriangle className="w-5 h-5 flex-shrink-0 text-blue-600" />
+              <div className="bg-[#D8C9FF]/20 text-blue-800 text-xs p-4 rounded-lg flex gap-3 items-start border border-blue-100">
+                <AlertTriangle className="w-5 h-5 flex-shrink-0 text-[#382A3A]" />
                 <p><strong>Inventory is controlled by successful order/payment transactions.</strong> Stock is strictly deducted only once per order, upon successful payment validation.</p>
               </div>
             </div>
@@ -283,29 +283,29 @@ const InventoryPage = () => {
       {/* ADJUST MODAL */}
       {isAdjustModalOpen && selectedProduct && (
         <div className="absolute inset-0 z-50 flex items-start justify-center p-4 pt-32" style={{ minHeight: '100%', backgroundColor: 'rgba(0, 0, 0, 0.4)', backdropFilter: 'blur(4px)' }}>
-          <div className="bg-white rounded-xl shadow-2xl overflow-hidden sticky top-32" style={{ maxWidth: '400px', width: '100%' }}>
+          <div className="bg-[#FFFAF3] rounded-xl shadow-2xl overflow-hidden sticky top-32" style={{ maxWidth: '400px', width: '100%' }}>
             <div className="flex justify-between items-center p-6 border-b">
               <h2 className="text-xl font-bold text-[#111111] m-0">Adjust Stock</h2>
-              <button onClick={() => setIsAdjustModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => setIsAdjustModalOpen(false)} className="text-[#382A3A]/40 hover:text-[#382A3A]/70">
                 <X className="w-5 h-5" />
               </button>
             </div>
             
             <form onSubmit={handleAdjustStockSubmit} className="p-6">
               <div className="mb-4">
-                <p className="text-sm text-gray-600 mb-1">Product</p>
+                <p className="text-sm text-[#382A3A]/70 mb-1">Product</p>
                 <p className="font-medium text-[#111111] line-clamp-1">{selectedProduct.name}</p>
               </div>
               
               <div className="flex gap-4 mb-6">
                 <div className="flex-1">
-                  <p className="text-sm text-gray-600 mb-1">Current</p>
-                  <div className="bg-gray-100 p-3 rounded font-bold text-gray-500 border">
+                  <p className="text-sm text-[#382A3A]/70 mb-1">Current</p>
+                  <div className="bg-[#D8C9FF]/20 p-3 rounded font-bold text-[#382A3A]/60 border">
                     {selectedProduct.countInStock}
                   </div>
                 </div>
                 <div className="flex-1">
-                  <label className="text-sm text-gray-600 mb-1 block">New Value</label>
+                  <label className="text-sm text-[#382A3A]/70 mb-1 block">New Value</label>
                   <input
                     type="number"
                     min="0"
@@ -321,7 +321,7 @@ const InventoryPage = () => {
                 <button
                   type="button"
                   onClick={() => setIsAdjustModalOpen(false)}
-                  className="px-4 py-2 border rounded text-sm font-bold text-gray-600 hover:bg-gray-50"
+                  className="px-4 py-2 border rounded text-sm font-bold text-[#382A3A]/70 hover:bg-[#FFFAF3]"
                 >
                   Cancel
                 </button>

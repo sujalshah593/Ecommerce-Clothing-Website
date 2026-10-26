@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const BuyerSection = () => {
   return (
     <>
-      <section className="bg-white mb-20">
+      <section className="bg-[#FFFAF3] mb-20">
         <div className="px-6 md:px-12 py-24 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* LEFT COLUMN - Boys */}
@@ -26,7 +26,7 @@ const BuyerSection = () => {
                 </h4>
                 <Link
                   to="/Boys"
-                  className="text-[10px] text font-bold uppercase tracking-widest text-[#FFFFFF] border-b border-[#FAFAF8] pb-1"
+                  className="text-[10px] text font-bold uppercase tracking-widest text-[#FFFFFF] border-b border-[#FFFAF3] pb-1"
                 >
                   For Kids
                 </Link>
@@ -45,7 +45,7 @@ const BuyerSection = () => {
               </div>
 
               <div
-                className="w-20 h-13 rounded-full bg-blue-600 text-white flex items-center justify-center hover:scale-110 transition-all duration-300 cursor-pointer hover:bg-blue-700 transition-colors"
+                className="w-20 h-13 rounded-full bg-[#A8C7F0] text-[#382A3A] flex items-center justify-center hover:scale-110 transition-all duration-300 cursor-pointer hover:bg-[#A8C7F0] transition-colors"
               >
                 <MoveUpRight size={20} />
               </div>
@@ -64,7 +64,7 @@ const BuyerSection = () => {
               </div>
 
               <div
-                className="w-20 h-15 rounded-full bg-blue-600 text-white flex items-center justify-center hover:scale-110 transition-all duration-300 cursor-pointer hover:bg-blue-700 transition-colors"
+                className="w-20 h-15 rounded-full bg-[#A8C7F0] text-[#382A3A] flex items-center justify-center hover:scale-110 transition-all duration-300 cursor-pointer hover:bg-[#A8C7F0] transition-colors"
               >
                 <MoveUpRight size={20} />
               </div>
@@ -84,7 +84,7 @@ const BuyerSection = () => {
                 </h4>
                 <Link
                   to="/Mens"
-                  className="text-[10px] text font-bold uppercase tracking-widest text-[#FFFFFF] border-b border-[#FAFAF8] pb-1"
+                  className="text-[10px] text font-bold uppercase tracking-widest text-[#FFFFFF] border-b border-[#FFFAF3] pb-1"
                 >
                   Shop Mens
                 </Link>
