@@ -1,5 +1,8 @@
 import axios from "axios";
 import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 async function run() {
   const api = axios.create({ baseURL: "http://localhost:5000/api", validateStatus: () => true });
@@ -17,7 +20,8 @@ async function run() {
     let userId2 = r.data.userId;
     
     // We can just use the DB to fetch OTP
-    const client = await MongoClient.connect("mongodb+srv://mern:PZfCpjgWSjXJJQEB@cluster0.5cn0oid.mongodb.net/?appName=Cluster0");
+    const mongoUrl = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/test";
+    const client = await MongoClient.connect(mongoUrl);
     const db = client.db("test");
     let u2 = await db.collection("users").findOne({ email: email2 });
     let otp2 = u2.otp; 

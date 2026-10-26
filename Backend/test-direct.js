@@ -1,8 +1,12 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 import { registerUser, loginUser, verifyOtp } from "./Controller/authController.js";
 
+dotenv.config();
+
 async function run() {
-  await mongoose.connect("mongodb+srv://mern:PZfCpjgWSjXJJQEB@cluster0.5cn0oid.mongodb.net/?appName=Cluster0");
+  const mongoUrl = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/test";
+  await mongoose.connect(mongoUrl);
   
   const email2 = `test2_direct_${Date.now()}@example.com`;
   
