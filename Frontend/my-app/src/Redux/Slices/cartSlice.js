@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import api from "../../api/axios.js";
 
 const CART_STORAGE_KEY = "cartItems";
 
@@ -42,6 +43,11 @@ const cartSlice = createSlice({
       saveCartToStorage(state.cartItems);
     },
 
+    setCart: (state, action) => {
+      state.cartItems = Array.isArray(action.payload) ? action.payload : [];
+      saveCartToStorage(state.cartItems);
+    },
+
     removeFromCart: (state, action) => {
       const { id, size } = action.payload;
       state.cartItems = state.cartItems.filter(
@@ -64,6 +70,30 @@ const cartSlice = createSlice({
   }
 });
 
-export const { addToCart, removeFromCart, updateQty, clearCart } = cartSlice.actions;
+export const { addToCart, setCart, removeFromCart, updateQty, clearCart } = cartSlice.actions;
+
+export const fetchCart = () => async (dispatch) => {
+  const { data } = await api.get("/cart");
+  dispatch(setCart(data.items));
+  return data.items;
+};
+
+export const addCartItem = ({ productId, size = "", qty = 1 }) => async (dispatch) => {
+  const { data } = await api.post("/cart/items", { productId, size, qty });
+  dispatch(setCart(data.items));
+  return data.items;
+};
+
+export const updateCartItem = ({ productId, size = "", qty }) => async (dispatch) => {
+  const { data } = await api.patch(`/cart/items/${productId}`, { size, qty });
+  dispatch(setCart(data.items));
+  return data.items;
+};
+
+export const removeCartItem = ({ productId, size = "" }) => async (dispatch) => {
+  const { data } = await api.delete(`/cart/items/${productId}`, { params: { size } });
+  dispatch(setCart(data.items));
+  return data.items;
+};
 
 export default cartSlice.reducer;

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
-import { useAuth } from "../context/AuthContext";
-import { toastSuccess } from "../utils/toast";
+import { toastError, toastSuccess } from "../utils/toast";
 import { Eye, EyeClosed } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import registerBanner from "../assets/register_banner.jpg";
@@ -15,7 +14,6 @@ const Register = () => {
     password: "",
   });
 
-  const { login } = useAuth();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -25,18 +23,16 @@ const Register = () => {
     if (loading) return;
     setLoading(true);
     try {
-      const { data } = await api.post("/auth/register", {
+      await api.post("/auth/register", {
         name: `${form.firstName} ${form.lastName}`,
         email: form.email,
         password: form.password,
       });
 
       toastSuccess("Account created successfully! Please login to verify your email.");
-      setTimeout(() => {
-        navigate("/login");
-      }, 1700);
+      navigate("/login", { replace: true });
     } catch (error) {
-      alert(error.response?.data?.message || "Registration failed");
+      toastError(error.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
     }

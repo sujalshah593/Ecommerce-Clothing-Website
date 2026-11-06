@@ -27,9 +27,6 @@ const Navbar = () => {
       <div className="hidden lg:flex items-center justify-between flex-1 mx-8 gap-4">
         {/* Nav Links */}
         <div className="flex items-center gap-7 text-[11px] font-bold tracking-[0.05em] uppercase text-[#382A3A] whitespace-nowrap">
-          <Link to="/new" className="px-3.5 py-2 rounded-full  border-[#A8C7F0]/40 bg-[#FFFAF3] hover:bg-[#A8C7F0] hover:text-[#382A3A] hover:border-[#A8C7F0] transition-all">
-            New Product
-          </Link>
           <Link to="/Mens" className="px-3.5 py-2 rounded-full  border-[#A8C7F0]/40 bg-[#FFFAF3] hover:bg-[#A8C7F0] hover:text-[#382A3A] hover:border-[#A8C7F0] transition-all">
             Men
           </Link>

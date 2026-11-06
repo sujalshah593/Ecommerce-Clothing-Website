@@ -21,7 +21,7 @@ const Home = () => {
   const { products, loading, error, pages } = useSelector(
     (state) => state.products
   );
-
+ 
   useEffect(() => {
     dispatch(resetProducts());
     setCurrentPage(1);

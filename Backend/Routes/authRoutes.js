@@ -1,9 +1,10 @@
 import express from "express";
 import passport from "passport";
 import crypto from "crypto";
-import { connection } from "../config/redis.js";
+import { connection } from "../Config/redis.js";
 import { registerUser, loginUser, verifyOtp, resendOtp, changePassword,forgotPassword, resetPassowrd, addAddress, deleteAddress } from "../Controller/authController.js";
 import generateToken from "../utils/generateToken.js";
+import User from "../Models/User.js";
 import {
   loginLimiter,
   registerLimiter,
@@ -105,8 +106,19 @@ router.post("/google/exchange", async (req, res) => {
       return res.status(401).json({ message: "Invalid or expired authorization code" });
     }
 
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return res.status(401).json({ message: "User account is no longer available" });
+    }
+
     const token = generateToken(userId);
-    res.json({ token });
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token,
+    });
   } catch (error) {
     res.status(500).json({ message: "Internal server error during token exchange" });
   }

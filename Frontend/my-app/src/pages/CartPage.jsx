@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  updateQty,
-  removeFromCart,
-  addToCart,
+  updateCartItem,
+  removeCartItem,
 } from "../Redux/Slices/cartSlice";
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
@@ -15,8 +14,6 @@ const CartPage = () => {
   const dispatch = useDispatch();
 
   const { cartItems } = useSelector((state) => state.cart);
-  const { products } = useSelector((state) => state.products);
-
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.qty * item.price,
     0,
@@ -27,15 +24,13 @@ const CartPage = () => {
 
   const handleUpdateQty = (item, newQty) => {
     if (newQty < 1 || newQty > 10) return;
-    dispatch(updateQty({ id: item._id, size: item.size, qty: newQty }));
+    dispatch(updateCartItem({ productId: item._id, size: item.size, qty: newQty }))
+      .catch((error) => console.error("Failed to update cart item", error));
   };
 
   const handleRemove = (item) => {
-    dispatch(removeFromCart({ id: item._id, size: item.size }));
-  };
-
-  const handleAddToCart = (product) => {
-    dispatch(addToCart({ ...product, size: product.sizes?.[0] || "" }));
+    dispatch(removeCartItem({ productId: item._id, size: item.size }))
+      .catch((error) => console.error("Failed to remove cart item", error));
   };
 
   return (

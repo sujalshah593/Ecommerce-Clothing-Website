@@ -1,19 +1,19 @@
 import { Heart, ShoppingBag } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import { toggleFavorite } from "../Redux/Slices/favoriteSlice.js";
 
 const ProductCard = ({ product }) => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { favorites } = useSelector((state) => state.favorite);
 
 
 
   const isFavorite = favorites.some((p) => p._id === product._id); 
   return (
-     <Link to={`/product/${product._id}`} className="block">
-    <div className="group space-y-4 cursor-pointer bg-[#FFFAF3] border border-[#A8C7F0]/30 rounded-xl shadow-sm p-3">
+    <div className="group space-y-4 cursor-pointer bg-[#FFFAF3] border border-[#A8C7F0]/30 rounded-xl shadow-sm p-3" onClick={() => navigate(`/product/${product._id}`)} role="link" tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") navigate(`/product/${product._id}`); }}>
       <div className="relative aspect-[3/4] bg-[#FFFAF3] rounded-lg overflow-hidden">
         <img
           src={product.image || "/placeholder.jpg"}
@@ -25,7 +25,7 @@ const ProductCard = ({ product }) => {
         />
 
         <button
-          onClick={() => dispatch(toggleFavorite(product))}
+          onClick={(event) => { event.stopPropagation(); dispatch(toggleFavorite(product)); }}
           className="absolute top-4 right-4 p-2.5 
             bg-[#FFFAF3]/40 backdrop-blur-md rounded-full 
             opacity-0 -translate-y-2 
@@ -37,6 +37,7 @@ const ProductCard = ({ product }) => {
         </button>
 
         <button
+          onClick={(event) => { event.stopPropagation(); navigate(`/product/${product._id}`); }}
           className="absolute bottom-0 left-0 right-0 py-5 bg-[#A8C7F0] text-[#382A3A] text-[10px] font-bold uppercase tracking-[0.3em] translate-y-full group-hover:translate-y-0 transition-all duration-300 ease-in-out flex items-center justify-center gap-2 hover:bg-[#8FB8EC] transition-colors"
         >
           <ShoppingBag className="w-3.5 h-3.5" />
@@ -62,7 +63,6 @@ const ProductCard = ({ product }) => {
         </div>
       </div>
     </div>
-    </Link>
   );
 };
 

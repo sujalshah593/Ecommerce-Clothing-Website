@@ -2,7 +2,7 @@ import { Heart, Trash2, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleFavorite } from "../Redux/Slices/favoriteSlice";
-import { addToCart } from "../Redux/Slices/cartSlice";
+import { addCartItem } from "../Redux/Slices/cartSlice";
 import { toast } from "react-toastify";
 import Navbar from "../components/Navbar";
 
@@ -18,8 +18,9 @@ const FavoritesPage = () => {
   const addAllToCart = () => {
     favorites.forEach((product) => {
       dispatch(
-        addToCart({
-          ...product,
+        addCartItem({
+          productId: product._id,
+          size: product.sizes?.[0] || "",
           qty: 1,
         })
       );

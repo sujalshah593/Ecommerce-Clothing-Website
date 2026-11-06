@@ -12,7 +12,7 @@ import ProductCard from "../components/ProductCard.jsx";
 import FooterSection from "../components/FooterSection.jsx";
 import ProductReviews from "../components/ProductReviews.jsx";
 import { useNavigate } from "react-router-dom";
-import { addToCart } from "../Redux/Slices/cartSlice.js";
+import { addCartItem } from "../Redux/Slices/cartSlice.js";
 import TruckLoader from "../components/TruckLoader.jsx";
 import { toast } from "react-toastify";
 import { toggleFavorite } from "../Redux/Slices/favoriteSlice.js";
@@ -35,13 +35,15 @@ const ProductPage = () => {
       return;
     }
 
-    dispatch(addToCart({ ...product, size: selectedSize }));
-
-    toast.success(`${product.name} added to cart`, {
-      position: "top-right",
-      autoClose: 1500,
-    });
-    navigate("/cart");
+    dispatch(addCartItem({ productId: product._id, size: selectedSize }))
+      .then(() => {
+        toast.success(`${product.name} added to cart`, {
+          position: "top-right",
+          autoClose: 1500,
+        });
+        navigate("/cart");
+      })
+      .catch((error) => toast.error(error.response?.data?.message || "Unable to save cart item"));
   };
 
   useEffect(() => {

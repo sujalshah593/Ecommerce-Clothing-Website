@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import loginBanner from "../assets/login_banner.png";
 
 const Login = () => {
-  const navigate = useNavigate();
   const { login } = useAuth();
 
   const [step, setStep] = useState("LOGIN");
@@ -37,6 +36,7 @@ const Login = () => {
     const params = new URLSearchParams(location.search);
     const token = params.get("resetToken");
     const errorMsg = params.get("error");
+    const stateError = location.state?.authError;
     if (token) {
       setResetToken(token);
       setStep("RESET");
@@ -46,7 +46,11 @@ const Login = () => {
       // Remove error from URL without reloading
       window.history.replaceState({}, document.title, window.location.pathname);
     }
-  }, [location.search]);
+    if (stateError) {
+      toast.error(stateError);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [location.search, location.state]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -56,7 +60,7 @@ const Login = () => {
       const { data } = await api.post("/auth/login", { email, password });
       login(data);
       toast.success("Login successful");
-      navigate("/");
+      window.location.replace("/");
     } catch (err) {
       if (err.response?.data?.requiresOtp) {
         setOtpData(err.response.data);
@@ -94,13 +98,16 @@ const Login = () => {
 
   const forgotHandler = async (e) => {
     e.preventDefault();
+    if (loading) return;
+    setLoading(true);
     try {
       const { data } = await api.post("/auth/forgot-password", { email });
-      setResetToken(data.token);
-      setStep("RESET");
-      toast.success("Reset link verified");
-    } catch {
-      toast.error("Email not found");
+      setStep("EMAIL_SENT");
+      toast.success(data.message || "If the account exists, a reset link has been sent.");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Unable to send the reset email");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -134,12 +141,14 @@ const Login = () => {
             {step === "LOGIN" && "Welcome Back!"}
             {step === "FORGOT" && "Forgot Password"}
             {step === "RESET" && "Reset Password"}
+            {step === "EMAIL_SENT" && "Check Your Email"}
             {step === "OTP" && "Verify OTP"}
           </h1>
           <p className="text-sm font-light text-[#382A3A]/40 mb-8">
             {step === "LOGIN" && "Sign in to your account"}
             {step === "FORGOT" && "Enter your registered email"}
             {step === "RESET" && "Enter your new password"}
+            {step === "EMAIL_SENT" && "Use the password reset link sent to your email"}
             {step === "OTP" && "Enter the OTP sent to your email"}
           </p>
 
@@ -223,13 +232,25 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full border border-[#A8C7F0]/40 rounded-md px-3 py-2.5 text-sm text-black focus:outline-none focus:ring-2 focus:ring-[#A8C7F0]" />
               </div>
-              <button type="submit" className="w-full rounded-md bg-[#A8C7F0] hover:bg-[#A8C7F0] text-[#382A3A] font-semibold py-2.5 text-sm">
-                Continue
+              <button type="submit" disabled={loading} className="w-full rounded-md bg-[#A8C7F0] hover:bg-[#A8C7F0] text-[#382A3A] font-semibold py-2.5 text-sm disabled:opacity-60">
+                {loading ? "Sending..." : "Send Reset Link"}
               </button>
               <button type="button" onClick={() => setStep("LOGIN")} className="w-full text-sm text-[#382A3A] hover:underline">
                  Back to login
               </button>
             </form>
+          )}
+
+          {step === "EMAIL_SENT" && (
+            <div className="space-y-4">
+              <p className="text-sm text-[#382A3A]/70 leading-relaxed">
+                If an account exists for <span className="font-semibold text-[#382A3A]">{email}</span>,
+                you will receive a password reset link shortly. Open that link to choose a new password.
+              </p>
+              <button type="button" onClick={() => setStep("LOGIN")} className="w-full text-sm text-[#382A3A] hover:underline">
+                Back to login
+              </button>
+            </div>
           )}
 
           {/* Ã¢â€â‚¬Ã¢â€â‚¬ RESET Ã¢â€â‚¬Ã¢â€â‚¬ */}
