@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios.js";
 import { Search, MoreVertical, Mail, Calendar, LogIn } from "lucide-react";
+import Pagination from "../../components/Pagination.jsx";
 
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 8;
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -40,9 +43,10 @@ const UsersPage = () => {
 
   const activeUsers = users.filter((u) => u.isVerified).length;
   const inactiveUsers = users.length - activeUsers;
+  const paginatedUsers = filteredUsers.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   return (
-    <div className="min-h-screen bg-[#FFFAF3] p-8">
+    <div className="admin-page users-page p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12">
           <h1 className="text-5xl font-serif mb-3 text-[#111111] text1">Customer Directory</h1>
@@ -86,7 +90,7 @@ const UsersPage = () => {
                 type="text"
                 placeholder="Search by name or email..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
                 className="w-full pl-12 pr-4 text-[#111111] text py-3 border rounded focus:outline-none focus:ring-1 focus:ring-[#E35336]"
               />
             </div>
@@ -95,7 +99,7 @@ const UsersPage = () => {
               {["All", "Active", "Inactive"].map((status) => (
                 <button
                   key={status}
-                  onClick={() => setStatusFilter(status)}
+                  onClick={() => { setStatusFilter(status); setCurrentPage(1); }}
                   className={`px-6 text py-3 text-[10px] font-bold uppercase tracking-[0.1em] ${
                     statusFilter === status
                       ? "bg-[#111111] text-[#FFFFFF]"
@@ -136,7 +140,7 @@ const UsersPage = () => {
               </thead>
 
               <tbody>
-                {filteredUsers.map((user) => (
+                {paginatedUsers.map((user) => (
                   <tr
                     key={user._id}
                     className="border-b hover:bg-[#FFFAF3]"
@@ -192,6 +196,8 @@ const UsersPage = () => {
             </div>
           )}
         </div>
+
+        <Pagination page={currentPage} pageSize={pageSize} total={filteredUsers.length} onPageChange={setCurrentPage} label="users" />
 
         <div className="mt-6 text text-sm text-[#6B7280]">
           Showing {filteredUsers.length} of {users.length} users

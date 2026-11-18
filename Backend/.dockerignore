@@ -3,3 +3,7 @@ node_modules
 .env.*
 npm-debug.log
 logs
+test-*.js
+check-user.js
+scripts
+*.py

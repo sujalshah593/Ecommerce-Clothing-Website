@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import api from "../../api/axios.js";
 import { Search, MoreVertical, Package, AlertTriangle, XCircle, CheckCircle, Edit, X } from "lucide-react";
 import { toast } from "react-toastify";
+import Pagination from "../../components/Pagination.jsx";
 
 const InventoryPage = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 8;
   
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
@@ -51,6 +54,7 @@ const InventoryPage = () => {
   const inStockCount = products.filter(p => p.countInStock > 5).length;
   const lowStockCount = products.filter(p => p.countInStock > 0 && p.countInStock <= 5).length;
   const outOfStockCount = products.filter(p => p.countInStock === 0).length;
+  const paginatedProducts = filteredProducts.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   const handleAdjustStockSubmit = async (e) => {
     e.preventDefault();
@@ -76,7 +80,7 @@ const InventoryPage = () => {
       setProducts(products.map(p => p._id === data._id ? data : p));
       toast.success("Stock updated successfully");
       setIsAdjustModalOpen(false);
-    } catch (err) {
+    } catch {
       toast.error("Failed to update stock");
     } finally {
       setIsUpdating(false);
@@ -96,7 +100,7 @@ const InventoryPage = () => {
   };
 
   return (
-    <div className="relative min-h-[calc(100vh-5rem)] bg-[#FFFAF3] p-8">
+    <div className="admin-page inventory-page relative min-h-[calc(100vh-5rem)] p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12">
           <h1 className="text-5xl font-serif mb-3 text-[#111111] text1">Inventory</h1>
@@ -149,7 +153,7 @@ const InventoryPage = () => {
                 type="text"
                 placeholder="Search products by name..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
                 className="w-full pl-12 pr-4 text-[#111111] text py-3 border rounded focus:outline-none focus:ring-1 focus:ring-[#E35336]"
               />
             </div>
@@ -158,7 +162,7 @@ const InventoryPage = () => {
               {["All", "In Stock", "Low Stock", "Out of Stock"].map((status) => (
                 <button
                   key={status}
-                  onClick={() => setStatusFilter(status)}
+                  onClick={() => { setStatusFilter(status); setCurrentPage(1); }}
                   className={`px-6 text py-3 text-[10px] font-bold uppercase tracking-[0.1em] ${
                     statusFilter === status
                       ? "bg-[#111111] text-[#FFFFFF]"
@@ -188,7 +192,7 @@ const InventoryPage = () => {
               </thead>
 
               <tbody>
-                {filteredProducts.map((product) => {
+                {paginatedProducts.map((product) => {
                   const status = getStockStatus(product.countInStock);
                   let statusClass = "bg-green-100 text-green-700";
                   if (status === "Low Stock") statusClass = "bg-orange-100 text-orange-700";
@@ -242,6 +246,7 @@ const InventoryPage = () => {
             </div>
           )}
         </div>
+        <Pagination page={currentPage} pageSize={pageSize} total={filteredProducts.length} onPageChange={setCurrentPage} label="products" />
       </div>
 
       {/* DETAILS MODAL */}

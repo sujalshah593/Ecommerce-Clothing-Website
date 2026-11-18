@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../api/axios";
+import api, { API_ORIGIN } from "../api/axios";
 import { toastError, toastSuccess } from "../utils/toast";
 import { Eye, EyeClosed } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
@@ -39,7 +39,7 @@ const Register = () => {
   };
 
   const googleSignup = () => {
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = `${API_ORIGIN}/api/auth/google`;
   };
 
   return (

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import api from "../api/axios";
+import api, { API_ORIGIN } from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
@@ -124,7 +124,7 @@ const Login = () => {
   };
 
   const googleLogin = () => {
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = `${API_ORIGIN}/api/auth/google`;
   };
 
   return (

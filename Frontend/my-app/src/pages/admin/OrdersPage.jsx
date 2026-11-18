@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { Search, Filter, ChevronRight, Package } from "lucide-react";
 import api from "../../api/axios.js";
+import Pagination from "../../components/Pagination.jsx";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 8;
 
   useEffect(() => {
     api.get("/orders").then((res) => setOrders(res.data));
@@ -23,9 +26,10 @@ const OrdersPage = () => {
     const matchStatus = status === "All" || o.status === status;
     return matchSearch && matchStatus;
   });
+  const paginatedOrders = filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   return (
-    <div className="space-y-8 font-serif">
+    <div className="admin-page orders-page space-y-8">
       <h1 className="text-4xl font-serif font-bold text-[#111111] text1">Orders</h1>
 
       {/* Search */}
@@ -36,13 +40,13 @@ const OrdersPage = () => {
             className="w-full pl-12 pr-4 py-3 text  bg-[#FFFAF3] border border-[#111111] rounded-lg text-[#111111]"
             placeholder="Search order..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
           />
         </div>
 
         <select
           value={status}
-          onChange={(e) => setStatus(e.target.value)}
+          onChange={(e) => { setStatus(e.target.value); setCurrentPage(1); }}
           className="bg-[#FFFAF3] border text1 border-[#111111] rounded-lg px-4 text-[#111111]"
         >
           <option>All</option>
@@ -54,7 +58,7 @@ const OrdersPage = () => {
       </div>
 
       <div className="space-y-4">
-        {filtered.map((o) => (
+        {paginatedOrders.map((o) => (
           <div
             key={o._id}
             className="bg-[#FFFAF3] p-6 rounded-lg border border-[#111111]"
@@ -73,9 +77,6 @@ const OrdersPage = () => {
                   <p className="text-[#6B7280] text">
                     {o.user?.name || "Guest User"}
                   </p>
-                  {/*P name*/}
-                  <p className="font text">{o._id}</p>
-
                   <p className="text-slate-500 text-xs text">Status: {o.status}</p>
                 </div>
               </div>
@@ -90,6 +91,7 @@ const OrdersPage = () => {
           </div>
         ))}
       </div>
+      <Pagination page={currentPage} pageSize={pageSize} total={filtered.length} onPageChange={setCurrentPage} label="orders" />
     </div>
   );
 };

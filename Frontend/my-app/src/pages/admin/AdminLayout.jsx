@@ -1,95 +1,21 @@
+import { NavLink, Outlet, Link } from "react-router-dom";
+import { BarChart3, ClipboardList, LayoutDashboard, LogOut, Menu, Moon, Package, ShoppingCart, Sun, Users, X } from "lucide-react";
 import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
-import {
-  BarChart3,
-  Package,
-  ShoppingCart,
-  Settings,
-  LogOut,
-  Menu,
-  X,
-  ClipboardList
-} from "lucide-react";
-import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [theme, setTheme] = useState(() => localStorage.getItem("shreeji-admin-theme") || "dark");
   const { logout } = useAuth();
-
   const navItems = [
-    { to: "/admin", label: "Dashboard", icon: BarChart3 },
-    { to: "/admin/users", label: "Users", icon: BarChart3 },
-    { to: "/admin/products", label: "Products", icon: Package },
-    { to: "/admin/inventory", label: "Inventory", icon: ClipboardList },
-    { to: "/admin/orders", label: "Orders", icon: ShoppingCart },
+    { to: "/admin", label: "Overview", icon: <LayoutDashboard size={17} />, end: true },
+    { to: "/admin/users", label: "Customers", icon: <Users size={17} /> },
+    { to: "/admin/products", label: "Products", icon: <Package size={17} /> },
+    { to: "/admin/inventory", label: "Inventory", icon: <ClipboardList size={17} /> },
+    { to: "/admin/orders", label: "Orders", icon: <ShoppingCart size={17} /> },
   ];
-
-  return (
-    <div className="flex h-screen bg-[#FFFAF3]">
-      <aside
-        className={`${
-          sidebarOpen ? "w-64" : "w-20"
-        } bg-[#111111] transition-all duration-300 flex flex-col`}
-      >
-        <div className="h-20 flex items-center justify-center border-b border-[#EAEAEA]/30">
-          <Link to="/" className="flex items-center gap-2">
-          <span className="font-serif text-xl text1 font-bold text-[#FFFFFF]">
-            {sidebarOpen ? "SHRÉEJI" : "S"}
-          </span>
-          </Link>
-        </div>
-        <nav className="flex-1 text1 px-4 py-8 space-y-2">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                className={({ isActive }) =>
-                  `flex items-center gap-4 px-4 py-3 rounded-lg transition ${
-                    isActive
-                      ? "bg-[#FFFAF3] text-[#111111]"
-                      : "text-slate-300 hover:bg-slate-800 hover:text-[#FFFFFF]"
-                  }`
-                }
-              >
-                <Icon className="w-5 h-5" />
-                {sidebarOpen && <span>{item.label}</span>}
-              </NavLink>
-            );
-          })}
-        </nav>
-        <div className="border-t text1 border-slate-800 p-4">
-          <button 
-            onClick={logout}
-            className="flex items-center gap-4 w-full px-4 py-3 rounded-lg hover:bg-[#111111]/20 transition text-slate-300 hover:text-[#382A3A]"
-          >
-            <LogOut className="w-5 h-5" />
-            {sidebarOpen && <span>Logout</span>}
-          </button>
-        </div>
-      </aside>
-
-      {/* Main */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="h-20 bg-[#FFFAF3] border-b border-[#EAEAEA]/30 flex items-center justify-between px-8">
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-[#EAEAEA]/20 rounded-lg transition"
-          >
-            {sidebarOpen ? <X /> : <Menu />}
-          </button>
-          <span className="text-sm text-slate-400 text">Admin Dashboard</span>
-        </header>
-        {/* Content */}
-        <main className="flex-1 overflow-auto bg-[#D8C9FF]/20 p-8">
-
-          <Outlet />
-        </main>
-      </div>
-    </div>
-  );
+  const toggleTheme = () => setTheme((current) => { const next = current === "dark" ? "light" : "dark"; localStorage.setItem("shreeji-admin-theme", next); return next; });
+  return <div className="admin-shell" data-theme={theme}><aside className={`admin-sidebar ${sidebarOpen ? "is-open" : "is-collapsed"}`}><div className="admin-brand"><Link to="/" className="brand-mark">S</Link>{sidebarOpen && <div><strong>SHRÉEJI</strong><span>Admin workspace</span></div>}</div><div className="sidebar-section-label">Workspace</div><nav className="admin-nav">{navItems.map(({ to, label, icon, end }) => <NavLink key={to} to={to} end={end} className={({ isActive }) => `admin-nav-link ${isActive ? "active" : ""}`}>{icon}{sidebarOpen && <span>{label}</span>}</NavLink>)}</nav><div className="sidebar-bottom"><button className="sidebar-toggle" onClick={() => setSidebarOpen((open) => !open)}>{sidebarOpen ? <X size={17} /> : <Menu size={17} />}{sidebarOpen && <span>Collapse menu</span>}</button><button className="admin-logout" onClick={logout}><LogOut size={17} />{sidebarOpen && <span>Log out</span>}</button></div></aside><div className="admin-content"><header className="admin-topbar"><div className="topbar-title"><BarChart3 size={17} /><span>Store analytics</span></div><div className="topbar-actions"><span className="live-indicator"><i /> Live data</span><button className="theme-toggle" onClick={toggleTheme} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}>{theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}<span>{theme === "dark" ? "Light" : "Dark"}</span></button><Link to="/" className="store-link">View storefront <ArrowUpRightIcon /></Link></div></header><main className="admin-main"><Outlet /></main></div></div>;
 };
-
+const ArrowUpRightIcon = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 17 17 7M7 7h10v10" /></svg>;
 export default AdminLayout;

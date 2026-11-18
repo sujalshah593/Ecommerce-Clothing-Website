@@ -18,6 +18,7 @@ import {
 } from "../Middleware/rateLimiters.js";
 
 const router = express.Router();
+const getFrontendUrl = () => (process.env.FRONTEND_URL || "http://localhost:5173").replace(/\/$/, "");
 
 /* Manual Auth */
 router.post("/register", registerLimiter, registerUser);
@@ -66,29 +67,29 @@ router.get(
     res.clearCookie("oauth_state");
 
     if (!queryState || !cookieState || queryState.length !== cookieState.length) {
-      return res.redirect(`http://localhost:5173/login?error=${encodeURIComponent("Invalid OAuth state")}`);
+      return res.redirect(`${getFrontendUrl()}/login?error=${encodeURIComponent("Invalid OAuth state")}`);
     }
 
     if (!crypto.timingSafeEqual(Buffer.from(queryState), Buffer.from(cookieState))) {
-      return res.redirect(`http://localhost:5173/login?error=${encodeURIComponent("OAuth state mismatch")}`);
+      return res.redirect(`${getFrontendUrl()}/login?error=${encodeURIComponent("OAuth state mismatch")}`);
     }
     next();
   },
   (req, res, next) => {
     passport.authenticate("google", { session: false }, async (err, user, info) => {
       if (err) {
-        return res.redirect(`http://localhost:5173/login?error=${encodeURIComponent("Internal server error during authentication")}`);
+        return res.redirect(`${getFrontendUrl()}/login?error=${encodeURIComponent("Internal server error during authentication")}`);
       }
       if (!user) {
-        return res.redirect(`http://localhost:5173/login?error=${encodeURIComponent(info?.message || "Authentication failed")}`);
+        return res.redirect(`${getFrontendUrl()}/login?error=${encodeURIComponent(info?.message || "Authentication failed")}`);
       }
 
       try {
         const authCode = crypto.randomBytes(32).toString("hex");
         await connection.set(`oauth_code:${authCode}`, user._id.toString(), "EX", 300);
-        res.redirect(`http://localhost:5173/auth/callback?code=${authCode}`);
+        res.redirect(`${getFrontendUrl()}/auth/callback?code=${authCode}`);
       } catch (error) {
-        return res.redirect(`http://localhost:5173/login?error=${encodeURIComponent("Internal server error during OAuth handoff")}`);
+        return res.redirect(`${getFrontendUrl()}/login?error=${encodeURIComponent("Internal server error during OAuth handoff")}`);
       }
     })(req, res, next);
   }

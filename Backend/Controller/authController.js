@@ -6,6 +6,9 @@ import generateOTP from "../utils/generateOtp.js";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 
+const getFrontendUrl = () => (process.env.FRONTEND_URL || "http://localhost:5173").replace(/\/$/, "");
+const getPasswordResetUrl = () => (process.env.PASSWORD_RESET_URL || `${getFrontendUrl()}/login`).replace(/\/$/, "");
+
 // REGISTER
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -198,7 +201,7 @@ export const forgotPassword = async (req, res) => {
     
   user.resetPasswordExpire = Date.now() + 60 * 60 * 1000; // 1 hour
   await user.save();
-const resetUrl = `http://localhost:5173/login?resetToken=${resetToken}`;
+  const resetUrl = `${getPasswordResetUrl()}?resetToken=${encodeURIComponent(resetToken)}`;
 
   await enqueueEmail("emailJob", {
     to: user.email,

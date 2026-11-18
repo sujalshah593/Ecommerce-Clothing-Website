@@ -4,33 +4,28 @@ import api from "../api/axios.js";
 import Navbar from "../components/Navbar";
 import FooterSection from "../components/FooterSection.jsx";
 import { useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toastSuccess } from "../utils/toast.js";
 import { toast } from "react-toastify";
-import visa from "../assets/visa.png";
-import rupay from "../assets/rupay.png";
-import gpay from "../assets/gpay.png";
-import bhim from "../assets/bhim.png";
-import phonepe from "../assets/phonepe.png";
 import { Info, Send, CreditCard, Banknote, Smartphone } from "lucide-react";
 
 const CheckoutPage = () => {
+  const CHECKOUT_KEY_STORAGE = "shreeji:checkout:idempotency-key";
+  const RAZORPAY_ATTEMPT_STORAGE = "shreeji:checkout:razorpay-attempt";
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formError, setFormError] = useState("");
   const [placingOrder, setPlacingOrder] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [idempotencyKey, setIdempotencyKey] = useState(() => {
-    const storageKey = "shreeji:checkout:idempotency-key";
-    const existingKey = sessionStorage.getItem(storageKey);
+    const existingKey = sessionStorage.getItem(CHECKOUT_KEY_STORAGE);
     if (existingKey) return existingKey;
     const newKey = globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-    sessionStorage.setItem(storageKey, newKey);
+    sessionStorage.setItem(CHECKOUT_KEY_STORAGE, newKey);
     return newKey;
   });
 
   const { cartItems } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.auth || {});
 
   const [orderStep, setOrderStep] = useState("shipping");
 
@@ -47,6 +42,47 @@ const CheckoutPage = () => {
     expiry: "",
     cvc: "",
   });
+
+  const createIdempotencyKey = () => globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+  const saveRazorpayAttempt = (attempt) => {
+    sessionStorage.setItem(RAZORPAY_ATTEMPT_STORAGE, JSON.stringify(attempt));
+  };
+
+  const clearRazorpayAttempt = () => {
+    sessionStorage.removeItem(RAZORPAY_ATTEMPT_STORAGE);
+    sessionStorage.removeItem(CHECKOUT_KEY_STORAGE);
+  };
+
+  const recoverReservation = useCallback(async () => {
+    let savedAttempt;
+    try {
+      savedAttempt = JSON.parse(sessionStorage.getItem(RAZORPAY_ATTEMPT_STORAGE));
+    } catch {
+      sessionStorage.removeItem(RAZORPAY_ATTEMPT_STORAGE);
+      return null;
+    }
+    if (!savedAttempt?.idempotencyKey || !savedAttempt?.payload) return null;
+
+    const { data } = await api.post("/orders/payment-order", savedAttempt.payload, {
+      headers: { "Idempotency-Key": savedAttempt.idempotencyKey },
+    });
+    setIdempotencyKey(savedAttempt.idempotencyKey);
+    sessionStorage.setItem(CHECKOUT_KEY_STORAGE, savedAttempt.idempotencyKey);
+    if (savedAttempt.formData) setFormData((current) => ({ ...current, ...savedAttempt.formData }));
+    setOrderStep("payment");
+    return data;
+  }, []);
+
+  useEffect(() => {
+    const savedAttempt = sessionStorage.getItem(RAZORPAY_ATTEMPT_STORAGE);
+    if (!savedAttempt) return;
+    recoverReservation().catch((error) => {
+      if (error.response?.status === 409) {
+        setFormError("Your online payment attempt is no longer active. Your cart is still saved.");
+      }
+    });
+  }, [recoverReservation]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -120,6 +156,9 @@ const CheckoutPage = () => {
         return;
       }
 
+      // Store the request before sending it. It is only used to retry the authenticated,
+      // idempotent backend call after a refresh; it never proves reservation ownership.
+      saveRazorpayAttempt({ idempotencyKey, payload: orderPayload, formData });
       const { data: paymentOrder } = await api.post("/orders/payment-order", orderPayload, {
         headers: { "Idempotency-Key": idempotencyKey },
       });
@@ -145,7 +184,7 @@ const CheckoutPage = () => {
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
               });
-              sessionStorage.removeItem("shreeji:checkout:idempotency-key");
+              clearRazorpayAttempt();
               dispatch(clearCart());
               toastSuccess("Payment successful. Order placed!");
               setTimeout(() => navigate("/"), 2800);
@@ -163,14 +202,17 @@ const CheckoutPage = () => {
         checkout.open();
       });
     } catch (error) {
-      if (error.response?.data?.code === "PAYMENT_ATTEMPT_EXPIRED") {
-        const storageKey = "shreeji:checkout:idempotency-key";
-        const newKey = globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-        sessionStorage.setItem(storageKey, newKey);
+      const responseMessage = error.response?.data?.message;
+      if (error.response?.status === 409 && responseMessage === "This item is currently unavailable. Please try again shortly.") {
+        showCheckoutError("This item is currently unavailable. Please try again shortly.");
+      } else {
+        showCheckoutError(responseMessage || error.message || "Something went wrong. Please try again.");
+      }
+      if (error.response?.data?.code === "PAYMENT_ATTEMPT_EXPIRED" || error.response?.data?.code === "PAYMENT_RECONCILIATION_REQUIRED") {
+        const newKey = createIdempotencyKey();
+        sessionStorage.setItem(CHECKOUT_KEY_STORAGE, newKey);
         setIdempotencyKey(newKey);
       }
-      console.error("Checkout error:", error.response?.data || error.message);
-      showCheckoutError(error.response?.data?.message || error.message || "Something went wrong. Please try again.");
     } finally {
       setPlacingOrder(false);
     }
@@ -398,7 +440,7 @@ const CheckoutPage = () => {
                   <button
                     type="submit"
                     disabled={placingOrder}
-                    className="flex-1 bg-[#A8C7F0] text-[#382A3A] py-4 rounded-xl font-semibold hover:bg-[#A8C7F0] transition text-center shadow-md"
+                    className="flex-1 bg-[#A8C7F0] text-[#382A3A] py-4 rounded-xl font-semibold hover:bg-[#A8C7F0] transition text-center shadow-md disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {placingOrder
                       ? "Processing..."

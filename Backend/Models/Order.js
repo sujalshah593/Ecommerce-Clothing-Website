@@ -36,7 +36,7 @@ const orderSchema = new mongoose.Schema(
 
     paymentStatus: {
       type: String,
-      enum: ["created", "pending", "paid", "failed", "refunded"],
+      enum: ["created", "pending", "paid", "failed", "refunded", "reconciliation_required"],
       default: "pending",
     },
 
@@ -45,12 +45,28 @@ const orderSchema = new mongoose.Schema(
       trim: true,
       maxlength: 100,
     },
+    checkoutFingerprint: {
+      type: String,
+      trim: true,
+      maxlength: 64,
+      immutable: true,
+    },
 
     paidAt: Date,
 
     razorpayOrderId: { type: String, unique: true, sparse: true },
     razorpayPaymentId: { type: String, unique: true, sparse: true },
     razorpaySignature: String,
+    razorpayOrderCreationStartedAt: Date,
+
+    paymentReconciliation: {
+      required: { type: Boolean, default: false },
+      reason: String,
+      paymentId: String,
+      amount: Number,
+      currency: String,
+      recordedAt: Date,
+    },
 
     paymentEvents: [
       {
