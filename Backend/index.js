@@ -18,7 +18,7 @@ import express from "express";
 import cors from "cors";
 import passport from "passport";
 
-import connectDB from "./Config/db.js";
+import connectDB, { CONNECTION_ROLES } from "./Config/db.js";
 import authRoutes from "./Routes/authRoutes.js";
 import "./Config/passport.js";
 import productRoutes from "./Routes/productRoutes.js";
@@ -113,7 +113,7 @@ process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
 process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
 const startServer = async () => {
-  await connectDB();
+  await connectDB(CONNECTION_ROLES.API);
   server = app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server is running on ${process.env.BACKEND_URL || `http://localhost:${PORT}`}`);
   });

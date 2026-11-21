@@ -7,7 +7,7 @@ import { createReservationExpiryWorker } from "./Queue/reservationExpiryWorker.j
 import { closeRedis } from "./Config/redis.js";
 import { closeEmailQueue } from "./Queue/emailQueue.js";
 import { closeReservationExpiryQueue } from "./Queue/reservationExpiryQueue.js";
-import connectDB from "./Config/db.js";
+import connectDB, { CONNECTION_ROLES } from "./Config/db.js";
 import { recoverReservationExpiries } from "./Services/reservationExpiryRecoveryService.js";
 import { recordReservationWorkerHeartbeat } from "./utils/workerHeartbeat.js";
 
@@ -35,7 +35,7 @@ const gracefulShutdown = async (signal) => {
 };
 
 const start = async () => {
-  await connectDB();
+  await connectDB(CONNECTION_ROLES.WORKER);
   console.log("[Worker] Starting email and reservation expiry workers...");
   emailWorker = createEmailWorker();
   reservationWorker = createReservationExpiryWorker();
