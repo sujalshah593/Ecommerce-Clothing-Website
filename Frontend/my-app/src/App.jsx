@@ -24,6 +24,7 @@ import FavoritesPage from "./pages/FavoritesPage";
 import PrivacyPolicyPage from "./pages/Privacy";
 import AboutPage from "./pages/AboutPage";
 import ProfilePage from "./pages/ProfilePage";
+import SearchResultsPage from "./pages/SearchResultsPage";
 
 const App = () => {
   return (
@@ -89,6 +90,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <FavoritesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <ProtectedRoute>
+              <SearchResultsPage />
             </ProtectedRoute>
           }
         />

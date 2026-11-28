@@ -50,7 +50,13 @@ const ProductsPage = () => {
           <h1 className="text-4xl font-serif font-bold text-[#111111] text1">Products</h1>
           <p className="text-slate-500 mt-2 text">Manage your product inventory</p>
         </div>
-
+        <Link
+          to="/admin/add-product"
+          className="inline-flex items-center gap-2 rounded-lg bg-[#A8C7F0] px-4 py-3 text-sm font-semibold text-[#382A3A] transition-colors hover:bg-[#8FB8EC]"
+        >
+          <Plus size={18} />
+          Add Product
+        </Link>
       </div>
 
       <div className="relative">

@@ -45,4 +45,5 @@ export const closeRedis = async () => {
   } catch (err) {
     console.error("[Redis] Error during shutdown:", err.message);
   }
+
 };

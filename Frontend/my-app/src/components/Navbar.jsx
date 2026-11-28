@@ -1,9 +1,10 @@
-﻿import { ShoppingCart, Search, ChevronDown, LayoutGrid, Menu, X } from "lucide-react";
+﻿import { ShoppingCart, ChevronDown, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import logo from "../assets/logo.png";
+import ProductSearchAutocomplete from "./ProductSearchAutocomplete.jsx";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -42,26 +43,12 @@ const Navbar = () => {
         </div>
 
         {/* Search Bar */}
-        <div className="flex items-center min-w-[400px] max-w-xs bg-[#FFFAF3] hover:bg-[#FFFAF3] focus-within:bg-[#FFFAF3] rounded-full px-4 py-2 border border-[#A8C7F0]/40 transition-all">
-          <input 
-            type="text" 
-            placeholder="Search products..." 
-            className="flex-1 bg-transparent outline-none text-sm text-[#382A3A] placeholder-[#382A3A]/40 font-medium"
-          />
-          <Search className="w-4 h-4 text-[#382A3A]/40 shrink-0 ml-1" />
-        </div>
+        <div className="min-w-[400px] max-w-xs flex-1"><ProductSearchAutocomplete /></div>
       </div>
 
       {/* Tablet fallback: search bar in center */}
       <div className="hidden md:flex lg:hidden flex-1 max-w-xs mx-4">
-        <div className="flex items-center w-full bg-[#FFFAF3] rounded-full px-4 py-2.5 border border-[#A8C7F0]/40">
-          <input 
-            type="text" 
-            placeholder="Search..." 
-            className="flex-1 bg-transparent outline-none text-xs text-[#382A3A] placeholder-[#382A3A]/40"
-          />
-          <Search className="w-4 h-4 text-[#382A3A]/40" />
-        </div>
+        <ProductSearchAutocomplete compact />
       </div>
 
       {/* Right: Cart & Profile */}
@@ -128,14 +115,7 @@ const Navbar = () => {
             </div>
             
             <div className="p-4 overflow-y-auto">
-              <div className="flex items-center w-full bg-[#FFFAF3] rounded-full px-4 py-2 shadow-sm border border-[#A8C7F0]/30 mb-6">
-                <input 
-                  type="text" 
-                  placeholder="Search..." 
-                  className="flex-1 bg-transparent outline-none text-sm text-[#382A3A]"
-                />
-                <Search className="w-4 h-4 text-[#382A3A]/40" />
-              </div>
+              <div className="mb-6"><ProductSearchAutocomplete compact onNavigate={() => setMobileOpen(false)} /></div>
 
               <div className="flex flex-col gap-4 uppercase font-semibold text-sm text-[#382A3A]">
                 <Link to="/categories" onClick={() => setMobileOpen(false)} className="hover:text-[#A8C7F0] transition-colors">All Categories</Link>

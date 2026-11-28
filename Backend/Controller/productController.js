@@ -3,7 +3,7 @@ import Product from "../Models/Product.js";
 export const getProducts = async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 8;
+    const limit = Math.min(Math.max(Number(req.query.limit) || 8, 1), 50);
 
     const skip = (page - 1) * limit;
 
@@ -16,6 +16,11 @@ export const getProducts = async (req, res) => {
     }
     if (req.query.category) {
       filter.category = req.query.category;
+    }
+    if (typeof req.query.search === "string" && req.query.search.trim()) {
+      const normalizedSearch = req.query.search.trim().slice(0, 100);
+      const escapedSearch = normalizedSearch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      filter.name = { $regex: escapedSearch, $options: "i" };
     }
 
     const totalProducts = await Product.countDocuments(filter);
