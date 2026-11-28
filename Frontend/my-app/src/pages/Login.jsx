@@ -7,6 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Eye, EyeClosed } from "lucide-react";
 import { useEffect } from "react";
 import loginBanner from "../assets/login_banner.png";
+import logo from "../assets/logo.png";
 
 const Login = () => {
   const { login } = useAuth();
@@ -135,6 +136,9 @@ const Login = () => {
 
 
         <div className="max-w-sm w-full">
+          <Link to="/" className="mb-8 inline-flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A8C7F0] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFAF3]">
+            <img src={logo} alt="Shreeji" className="h-12 w-auto object-contain" />
+          </Link>
 
           {/* Heading */}
           <h1 className="text-4xl font-bold text-black mb-1">

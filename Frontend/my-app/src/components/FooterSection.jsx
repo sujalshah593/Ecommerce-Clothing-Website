@@ -63,7 +63,7 @@ const FooterSection = () => {
               <h5 className="text-[10px] font-bold uppercase tracking-[0.3em] text1 text-[#6B7280]">Customer Care</h5>
               <div className="space-y-4">
                 <p className="text-[10px] text font-bold uppercase tracking-widest hover:text-[#A8C7F0] transition-colors cursor-pointer border-b border-[#FFFAF3]/10 pb-2">
-                  support@vero.com
+                  support@shreeji.com
                 </p>
                 <div className="grid text1 grid-cols-2 gap-4 text-[10px] uppercase tracking-widest font-bold text-[#FFFFFF]/80">
                   <Link to="/privacy-policy" className="hover:text-[#FFFFFF] transition-colors">

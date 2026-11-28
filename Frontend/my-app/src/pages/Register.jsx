@@ -5,6 +5,7 @@ import { toastError, toastSuccess } from "../utils/toast";
 import { Eye, EyeClosed } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import registerBanner from "../assets/register_banner.jpg";
+import logo from "../assets/logo.png";
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -61,6 +62,9 @@ const Register = () => {
 
 
         <div className="max-w-sm w-full">
+          <Link to="/" className="mb-8 inline-flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A8C7F0] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFAF3]">
+            <img src={logo} alt="Shreeji" className="h-12 w-auto object-contain" />
+          </Link>
           <h1 className="text-4xl font-bold text-black mb-1">
             Create an Account
           </h1>

@@ -1,6 +1,6 @@
-# React + Vite
+# Shreeji Online Store
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Shreeji is an ecommerce storefront for men's and boys' clothing, built with React and Vite.
 
 Currently, two official plugins are available:
 
