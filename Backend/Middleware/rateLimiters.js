@@ -1,4 +1,4 @@
-import rateLimit from "express-rate-limit";
+import rateLimit, { ipKeyGenerator } from "express-rate-limit";
 import RedisStore from "rate-limit-redis";
 import { rateLimitRedis } from "../Config/redis.js";
 
@@ -93,7 +93,7 @@ export const changePasswordLimiter = rateLimit({
   store: createStore("change-pwd"),
   windowMs: 15 * 60 * 1000,
   limit: 10,
-  keyGenerator: (req) => (req.user ? req.user._id.toString() : req.ip),
+  keyGenerator: (req) => (req.user ? req.user._id.toString() : ipKeyGenerator(req.ip)),
   message: { message: "Too many change password requests, please try again after 15 minutes" },
 });
 
@@ -110,7 +110,7 @@ export const googleAuthLimiter = rateLimit({
    PAYMENT — user-aware (falls back to IP if unauthenticated)
 ------------------------------------------------------------------ */
 
-const byUser = (req) => (req.user ? req.user._id.toString() : req.ip);
+const byUser = (req) => (req.user ? req.user._id.toString() : ipKeyGenerator(req.ip));
 
 /** POST /api/orders, /payment-order, /verify-payment — 20 / 15 min / user */
 export const paymentLimiter = rateLimit({
